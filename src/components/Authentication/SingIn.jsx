@@ -1,9 +1,12 @@
-import React from 'react'
-
+import React from "react";
+import { Box, TextField } from "@mui/material";
 const singIn = () => {
   return (
-    <div>singIn</div>
-  )
-}
+    <Box className='signIn-wrapper'>
+      <TextField label='Email' />
+      <TextField label='Password' />
+    </Box>
+  );
+};
 
-export default singIn
+export default singIn;
