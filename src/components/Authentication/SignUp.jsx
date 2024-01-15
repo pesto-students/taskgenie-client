@@ -1,8 +1,11 @@
+import { TextField } from '@mui/material'
 import React from 'react'
 
 const signUp = () => {
   return (
-    <div>signUp</div>
+    <Box className = "signup-wrapper">
+      <TextField label ""></TextField>
+    </Box>
   )
 }
 

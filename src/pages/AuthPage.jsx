@@ -17,16 +17,19 @@ const AuthPage = () => {
     <>
       <Box
         component='header'
-        sx={{ textAlign: "center" }}>
+        sx={{ textAlign: "center" }}
+      >
         <Typography
           variant='display'
-          sx={{ textAlign: "center" }}>
+          sx={{ textAlign: "center" }}
+        >
           TaskGenie
         </Typography>
       </Box>
       <Box
         component='main'
-        sx={{ textAlign: "center", marginTop: "4rem", padding: "0 2rem" }}>
+        sx={{ textAlign: "center", marginTop: "4rem", padding: "0 2rem" }}
+      >
         <Box>
           <Typography variant='h1'>Signin to your account</Typography>
         </Box>
