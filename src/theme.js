@@ -47,6 +47,23 @@ const theme = createTheme({
           background: "black",
           color: "white",
           fontSize: "large",
+          borderRadius: "8px",
+          ":hover": {
+            boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.3)",
+            backgroundColor: "#333",
+          },
+        },
+        outlined: {
+          backgroundColor: "white",
+          color: "black",
+          border: "2px solid black",
+          borderRadius: "8px",
+          ":hover": {
+            color: "white",
+            backgroundColor: "black",
+            borderColor: "#333",
+            boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+          },
         },
       },
     },
@@ -54,6 +71,15 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontSize: "24px",
+          "& .Mui-focused":{
+            color: "gray",
+            backgroundColor:"red"
+          },
+          ":focus": {
+            color: "red",
+            backgroundColor:"pink"
+          },
+          
         },
       },
     },
@@ -61,8 +87,8 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           border: "solid 2px black",
-          borderRadius: "8px",
-        },
+          borderRadius: "8px"
+        }
       },
     },
   },
