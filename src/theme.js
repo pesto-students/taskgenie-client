@@ -71,24 +71,20 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontSize: "24px",
-          "& .Mui-focused":{
-            color: "gray",
-            backgroundColor:"red"
+          "&.Mui-focused": {
+            color: "rgba(0, 0, 0, 0.6)",
           },
-          ":focus": {
-            color: "red",
-            backgroundColor:"pink"
-          },
-          
         },
       },
     },
-    MuiTextField: {
+    MuiInputBase: {
+      root: {},
+    },
+    MuiOutlinedInput: {
       styleOverrides: {
-        root: {
-          border: "solid 2px black",
-          borderRadius: "8px"
-        }
+        notchedOutline: {
+          border: "2px solid black !important",
+        },
       },
     },
   },
