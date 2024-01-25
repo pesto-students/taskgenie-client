@@ -7,7 +7,7 @@ import {
   Container,
 } from "@mui/material";
 import React, { useState } from "react";
-import SignIn from "../components/Authentication/signIn";
+import SignIn from "../components/Authentication/SignIn";
 import SignUp from "../components/Authentication/SignUp";
 const AuthPage = () => {
   // Display Signup button if user is not already registered,

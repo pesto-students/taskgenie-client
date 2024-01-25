@@ -4,6 +4,7 @@ import TaskBrowse from "./pages/TaskBrowse.jsx";
 import Home from "./pages/Home.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
 import { createBrowserRouter } from "react-router-dom";
+import MyTask from "./pages/MyTask.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "tasks",
         element: <TaskBrowse />,
+      },
+      {
+        path: "mytasks/:id",
+        element: <MyTask />,
       },
     ],
   },
