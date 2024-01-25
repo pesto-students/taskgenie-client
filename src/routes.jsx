@@ -4,6 +4,9 @@ import TaskBrowse from "./pages/TaskBrowse.jsx";
 import Home from "./pages/Home.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
 import { createBrowserRouter } from "react-router-dom";
+import Dashboard from "./pages/Dashboard.jsx";
+import MyTasks from "./pages/MyTasks.jsx";
+import MyTask from "./pages/MyTask.jsx";
 import TaskPosting from "./pages/TaskPosting.jsx";
 
 const router = createBrowserRouter([
@@ -20,6 +23,10 @@ const router = createBrowserRouter([
         path: "tasks",
         element: <TaskBrowse />,
       },
+      {
+        path: "mytasks/:id",
+        element: <MyTask />,
+      },
     ],
   },
   {
@@ -29,7 +36,14 @@ const router = createBrowserRouter([
     path: "posting",
     element: <TaskPosting />,
   },
-  
+  {
+    path: "dashboard",
+    element: <Dashboard />,
+  },
+  {
+    path: "mytasks",
+    element: <MyTasks />,
+  },
 ]);
 
 export default router;
