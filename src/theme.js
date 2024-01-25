@@ -87,6 +87,14 @@ const theme = createTheme({
         },
       },
     },
+    MuiInputBase: {
+      styleOverrides: {
+        notchedOutline: {
+          border: "2px solid black !important",
+        },
+      },
+    },
+
   },
 });
 export default theme;
