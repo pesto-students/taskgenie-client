@@ -50,7 +50,7 @@ const theme = createTheme({
         },
       },
     },
-    MuiInputLabel: {
+      MuiInputLabel: {
       styleOverrides: {
         root: {
           fontSize: "24px",
