@@ -7,8 +7,6 @@ import {
   Chip,
   Button,
   CircularProgress,
-  EventIcon
-  Grid,
 } from "@mui/material";
 import React from "react";
 
@@ -97,7 +95,6 @@ const MyTask = () => {
                   display='flex'
                   alignItems='center'
                 >
-                  <EventIcon />
                   <Typography
                     variant='body1'
                     color='text.primary'
