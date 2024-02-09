@@ -1,4 +1,4 @@
-import { Button, Container, Stack, TextField, InputAdornment, InputLabel, Autocomplete } from '@mui/material'
+import { Button, Container, Stack, TextField, InputAdornment, InputLabel, Autocomplete, Link } from '@mui/material'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import React from 'react'
@@ -39,10 +39,13 @@ const Home = () => {
             sx={{ width: '100%' }}
           />
           {/* Autocomplete */}
-          <Autocomplete sx={{ mt: '20px' }} options={options} renderInput={(params) => <TextField placeholder='eg. Delhi' {...params}  />} />
+          <Autocomplete sx={{ mt: '20px' }} options={options} renderInput={(params) => <TextField placeholder='eg. Delhi' {...params} />} />
         </div>
         <div>
-          <Button variant='contained' sx={{ width: '100%' }}>Sign Up</Button>
+          <Button variant='contained' sx={{ width: '100%' }} >Sign Up</Button>
+        </div>
+        <div>
+          This is a link to <Link to='/about' underline='none'>About</Link>
         </div>
       </Stack>
     </Container>

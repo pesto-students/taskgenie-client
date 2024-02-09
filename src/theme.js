@@ -19,9 +19,17 @@ const theme = createTheme({
         root: {
           borderRadius: 12,
           lineHeight: 3,
+          fontSize: '1rem',
           textTransform: 'none',
         },
       },
+    },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          color: 'black'
+        }
+      }
     },
     MuiTextField: {
       styleOverrides: {
