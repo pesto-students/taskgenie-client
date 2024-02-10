@@ -4,7 +4,7 @@
 
 import { createTheme } from "@mui/material";
 
-const theme = createTheme({
+  const theme = createTheme({
   palette: {
     primary: {
       main: '#8659d3',
@@ -50,6 +50,23 @@ const theme = createTheme({
         root: {
           color: '#000',
           fontWeight: 'bold'
+        }
+      }
+    },
+    MuiToggleButtonGroup: {
+      styleOverrides: {
+        root: {
+          borderRadius: '12px',
+          padding: '1px',
+          backgroundColor: '#8659d3',
+        }
+      }
+    },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12,
+          color: 'white'
         }
       }
     }
