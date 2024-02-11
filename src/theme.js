@@ -88,6 +88,15 @@ const theme = createTheme({
           },
         },
       },
+      MuiCard: {
+        styleOverrides: {
+          root: {
+            borderRadius: 12,
+            boxShadow: "0px 1px 7px -4px #000000",
+            background: "#FFFFFF",
+          }
+        }
+      },
     },
   },
 });

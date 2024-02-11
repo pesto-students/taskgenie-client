@@ -14,7 +14,8 @@ import {
   Tab,
   Switch,
   ToggleButtonGroup,
-  ToggleButton
+  ToggleButton,
+  Card
 } from '@mui/material'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -62,8 +63,16 @@ const Home = () => {
           }}
             sx={{ width: '100%' }}
           />
+
+
           {/* Autocomplete */}
           <Autocomplete sx={{ mt: '20px' }} options={options} renderInput={(params) => <TextField placeholder='eg. Delhi' {...params} />} />
+        </div>
+        {/* Card */}
+        <div>
+          <Card>
+            <p>This is a dummy paragraph within the Card component.</p>
+          </Card>
         </div>
         {/* Link */}
         <div>
