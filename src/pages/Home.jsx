@@ -7,10 +7,14 @@ import {
   InputLabel,
   Autocomplete,
   Link,
-  ToggleButton,
-  ToggleButtonGroup,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
   Tabs,
-  Tab
+  Tab,
+  Switch,
+  ToggleButtonGroup,
+  ToggleButton
 } from '@mui/material'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -24,15 +28,18 @@ const Home = () => {
     { label: "kolkata", id: 4 },
     { label: "dehradun", id: 5 },
   ]
-  const userTypes = [{ title: 'As a poster', name: 'poster' }, { title: 'As a Tasker', name: 'tasker' }]
-  const [isTasker, setIsTasker] = useState('poster')
-  const handleUserType = (event) => {
-    setIsTasker(event.target.value)
-  }
+
   return (
     <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
       <Stack rowGap={'20px'} sx={{ padding: '10px 50px', width: '400px', textAlign: 'center' }}>
         <div sx={{ width: '100%' }}>
+          {/* Button */}
+          <div>
+            <h3>Contained Button</h3>
+            <Button variant='contained' sx={{ width: '100%' }} >Sign Up</Button>
+            <h3>Outlined Button</h3>
+            <Button variant='contained' sx={{ width: '100%' }} >Sign Up</Button>
+          </div>
           {/* Email */}
           <InputLabel sx={{ textAlign: 'left' }}>Email</InputLabel>
           <TextField placeholder='Enter email' InputProps={{
@@ -58,10 +65,6 @@ const Home = () => {
           {/* Autocomplete */}
           <Autocomplete sx={{ mt: '20px' }} options={options} renderInput={(params) => <TextField placeholder='eg. Delhi' {...params} />} />
         </div>
-        {/* Button */}
-        <div>
-          <Button variant='contained' sx={{ width: '100%' }} >Sign Up</Button>
-        </div>
         {/* Link */}
         <div>
           This is a link to <Link to='/about' underline='none'>About</Link>
@@ -72,9 +75,37 @@ const Home = () => {
           <Tab label='As a Poster' />
           <Tab label='As a Tasker' />
         </Tabs>
+
+        {/* Accordion */}
+        <div>
+          <Accordion>
+            <AccordionSummary>This is title 1</AccordionSummary>
+            <AccordionDetails>Some content for accordion 1</AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary>This is title 2</AccordionSummary>
+            <AccordionDetails>Some content for accordion 2</AccordionDetails>
+          </Accordion>
+        </div>
+        {/* Switch */}
+        <div>
+          <Switch>hello</Switch>
+        </div>
+        {/* Image Picker */}
+        <div>
+          <Button>
+
+          </Button>
+        </div>
+        {/* Toggle Group - Toggle Button */}
+        <div>
+          <ToggleButtonGroup value={'tasker'}>
+            <ToggleButton value={'poster'}>Post Task</ToggleButton>
+            <ToggleButton value={'tasker'}>Find Task</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
       </Stack>
     </Container>
   )
 }
-
 export default Home
