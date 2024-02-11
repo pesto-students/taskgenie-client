@@ -24,7 +24,7 @@ const Home = () => {
     { label: "kolkata", id: 4 },
     { label: "dehradun", id: 5 },
   ]
-  const tabs = [{ title: 'As a poster', name: 'poster' }, { title: 'As a Tasker', name: 'tasker' }]
+  const userTypes = [{ title: 'As a poster', name: 'poster' }, { title: 'As a Tasker', name: 'tasker' }]
   const [isTasker, setIsTasker] = useState('poster')
   const handleUserType = (event) => {
     setIsTasker(event.target.value)
@@ -66,15 +66,9 @@ const Home = () => {
         <div>
           This is a link to <Link to='/about' underline='none'>About</Link>
         </div>
-        {/* Toggle Button */}
-        <div>
-          <ToggleButtonGroup value={isTasker} exclusive={true} onChange={handleUserType}>
-            <ToggleButton value='poster'>Post Task</ToggleButton>
-            <ToggleButton value='tasker'>Earn Money</ToggleButton>
-          </ToggleButtonGroup>
-        </div>
+
         {/* Tabs */}
-        <Tabs tabs={tabs} >
+        <Tabs value={'poster'} >
           <Tab label='As a Poster' />
           <Tab label='As a Tasker' />
         </Tabs>
