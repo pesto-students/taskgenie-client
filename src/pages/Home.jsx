@@ -15,7 +15,12 @@ import {
   Switch,
   ToggleButtonGroup,
   ToggleButton,
-  Card
+  Card,
+  RadioGroup,
+  FormControl,
+  FormLabel,
+  FormControlLabel,
+  Radio,
 } from '@mui/material'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -112,6 +117,20 @@ const Home = () => {
             <ToggleButton value={'poster'}>Post Task</ToggleButton>
             <ToggleButton value={'tasker'}>Find Task</ToggleButton>
           </ToggleButtonGroup>
+        </div>
+        {/* Radio Button Group - Radio button */}
+        <div>
+          <FormControl>
+            <FormLabel id="demo-radio-buttons-group-label">Location Type</FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              defaultValue="inPerson"
+              name="radio-buttons-group"
+            >
+              <FormControlLabel value="inPerson" control={<Radio />} label="In-Person" />
+              <FormControlLabel value="remote" control={<Radio />} label="Remote" />
+            </RadioGroup>
+          </FormControl>
         </div>
       </Stack>
     </Container>

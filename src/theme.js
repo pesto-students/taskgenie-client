@@ -88,14 +88,29 @@ const theme = createTheme({
           },
         },
       },
-      MuiCard: {
-        styleOverrides: {
-          root: {
-            borderRadius: 12,
-            boxShadow: "0px 1px 7px -4px #000000",
-            background: "#FFFFFF",
-          }
+    }, 
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12,
+          boxShadow: "0px 1px 7px -4px #000000",
+          background: "#FFFFFF",
         }
+      }
+    },
+    MuiRadio: {
+      styleOverrides: {
+        root: {
+          '& svg': {
+            color: '#8659d3',
+            borderRadius: '4px',
+            width: '16px', // Set icon width
+            height: '16px', // Set icon height
+          },
+          '&.Mui-checked': {
+            color: '#8659d3', // Color when radio is checked
+          }, 
+        },
       },
     },
   },
