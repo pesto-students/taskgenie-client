@@ -113,6 +113,24 @@ const theme = createTheme({
         },
       },
     },
+    MuiPaper:{
+      styleOverrides:{
+        root:{
+          borderRadius: '12px',
+        }
+      }
+    },
+
+    MuiDialog:{
+      styleOverrides:{
+        root:{
+          '& svg':{
+            color: '#9e7adb',
+          },
+          width: '50rem',
+        }
+      }
+    }
   },
 });
 
