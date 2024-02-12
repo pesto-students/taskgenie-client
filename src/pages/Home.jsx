@@ -20,14 +20,12 @@ import {
   Typography,
   Dialog,
   DialogActions,
-  DialogTitle,DialogContent
+  DialogTitle,DialogContent,
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box,
   Tabs,
   Tab,
-  Typography,
 } from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
