@@ -6,13 +6,6 @@ import {
   InputAdornment,
   InputLabel,
   Autocomplete,
-  Link,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Tabs,
-  Tab,
-  Switch,
   ToggleButtonGroup,
   ToggleButton,
   Card,
@@ -21,9 +14,12 @@ import {
   FormLabel,
   FormControlLabel,
   Radio,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
 } from '@mui/material'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { useState } from 'react'
 
 const Home = () => {
@@ -49,7 +45,6 @@ const Home = () => {
             <h3>Outlined Button</h3>
             <Button variant='outlined' sx={{ width: '100%' }} >Reset</Button>
           </div>
-
           {/* Email */}
           <h3>TextField</h3>
           <InputLabel sx={{ textAlign: 'left' }}>Email</InputLabel>
@@ -62,11 +57,9 @@ const Home = () => {
           }}
             sx={{ width: '100%' }}
           />
-
           {/* Autocomplete */}
           <Autocomplete sx={{ mt: '20px' }} options={options} renderInput={(params) => <TextField placeholder='eg. Delhi' {...params} />} />
         </div>
-
         {/* Toggle Group - Toggle Button */}
         <div>
           <h3>Toggle Button Group</h3>
@@ -102,6 +95,36 @@ const Home = () => {
               <FormControlLabel value="remote" control={<Radio />} label="Remote" />
             </RadioGroup>
           </FormControl>
+        </div>
+        {/* Accordion */}
+        <div>
+          <h3>Accordion</h3>
+          <Accordion elevation={0}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1-content"
+              id="panel1-header"
+            >
+              Accordion 1
+            </AccordionSummary>
+            <AccordionDetails>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+              malesuada lacus ex, sit amet blandit leo lobortis eget.
+            </AccordionDetails>
+          </Accordion>
+          <Accordion elevation={0}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2-content"
+              id="panel2-header"
+            >
+              Accordion 2
+            </AccordionSummary>
+            <AccordionDetails>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+              malesuada lacus ex, sit amet blandit leo lobortis eget.
+            </AccordionDetails>
+          </Accordion>
         </div>
       </Stack>
     </Container >

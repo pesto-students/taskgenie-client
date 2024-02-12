@@ -94,7 +94,7 @@ const theme = createTheme({
           },
         },
       },
-    }, 
+    },
     MuiCard: {
       styleOverrides: {
         root: {
@@ -115,9 +115,24 @@ const theme = createTheme({
           },
           '&.Mui-checked': {
             color: '#8659d3', // Color when radio is checked
-          }, 
+          },
         },
       },
+    },
+    MuiAccordion: {
+      styleOverrides: {
+        root: {
+          borderRadius: 0,
+          borderBottom: '1px solid #dee1e6',
+          '&.Mui-expanded': {
+            margin: 0
+          },
+          ":last-of-type": {
+            borderRadius: 0
+          }
+
+        }
+      }
     },
   },
 });
