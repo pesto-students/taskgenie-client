@@ -17,11 +17,37 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Box,
+  Tabs,
+  Tab,
+  Typography,
 } from '@mui/material'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { useState } from 'react'
 
+// Custom Tab Panel
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+// Home
 const Home = () => {
   const options = [
     { label: "delhi", id: 1 },
@@ -34,6 +60,9 @@ const Home = () => {
   const handleUserType = (event, newUserType) => {
     setUserType(newUserType);
   };
+
+  const [tabIndex, setTabIndex] = useState(0)
+  const handleTabIndex = (event, newValue) => { setTabIndex(newValue) }
   return (
     <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
       <Stack rowGap={'20px'} sx={{ padding: '10px 50px', width: '400px', textAlign: 'center' }}>
@@ -125,6 +154,24 @@ const Home = () => {
               malesuada lacus ex, sit amet blandit leo lobortis eget.
             </AccordionDetails>
           </Accordion>
+        </div>
+        {/* Tabs */}
+        <div>
+          <h3>Tabs</h3>
+          <Box sx={{ width: '100%' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Tabs value={tabIndex} onChange={handleTabIndex} aria-label="basic tabs example">
+                <Tab label="Quotes" value={0} />
+                <Tab label="Comments" value={1} />
+              </Tabs>
+            </Box>
+            <CustomTabPanel value={tabIndex} index={0}>
+              Item One
+            </CustomTabPanel>
+            <CustomTabPanel value={tabIndex} index={1}>
+              Item Two
+            </CustomTabPanel>
+          </Box>
         </div>
       </Stack>
     </Container >
