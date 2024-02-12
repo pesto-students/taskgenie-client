@@ -22,6 +22,9 @@ const theme = createTheme({
           fontSize: '1rem',
           textTransform: 'none',
         },
+        outlined: {
+          border: '2px solid #8659d3'
+        }
       },
     },
     MuiSvgIcon: {
@@ -42,7 +45,10 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 12,
-        }
+        },
+        notchedOutline: {
+          borderColor: '#1d2128',
+        },
       }
     },
     MuiInputLabel: {

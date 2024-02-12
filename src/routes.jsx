@@ -6,7 +6,6 @@ import AuthPage from "./pages/AuthPage.jsx";
 import { createBrowserRouter } from "react-router-dom";
 import Dashboard from "./pages/Dashboard.jsx";
 import MyTasks from "./pages/MyTasks.jsx";
-import MyTask from "./pages/MyTask.jsx";
 import TaskPosting from "./pages/TaskPosting.jsx";
 
 const router = createBrowserRouter([
@@ -25,24 +24,20 @@ const router = createBrowserRouter([
       },
       {
         path: "mytasks/:id",
-        element: <MyTask />,
+        element: <MyTasks />,
       },
     ],
   },
   {
     path: "auth",
     element: <AuthPage />,
-  },{
+  }, {
     path: "posting",
     element: <TaskPosting />,
   },
   {
     path: "dashboard",
     element: <Dashboard />,
-  },
-  {
-    path: "mytasks",
-    element: <MyTasks />,
   },
 ]);
 

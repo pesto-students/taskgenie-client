@@ -15,7 +15,8 @@ import {
   Switch,
   ToggleButtonGroup,
   ToggleButton,
-  Card
+  Card,
+  Radio
 } from '@mui/material'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -29,7 +30,10 @@ const Home = () => {
     { label: "kolkata", id: 4 },
     { label: "dehradun", id: 5 },
   ]
-
+  const [userType, setUserType] = useState('tasker');
+  const handleUserType = (event, newUserType) => {
+    setUserType(newUserType);
+  };
   return (
     <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
       <Stack rowGap={'20px'} sx={{ padding: '10px 50px', width: '400px', textAlign: 'center' }}>
@@ -37,11 +41,13 @@ const Home = () => {
           {/* Button */}
           <div>
             <h3>Contained Button</h3>
-            <Button variant='contained' sx={{ width: '100%' }} >Sign Up</Button>
+            <Button variant='contained' sx={{ width: '100%' }} >Finish setting up!</Button>
             <h3>Outlined Button</h3>
-            <Button variant='contained' sx={{ width: '100%' }} >Sign Up</Button>
+            <Button variant='outlined' sx={{ width: '100%' }} >Reset</Button>
           </div>
+
           {/* Email */}
+          <h3>TextField</h3>
           <InputLabel sx={{ textAlign: 'left' }}>Email</InputLabel>
           <TextField placeholder='Enter email' InputProps={{
             startAdornment: (
@@ -52,21 +58,23 @@ const Home = () => {
           }}
             sx={{ width: '100%' }}
           />
-          {/* Password */}
-          <InputLabel sx={{ textAlign: 'left', mt: '20px' }}>Password</InputLabel>
-          <TextField placeholder='Enter password' InputProps={{
-            startAdornment: (
-              <InputAdornment position='start'>
-                <LockOutlinedIcon />
-              </InputAdornment>
-            )
-          }}
-            sx={{ width: '100%' }}
-          />
-
 
           {/* Autocomplete */}
           <Autocomplete sx={{ mt: '20px' }} options={options} renderInput={(params) => <TextField placeholder='eg. Delhi' {...params} />} />
+        </div>
+
+        {/* Toggle Group - Toggle Button */}
+        <div>
+          <h3>Toggle Button Group</h3>
+          <ToggleButtonGroup value={userType} exclusive onChange={handleUserType}>
+            <ToggleButton value={'poster'}>Post Task</ToggleButton>
+            <ToggleButton value={'tasker'}>Find Task</ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+        {/* Search TextField */}
+        <div>
+          <h3>Search TextField</h3>
+          <TextField type="search" />
         </div>
         {/* Card */}
         <div>
@@ -74,47 +82,11 @@ const Home = () => {
             <p>This is a dummy paragraph within the Card component.</p>
           </Card>
         </div>
-        {/* Link */}
-        <div>
-          This is a link to <Link to='/about' underline='none'>About</Link>
-        </div>
 
-        {/* Tabs */}
-        <Tabs value={'poster'} >
-          <Tab label='As a Poster' />
-          <Tab label='As a Tasker' />
-        </Tabs>
 
-        {/* Accordion */}
-        <div>
-          <Accordion>
-            <AccordionSummary>This is title 1</AccordionSummary>
-            <AccordionDetails>Some content for accordion 1</AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary>This is title 2</AccordionSummary>
-            <AccordionDetails>Some content for accordion 2</AccordionDetails>
-          </Accordion>
-        </div>
-        {/* Switch */}
-        <div>
-          <Switch>hello</Switch>
-        </div>
-        {/* Image Picker */}
-        <div>
-          <Button>
 
-          </Button>
-        </div>
-        {/* Toggle Group - Toggle Button */}
-        <div>
-          <ToggleButtonGroup value={'tasker'}>
-            <ToggleButton value={'poster'}>Post Task</ToggleButton>
-            <ToggleButton value={'tasker'}>Find Task</ToggleButton>
-          </ToggleButtonGroup>
-        </div>
       </Stack>
-    </Container>
+    </Container >
   )
 }
 export default Home

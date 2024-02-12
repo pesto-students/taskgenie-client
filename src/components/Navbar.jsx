@@ -1,71 +1,116 @@
 import React, { useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import MenuIcon from '@mui/icons-material/Menu';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Button,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Container,
+  Box,
+  CssBaseline,
+  Link,
+  Stack,
+  Divider,
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import Drawer from '@mui/material/Drawer';
-import { useMediaQuery } from '@mui/material';
-import { useEffect } from 'react';
+import MenuIcon from '@mui/icons-material/Menu';
+const mobileNavItems = [
+  { title: 'Post a Task', path: '/create-post' },
+  { title: 'My Tasks', path: '/mytasks' },
+  { title: 'Browse Tasks', path: '/browse-tasks' },
+  { title: 'My Wallet', path: '/wallet' },
+  { title: 'Account', path: '/account' },
+  { title: 'Logout', path: '/logout' }]
 
-const NavBar = () => {
-  const [isMenuOpen, setMenuOpen] = useState(false);
-  const isDesktop = useMediaQuery('(min-width:600px)');
+const desktopNavItems = [
+  { title: 'Post a Task', path: '/create-post' },
+  { title: 'My Tasks', path: '/mytasks' },
+  { title: 'Browse Tasks', path: '/browse-tasks' },
+]
+const drawerWidth = 360;
 
-  const handleMenuToggle = () => {
-    setMenuOpen(!isMenuOpen);
-  };
+// todo: move navlink to components
+const NavLink = ({ title, path }) => {
+  return (<Link sx={{ textDecoration: 'none' }}>{title}</Link>)
+}
 
-  useEffect(() => {
-    // Close the menu when switching to desktop view
-    if (isDesktop) {
-      setMenuOpen(false);
-    }
-  }, [isDesktop]);
 
+const Navbar = (props) => {
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const handleDrawerToggle = () => {
+    // toggle the prevState
+    setMobileOpen((prevState) => !prevState)
+  }
+  const drawer = (<Box>
+    <Stack direction={'column'}>
+      <Box>
+        <IconButton onClick={handleDrawerToggle} sx={{ position: 'relative', top: '10px', left: '13px' }}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
+      <Divider sx={{ mt: '14px' }} />
+      <Box>
+        <List>
+          {mobileNavItems.map(({ title, path }) => <ListItem>
+            <Link sx={{ textDecoration: 'none', color: '#171a1f' }}>
+              <Typography>{title}</Typography>
+            </Link>
+          </ListItem>)}
+        </List>
+      </Box>
+    </Stack>
+  </Box>)
+  const container = (window !== undefined) ? window().documents.body : undefined;
   return (
-    <>
-      <AppBar position="static" style={{ background: 'white', color: 'black' }}>
-        <Toolbar style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-          {/* Hamburger or Close Icon for Mobile */}
-          <IconButton color="inherit" onClick={handleMenuToggle}>
-            {isMenuOpen ? <CloseIcon /> : <MenuIcon />}
+    <Box sx={{ display: 'flex' }}>
+      {/* Normalise css */}
+      <CssBaseline />
+      <AppBar component={'nav'} position="static" sx={{ backgroundColor: 'white', color: "#8659d3", position: 'relative' }}>
+        <Toolbar>
+          <IconButton onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: 'none' } }}>
+            <MenuIcon />
           </IconButton>
 
-          {/* Logo */}
-          <Typography variant="h6" style={{ textAlign: isDesktop ? 'center' : 'center', flex: 1 }}>
-            TaskGenie
-          </Typography>
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            {/* Show on sm and greater screen */}
+            <Typography variant='h5' sx={{ fontWeight: 700 }}>TaskGenie</Typography>
+          </Box>
 
-          {/* Profile Picture for Mobile */}
-          {isDesktop && (
-            <div>
-              <IconButton color="inherit">
-                <Avatar alt="Profile Pic" src="user1.jpeg" />
-              </IconButton>
-            </div>
-          )}
+          <Box sx={{ display: { xs: 'none', sm: 'block' }, ml: '16px' }}>
+            {/* Nav Items */}
+            <Stack direction={'row'} gap={'1rem'}>
+              {desktopNavItems.map(({ title, path }) => <NavLink title={title} path={path} />)}
+            </Stack>
+          </Box>
         </Toolbar>
       </AppBar>
-
-      {/* Drawer for Navigation Buttons */}
-      <Drawer anchor="left" open={isMenuOpen} onClose={handleMenuToggle} variant="temporary">
-        <div style={{ width: '100vw', padding: '16px' }}>
-          <ul style={{ listStyle: 'none', padding: 0 }}>
-            <li><Button style={{ background: 'white', color: 'black' }} onClick={handleMenuToggle}>Post Tasks</Button></li>
-            <li><Button style={{ background: 'white', color: 'black' }} onClick={handleMenuToggle}>All Tasks</Button></li>
-            <li><Button style={{ background: 'white', color: 'black' }} onClick={handleMenuToggle}>My Task</Button></li>
-            <li><Button style={{ background: 'white', color: 'black' }} onClick={handleMenuToggle}>Profile</Button></li>
-            <li><Button style={{ background: 'white', color: 'black' }} onClick={handleMenuToggle}>Contact Us</Button></li>
-            <li><Button style={{ background: 'white', color: 'black' }} onClick={handleMenuToggle}>FAQs</Button></li>
-          </ul>
-        </div>
-      </Drawer>
-    </>
+      <nav>
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: '100%',
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </nav>
+    </Box>
   );
 };
 
-export default NavBar;
+export default Navbar;
