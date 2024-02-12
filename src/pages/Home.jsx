@@ -26,9 +26,11 @@ import {
   AccordionSummary,
   Tabs,
   Tab,
+  Chip,
 } from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import StarRateIcon from '@mui/icons-material/StarRate';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { useState } from 'react';
 
@@ -234,6 +236,17 @@ const Home = () => {
               Item Two
             </CustomTabPanel>
           </Box>
+        </div>
+
+        {/* Chip */}
+        <div>
+          <Chip label='Open'/>
+          <Chip label='Assigned'/>
+          <Chip label='Completed'/>
+          <Chip label='Cancelled' sx={{backgroundColor: '#FF5252'}}/>
+          <Chip icon={<StarRateIcon/>} label='5.0'/>
+          <Chip icon={<StarRateIcon/>} label='4.2'/>
+          <Chip label='Completed'/>
         </div>
       </Stack>
     </Container >
