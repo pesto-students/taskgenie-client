@@ -6,7 +6,7 @@ import { Outlet } from "react-router";
 const Layout = () => {
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <Container component='section' className='page-wrapper'>
         {/* Use outlet to display components in Layout */}
         <Outlet />
