@@ -20,8 +20,7 @@ import {
   FormControl,
   FormLabel,
   FormControlLabel,
-  Radio,,
-  Radio
+  Radio,
 } from '@mui/material'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -83,15 +82,15 @@ const Home = () => {
         </div>
         {/* Card */}
         <div>
+          <h3>Card</h3>
           <Card>
             <p>This is a dummy paragraph within the Card component.</p>
           </Card>
         </div>
 
-
-
         {/* Radio Button Group - Radio button */}
         <div>
+          <h3>Radio Button</h3>
           <FormControl>
             <FormLabel id="demo-radio-buttons-group-label">Location Type</FormLabel>
             <RadioGroup
