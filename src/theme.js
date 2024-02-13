@@ -117,6 +117,24 @@ const theme = createTheme({
         },
       },
     },
+    MuiPaper:{
+      styleOverrides:{
+        root:{
+          borderRadius: '12px',
+        }
+      }
+    },
+
+    MuiDialog:{
+      styleOverrides:{
+        root:{
+          '& svg':{
+            color: '#9e7adb',
+          },
+          width: '50rem',
+        }
+      }
+    },    
     MuiAccordion: {
       styleOverrides: {
         root: {
@@ -132,6 +150,20 @@ const theme = createTheme({
         }
       }
     },
+    MuiChip:{
+      styleOverrides:{
+        root:{
+          backgroundColor: '#8659d3',
+          color: 'white',
+          '& .MuiChip-icon':{
+            color: 'white',
+            width: '0.6em',
+            height: '0.6em',
+            marginRight: '-11px',
+          }
+        }
+      }
+    }
   },
 });
 

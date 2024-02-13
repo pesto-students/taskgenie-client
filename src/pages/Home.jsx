@@ -13,18 +13,25 @@ import {
   FormLabel,
   FormControlLabel,
   Radio,
+  Slider,
+  Modal,
+  Box,
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogTitle,DialogContent,
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box,
   Tabs,
   Tab,
-  Typography,
+  Chip,
 } from '@mui/material'
 import Button from '../components/Button';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import StarRateIcon from '@mui/icons-material/StarRate';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 // Custom Tab Panel
 function CustomTabPanel(props) {
@@ -55,7 +62,23 @@ const Home = () => {
     { label: "chennai", id: 3 },
     { label: "kolkata", id: 4 },
     { label: "dehradun", id: 5 },
-  ]
+  ];
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const [userType, setUserType] = useState('tasker');
   const handleUserType = (event, newUserType) => {
     setUserType(newUserType);
@@ -64,9 +87,9 @@ const Home = () => {
   const [tabIndex, setTabIndex] = useState(0)
   const handleTabIndex = (event, newValue) => { setTabIndex(newValue) }
   return (
-    <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+    <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' , height: '100%'}}>
       <Stack rowGap={'20px'} sx={{ padding: '10px 50px', width: '400px', textAlign: 'center' }}>
-        <div sx={{ width: '100%' }}>
+        <div className={{ width: '100%' }}>
           {/* Button */}
           <div>
             <h3>Contained Button</h3>
@@ -125,6 +148,46 @@ const Home = () => {
             </RadioGroup>
           </FormControl>
         </div>
+        {/* Slider - Distance */}
+        <div>
+          <Slider defaultValue={50} aria-label="Distance" valueLabelDisplay="off"/>
+        </div>
+       
+       {/* Modal */}
+        {/* <div>
+          <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Button onClick={handleOpen}>Open modal</Button>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Make a Quote
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              </Typography>
+            </Box>
+          </Modal>
+        </div> */}
+
+        {/* Dialogue - Cancel Task */}
+        <div>
+          <Button onClick={handleOpen}>Cancel Task</Button>
+          <Dialog open={open} onClose={handleClose}>
+          <DialogTitle sx={{textAlign: 'center'}}><InfoOutlinedIcon/></DialogTitle>
+          <DialogContent>
+            <Typography variant="body1" textAlign="center">The task has been assigned to you. </Typography>
+            <Typography>Do you wish to cancel and confirm that you are unable to do it?</Typography>
+          </DialogContent>
+          <DialogActions sx={{ justifyContent: 'center'}}>
+            <Button variant='outlined' onClick={handleClose} sx={{ marginRight: '20px', minWidth: '10rem' }}>No</Button>
+            <Button variant='contained' onClick={handleClose} sx={{ marginLeft: '20px', minWidth: '10rem' }}>Yes</Button>
+          </DialogActions>
+          </Dialog>
+        </div>
         {/* Accordion */}
         <div>
           <h3>Accordion</h3>
@@ -172,6 +235,17 @@ const Home = () => {
               Item Two
             </CustomTabPanel>
           </Box>
+        </div>
+
+        {/* Chip */}
+        <div>
+          <Chip label='Open'/>
+          <Chip label='Assigned'/>
+          <Chip label='Completed'/>
+          <Chip label='Cancelled' sx={{backgroundColor: '#FF5252'}}/>
+          <Chip icon={<StarRateIcon/>} label='5.0'/>
+          <Chip icon={<StarRateIcon/>} label='4.2'/>
+          <Chip label='Completed'/>
         </div>
       </Stack>
     </Container >
