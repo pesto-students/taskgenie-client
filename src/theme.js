@@ -18,8 +18,6 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 12,
-          lineHeight: 3,
-          fontSize: '1rem',
           textTransform: 'none',
         },
         outlined: {
