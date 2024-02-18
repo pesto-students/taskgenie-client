@@ -14,6 +14,43 @@ const theme = createTheme({
   },
 
   components: {
+    MuiToggleButtonGroup: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          gap: '1rem',
+          height: '80px'
+        },
+        firstButton: {
+          borderRadius: '12px'
+        },
+        middleButton: {
+          borderLeft: '1px solid rgba(0,0,0,0.1)',
+          borderRadius: '12px'
+        },
+        lastButton: {
+          borderLeft: '1px solid rgba(0,0,0,0.1)',
+          borderRadius: '12px'
+        }
+      },
+    },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '12px',
+          '&.Mui-selected': {
+            backgroundColor: '#f6f3fc',
+            fontWeight: 'bold',
+            color: '#8659d3',
+            border: '2px solid #8659d3',
+            '&:hover': {
+              // Add your hover styles here
+              backgroundColor: '#d9d6e9'
+            }
+          },
+        },
+      },
+    },
 
     MuiSvgIcon: {
       styleOverrides: {
@@ -39,42 +76,6 @@ const theme = createTheme({
           fontWeight: 'bold'
         }
       }
-    },
-    MuiToggleButtonGroup: {
-      styleOverrides: {
-        root: {
-          display: 'flex',
-          gap: '1rem',
-          height: '80px'
-        },
-        firstButton: {
-          borderRadius: '12px'
-        },
-        middleButton: {
-          borderRadius: '12px'
-        },
-        lastButton: {
-          borderLeft: '1px solid rgba(0,0,0,0.1)',
-          borderRadius: '12px'
-        }
-      },
-    },
-    MuiToggleButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: '12px',
-          '&.Mui-selected': {
-            backgroundColor: '#f6f3fc',
-            fontWeight: 'bold',
-            color: '#8659d3',
-            border: '2px solid #8659d3',
-            '&:hover': {
-              // Add your hover styles here
-              backgroundColor: '#d9d6e9'
-            }
-          },
-        },
-      },
     },
     MuiCard: {
       styleOverrides: {
