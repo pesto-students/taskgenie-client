@@ -11,6 +11,7 @@ const theme = createTheme({
       light: '#9e7adb',
       dark: '#5d3e93'
     },
+    accordionBorder: '#dee1e6',
   },
 
   components: {
