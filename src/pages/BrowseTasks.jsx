@@ -1,5 +1,6 @@
 import React from 'react'
-import { Box } from '@mui/material';
+import Box from '../components/Box';
+import Stack from '../components/Stack';
 import TaskList from '../components/TaskList';
 const BrowseTasks = () => {
   const tasks = [
@@ -57,9 +58,20 @@ const BrowseTasks = () => {
   ]
   return (
     <>
-      <Box component='section'>
+      <Stack component='section'>
         {/* Filter Section */}
-      </Box>
+
+        <Box>
+          {/* Location */}
+
+        </Box>
+        <Box>
+          {/* Search field */}
+        </Box>
+        <Box>
+          {/* filter button */}
+        </Box>
+      </Stack>
       <Box component='section'>
         <TaskList tasks={tasks} />
       </Box>

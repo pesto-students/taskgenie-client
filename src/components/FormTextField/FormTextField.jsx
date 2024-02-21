@@ -7,9 +7,8 @@ const StyledTextField = styled(TextFieldElement)(() => ({
     }
 }))
 
-const TextField = ({ ...props }) => {
-    return <StyledTextField {...props}
-    />
+const TextField = ({ children, ...props }) => {
+    return <StyledTextField {...props}>{children}</StyledTextField>
 }
 
 export default TextField;

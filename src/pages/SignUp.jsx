@@ -9,7 +9,7 @@ import InputLabel from '../components/InputLabel';
 import Card from '../components/Card/Card';
 import FormControl from '../components/FormControl';
 import { FormContainer } from 'react-hook-form-mui';
-import TextField from '../components/TextField';
+import FormTextField from '../components/FormTextField';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import GoogleButton from '../components/GoogleButton';
@@ -36,7 +36,7 @@ const SignUp = () => {
                                     {/* Email */}
                                     <FormControl>
                                         <InputLabel>Email</InputLabel>
-                                        <TextField name="name" required type={'email'} placeholder='Enter Email' InputProps={{
+                                        <FormTextField name="name" required type={'email'} placeholder='Enter Email' InputProps={{
                                             startAdornment: (
                                                 <InputAdornment position='start'>
                                                     <EmailOutlinedIcon />
@@ -50,7 +50,7 @@ const SignUp = () => {
                                     {/* Password */}
                                     <FormControl>
                                         <InputLabel>Password</InputLabel>
-                                        <TextField name="password" required type='password' placeholder='Enter Password' InputProps={{
+                                        <FormTextField name="password" required type='password' placeholder='Enter Password' InputProps={{
                                             startAdornment: (
                                                 <InputAdornment position='start'>
                                                     <LockOutlinedIcon />
