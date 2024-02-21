@@ -6,6 +6,7 @@ const StyledCard = styled(MuiCard)(() => {
     return {
         borderRadius: '12px',
         boxShadow: '0px 1px 7px -4px black',
+
     }
 })
 

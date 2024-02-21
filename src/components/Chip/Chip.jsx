@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MuiChip from '@mui/material/Button';
+import MuiChip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';
 
-const StyledChip = styled(MuiChip)(({theme}) => ({
+const StyledChip = styled(MuiChip)(({ theme }) => ({
     borderRadius: '12px',
     textTransform: 'none',
     backgroundColor: theme.palette.primary.main,
@@ -18,7 +18,7 @@ const StyledChip = styled(MuiChip)(({theme}) => ({
 
 const validChipValues = ['Open', 'Closed', 'Assigned', 'Cancelled'];
 
-function Chip({children, ...props}){
+function Chip({ children, ...props }) {
     return <StyledChip {...props}>{children}</StyledChip>
 }
 
