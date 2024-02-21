@@ -1,16 +1,18 @@
 import React from 'react';
-import Card from './Card';
-import CardContent from './CardContent';
-import Typography from './Typography';
-import Chip from './Chip';
-import Box from './Box';
-import Stack from './Stack';
+import Card from '../Card';
+import CardContent from '../CardContent';
+import Typography from '../Typography';
+import Chip from '../Chip';
+import Box from '../Box';
+import Stack from '../Stack';
 import { Divider } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import { useTheme } from '@mui/material/styles';
-import { formatDate } from '../utils';
+import { formatDate } from '../../utils';
+
+// TaskItem component
 const TaskItem = ({ task }) => {
     const theme = useTheme();
     return (
