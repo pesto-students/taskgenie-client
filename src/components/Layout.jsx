@@ -7,7 +7,7 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <Container component='section' className='page-wrapper'>
+      <Container component='section' className='page-wrapper' sx={{ paddingTop: '1rem' }}>
         {/* Use outlet to display components in Layout */}
         <Outlet />
       </Container>
