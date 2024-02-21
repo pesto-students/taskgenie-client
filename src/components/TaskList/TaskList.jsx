@@ -9,7 +9,7 @@ import Stack from '../Stack';
  * @param {Object[]} tasks - The array of tasks to be rendered.
  * @returns {JSX.Element} The rendered TaskList component.
  */
-const TaskList = ({ tasks }) => {
+const TaskList = ({ tasks = [] }) => {
     return (
         <>
             <Stack spacing={1.2}>

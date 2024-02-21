@@ -15,6 +15,8 @@ import { formatDate } from '../../utils';
 // TaskItem component
 const TaskItem = ({ task }) => {
     const theme = useTheme();
+    const iconColor = theme ? theme.palette.textLight?.main : 'black';
+    const avatarColor = theme ? theme.palette.primary?.light : 'purple';
     return (
         <>
             <Card>
@@ -24,27 +26,33 @@ const TaskItem = ({ task }) => {
                         <Typography variant='body' component='span' sx={{ fontWeight: 500, flexGrow: 1 }}>{task.title}</Typography>
                         <Box>
                             {/* Task Status */}
-                            <Chip label={task.status} sx={{ textTransform: 'capitalize', flexGrow: 0 }} size="small" />
+                            {task.status && <Chip label={task.status} sx={{ textTransform: 'capitalize', flexGrow: 0 }} size="small" />}
                         </Box>
                     </Stack>
                     <Box sx={{ paddingTop: '0.7rem' }}>
                         {/* Task Location */}
-                        <Stack direction="row" alignItems="center" color="secondary">
-                            <LocationOnOutlinedIcon sx={{ color: theme.palette.textLight.main, fontSize: '16px', marginRight: "6px" }} />
-                            <Typography variant='caption' component='span'>{task.location}</Typography>
-                        </Stack>
+                        {task.location && (
+                            <Stack direction="row" alignItems="center" color="secondary">
+                                <LocationOnOutlinedIcon sx={{ color: iconColor, fontSize: '16px', marginRight: "6px" }} />
+                                <Typography variant='caption' component='span'>{task.location}</Typography>
+                            </Stack>
+                        )}
                         {/* Date */}
-                        <Stack direction="row" alignItems="center">
-                            <CalendarMonthOutlinedIcon sx={{ color: theme.palette.textLight.main, fontSize: '16px', marginRight: "6px" }} />
-                            <Typography variant='caption' component='span'>{formatDate(task.date)}</Typography>
-                        </Stack>
+                        {task.date && (
+                            <Stack direction="row" alignItems="center">
+                                <CalendarMonthOutlinedIcon sx={{ color: iconColor, fontSize: '16px', marginRight: "6px" }} />
+                                <Typography variant='caption' component='span'>{formatDate(task.date)}</Typography>
+                            </Stack>
+                        )}
                     </Box>
                     <Divider sx={{ margin: '1rem 0' }} />
                     <Stack direction="row">
                         {/* Task Budget */}
                         <Typography variant="h6" component='span' sx={{ flexGrow: 1 }}>{`₹${task.budget}`}</Typography>
                         {/* Posted Avatar */}
-                        <Avatar sx={{ backgroundColor: theme.palette.primary.light, width: '30px', height: "30px" }}>{task.postedBy.charAt(0)}</Avatar>
+                        {task.postedBy && (
+                            <Avatar sx={{ backgroundColor: avatarColor, width: '30px', height: "30px" }}>{task.postedBy?.charAt(0)}</Avatar>
+                        )}
                     </Stack>
                 </CardContent>
             </Card >
