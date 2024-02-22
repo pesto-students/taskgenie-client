@@ -4,17 +4,7 @@
 
 import { createTheme } from "@mui/material";
 
-const lexendFont = "'Lexend', sans-serif";
-const encodeSansFont = "'Encode Sans', sans-serif";
-
 const theme = createTheme({
-  htmlFontSize: 16,
-  typography: {
-    fontFamily: [
-      lexendFont,
-      encodeSansFont,
-    ].join(','),
-  },
   palette: {
     primary: {
       main: '#8659d3',
