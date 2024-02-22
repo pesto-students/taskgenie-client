@@ -2,6 +2,9 @@ import React from 'react'
 import Box from '../components/Box';
 import Stack from '../components/Stack';
 import TaskList from '../components/TaskList';
+import TextField from '../components/TextField';
+import { IconButton } from '@mui/material';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 const BrowseTasks = () => {
   const tasks = [
     {
@@ -58,21 +61,51 @@ const BrowseTasks = () => {
   ]
   return (
     <>
-      <Stack component='section'>
+      <Stack
+        className="filter-section"
+        component='section'
+        direction='row'
+        spacing={1}
+        alignItems='center'
+        aria-label='Filter Section'
+        sx={{
+          padding: '1rem 0 1rem 0',
+          position: 'relative',
+          top: -12,
+          backgroundColor: "red"
+        }}
+      >
         {/* Filter Section */}
-
         <Box>
           {/* Location */}
-
+          <TextField
+            label='Location'
+            aria-label='Location'
+            size='small'
+          />
         </Box>
         <Box>
           {/* Search field */}
+          <TextField
+            label='Search'
+            aria-label='Search'
+            size='small'
+          />
         </Box>
         <Box>
           {/* filter button */}
+          <IconButton
+            aria-label='filter-tasks'
+          >
+            <FilterAltOutlinedIcon />
+          </IconButton>
         </Box>
-      </Stack>
-      <Box component='section'>
+      </Stack >
+      <Box
+        component='section'
+        aria-label='Task List'
+        sx={{ paddingTop: "1rem" }}
+      >
         <TaskList tasks={tasks} />
       </Box>
     </>
