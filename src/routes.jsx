@@ -4,8 +4,7 @@ import TaskBrowse from "./pages/TaskBrowse.jsx";
 import Home from "./pages/Home.jsx";
 import { createBrowserRouter } from "react-router-dom";
 import MyTasks from "./pages/MyTasks.jsx";
-import SignIn from "./pages/SignIn.jsx";
-
+import SignUp from "./pages/SignUp.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,9 +26,9 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/signin',
-    element: <SignIn/>,
-    errorElement: <ErrorPage/>,
+    path: '/signup',
+    element: <SignUp />,
+    errorElement: <ErrorPage />,
   }
 
 ]);

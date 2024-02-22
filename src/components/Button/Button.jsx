@@ -11,13 +11,13 @@ const StyledButton = styled(MuiButton)(() => {
     }
 })
 
-function Button({ children, type = 'contained', ...props }) {
-    return <StyledButton variant={type} {...props}>{children}</StyledButton>
+function Button({ children, variant = 'contained', ...props }) {
+    return <StyledButton variant={variant} {...props}>{children}</StyledButton>
 }
 
 Button.propTypes = {
     children: PropTypes.node,
-    type: PropTypes.oneOf(['contained', 'outlined']),
+    variant: PropTypes.oneOf(['contained', 'outlined']),
 };
 
 export default Button;
