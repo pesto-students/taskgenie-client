@@ -71,9 +71,8 @@ const BrowseTasks = () => {
         sx={{
           padding: '1rem',
           zIndex: 2,
-          position: 'fixed',
-          left: 0,
-          top: 50,
+          position: 'sticky',
+          top: 56,
           backgroundColor: "white",
           borderBottom: "1px solid rgba(0, 0, 0, 0.12)"
         }}
@@ -108,7 +107,7 @@ const BrowseTasks = () => {
       <Box
         component='section'
         aria-label='Task List'
-        sx={{ paddingTop: "1rem", position: 'relative', top: 50 }}
+        sx={{ padding: "1rem", position: 'relative' }}
       >
         <TaskList tasks={tasks} />
       </Box>
