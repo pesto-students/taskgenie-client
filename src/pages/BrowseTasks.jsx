@@ -3,7 +3,7 @@ import Box from '../components/Box';
 import Stack from '../components/Stack';
 import TaskList from '../components/TaskList';
 import TextField from '../components/TextField';
-import { IconButton } from '@mui/material';
+import { Divider, IconButton } from '@mui/material';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 const BrowseTasks = () => {
   const tasks = [
@@ -69,10 +69,13 @@ const BrowseTasks = () => {
         alignItems='center'
         aria-label='Filter Section'
         sx={{
-          padding: '1rem 0 1rem 0',
-          position: 'relative',
-          top: -12,
-          backgroundColor: "red"
+          padding: '1rem',
+          zIndex: 2,
+          position: 'fixed',
+          left: 0,
+          top: 50,
+          backgroundColor: "white",
+          borderBottom: "1px solid rgba(0, 0, 0, 0.12)"
         }}
       >
         {/* Filter Section */}
@@ -100,11 +103,12 @@ const BrowseTasks = () => {
             <FilterAltOutlinedIcon />
           </IconButton>
         </Box>
+
       </Stack >
       <Box
         component='section'
         aria-label='Task List'
-        sx={{ paddingTop: "1rem" }}
+        sx={{ paddingTop: "1rem", position: 'relative', top: 50 }}
       >
         <TaskList tasks={tasks} />
       </Box>
