@@ -1,80 +1,98 @@
-import React from 'react'
-import Box from '../components/Box';
-import Stack from '../components/Stack';
-import TaskList from '../components/TaskList';
-import TextField from '../components/TextField';
-import { Divider, IconButton } from '@mui/material';
-import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import React, { useState } from "react";
+import { Box, Stack, TextField, Button } from "../components/UI";
+import TaskList from "../components/TaskList";
+import {
+  Modal,
+  IconButton,
+  Typography,
+  Dialog,
+  DialogActions,
+  Divider,
+} from "@mui/material";
+import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import FilterDialog from "../components/FilterDialog";
 const BrowseTasks = () => {
-  const tasks = [
+  const [tasks, setTasks] = useState([
     {
       id: 1,
-      title: 'Need social media marketer for a restaurant',
-      location: 'Electronic City, Bangalore',
-      dateType: 'on',
+      title: "Need social media marketer for a restaurant",
+      location: "Electronic City, Bangalore",
+      dateType: "on",
       date: Date.now(),
-      postedBy: 'Anuraja',
+      postedBy: "Anuraja",
       budget: 5000,
-      status: 'open'
+      status: "open",
     },
     {
       id: 2,
-      title: 'Resume and cover letter',
-      location: 'Remote',
-      dateType: 'before',
-      date: '2024-02-22',
-      postedBy: 'Manoj',
+      title: "Resume and cover letter",
+      location: "Remote",
+      dateType: "before",
+      date: "2024-02-22",
+      postedBy: "Manoj",
       budget: 1000,
-      status: 'open'
+      status: "open",
     },
     {
       id: 3,
-      title: 'Hi just need some parcels picked up',
-      location: 'Whitefield, Bangalore',
-      dateType: 'on',
-      date: '2024-02-01',
-      postedBy: 'Deepak',
+      title: "Hi just need some parcels picked up",
+      location: "Whitefield, Bangalore",
+      dateType: "on",
+      date: "2024-02-01",
+      postedBy: "Deepak",
       budget: 250,
-      status: 'assigned'
+      status: "assigned",
     },
     {
-
       id: 4,
-      title: 'Help clean my car',
-      location: 'Kodegehalli, Bangalore',
-      dateType: 'on',
+      title: "Help clean my car",
+      location: "Kodegehalli, Bangalore",
+      dateType: "on",
       date: Date.now(),
       budget: 500,
-      postedBy: 'Chau',
-      status: 'open',
-    }, {
+      postedBy: "Chau",
+      status: "open",
+    },
+    {
       id: 5,
-      title: 'Need a driver for a day to drive us around the market',
-      location: 'JP Nagar, Bangalore',
-      dateType: 'on',
+      title: "Need a driver for a day to drive us around the market",
+      location: "JP Nagar, Bangalore",
+      dateType: "on",
       date: Date.now(),
-      postedBy: 'Shivam',
+      postedBy: "Shivam",
       budget: 1200,
-      status: 'open',
-    }
-
-  ]
+      status: "open",
+    },
+  ]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const handleClickDialogOpen = () => {
+    setDialogOpen(!dialogOpen);
+  };
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
   return (
     <>
+      {/* Filter Dialog */}
+      <FilterDialog
+        open={dialogOpen}
+        onClose={handleCloseDialog}
+      />
+
       <Stack
-        className="filter-section"
+        className='filter-section'
         component='section'
         direction='row'
         spacing={1}
         alignItems='center'
         aria-label='Filter Section'
         sx={{
-          padding: '1rem',
+          padding: "1rem",
           zIndex: 2,
-          position: 'sticky',
+          position: "sticky",
           top: 56,
           backgroundColor: "white",
-          borderBottom: "1px solid rgba(0, 0, 0, 0.12)"
+          borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
         }}
       >
         {/* Filter Section */}
@@ -98,21 +116,21 @@ const BrowseTasks = () => {
           {/* filter button */}
           <IconButton
             aria-label='filter-tasks'
+            onClick={handleClickDialogOpen}
           >
             <FilterAltOutlinedIcon />
           </IconButton>
         </Box>
-
-      </Stack >
+      </Stack>
       <Box
         component='section'
         aria-label='Task List'
-        sx={{ padding: "1rem", position: 'relative' }}
+        sx={{ padding: "1rem", position: "relative" }}
       >
         <TaskList tasks={tasks} />
       </Box>
     </>
-  )
-}
+  );
+};
 
-export default BrowseTasks
+export default BrowseTasks;

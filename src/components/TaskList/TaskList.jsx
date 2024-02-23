@@ -1,7 +1,6 @@
-import React from 'react';
-import TaskItem from '../TaskItem/TaskItem';
-import Stack from '../Stack';
-
+import React from "react";
+import TaskItem from "../TaskItem/TaskItem";
+import { Stack } from "../UI";
 /**
  * Renders a list of tasks.
  *
@@ -10,15 +9,18 @@ import Stack from '../Stack';
  * @returns {JSX.Element} The rendered TaskList component.
  */
 const TaskList = ({ tasks = [] }) => {
-    return (
-        <>
-            <Stack spacing={1.2}>
-                {tasks.map(task => (
-                    <TaskItem key={task.id} task={task} />
-                ))}
-            </Stack>
-        </>
-    );
+  return (
+    <>
+      <Stack spacing={1.2}>
+        {tasks.map((task) => (
+          <TaskItem
+            key={task.id}
+            task={task}
+          />
+        ))}
+      </Stack>
+    </>
+  );
 };
 
 export default TaskList;
