@@ -36,7 +36,7 @@ const SignUp = () => {
                                     {/* Email */}
                                     <FormControl>
                                         <InputLabel>Email</InputLabel>
-                                        <TextField name="name" required type={'email'} placeholder='Enter Email' InputProps={{
+                                        <TextField name="email" required type={'email'} placeholder='Enter Email' InputProps={{
                                             startAdornment: (
                                                 <InputAdornment position='start'>
                                                     <EmailOutlinedIcon />
@@ -66,9 +66,9 @@ const SignUp = () => {
                                     <FormControl sx={{ marginTop: '2rem' }}>
                                         <Button variant='contained' type='submit' sx={{
                                             width: '100%',
-                                        }}>Submit</Button>
+                                        }}>Sign Up</Button>
                                     </FormControl>
-                                    <Typography variant='button'>Or</Typography>
+                                    <Typography>Or</Typography>
                                     <GoogleButton type='signup' />
                                 </Stack>
                             </FormContainer>
