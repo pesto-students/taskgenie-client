@@ -16,22 +16,12 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { DialogActions } from "@mui/material";
 
-const FilterDialog = ({ open, onClose, ...props }) => {
+const FilterDialog = ({ open, onClose, defaultFilters, ...props }) => {
   const [locationType, setLocationType] = useState("all");
   const [taskStatus, setTaskStatus] = useState("all");
   const [distance, setDistance] = useState(5);
   const [priceRange, setPriceRange] = useState([100, 99000]);
   const [sortBy, setSortBy] = useState("date-desc");
-
-  // Default filters
-  const defaultFilters = {
-    locationType: "all",
-    taskStatus: "all",
-    distance: 5,
-    priceRange: [100, 99000],
-    sortBy: "date-desc",
-  };
-
   const handleLocationTypeChange = (event) => {
     setLocationType(event.target.value);
   };
@@ -52,10 +42,16 @@ const FilterDialog = ({ open, onClose, ...props }) => {
     setTaskStatus(defaultFilters.taskStatus);
     setDistance(defaultFilters.distance);
     setPriceRange(defaultFilters.priceRange);
-    setSortBy(defaultFilters.sortBy);
+    setPriceRange(defaultFilters.sortBy);
   };
   const applyFilters = () => {
-    onClose();
+    onClose({
+      locationType,
+      taskStatus,
+      distance,
+      priceRange,
+      sortBy,
+    });
   };
 
   const sortByOptions = [
@@ -108,7 +104,7 @@ const FilterDialog = ({ open, onClose, ...props }) => {
       {/* filters */}
       <Box>
         {/* Location Type */}
-        <Accordion slotProps={{ transition: { unmountOnExit: true } }}>
+        <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography>Location Type</Typography>
           </AccordionSummary>
@@ -244,6 +240,18 @@ const FilterDialog = ({ open, onClose, ...props }) => {
 FilterDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  defaultFilters: PropTypes.shape({
+    locationType: PropTypes.oneOf(["all", "inperson", "remote"]),
+    taskStatus: PropTypes.oneOf(["all", "open", "assigned"]),
+    distance: PropTypes.number,
+    priceRange: PropTypes.arrayOf(PropTypes.number),
+    sortBy: PropTypes.oneOf([
+      "price-asc",
+      "price-desc",
+      "date-asc",
+      "date-desc",
+    ]),
+  }).isRequired,
 };
 
 export default FilterDialog;

@@ -12,6 +12,15 @@ import {
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import FilterDialog from "../components/FilterDialog";
 const BrowseTasks = () => {
+  // Default filters
+  const defaultFilters = {
+    locationType: "all",
+    taskStatus: "all",
+    distance: 5,
+    priceRange: [100, 99000],
+    sortBy: "date-desc",
+  };
+  const [filters, setFilters] = useState(defaultFilters);
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -66,9 +75,10 @@ const BrowseTasks = () => {
   ]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleClickDialogOpen = () => {
-    setDialogOpen(!dialogOpen);
+    setDialogOpen(true);
   };
-  const handleCloseDialog = () => {
+  const handleCloseFilterDialog = (value) => {
+    console.log(value);
     setDialogOpen(false);
   };
   return (
@@ -76,7 +86,8 @@ const BrowseTasks = () => {
       {/* Filter Dialog */}
       <FilterDialog
         open={dialogOpen}
-        onClose={handleCloseDialog}
+        onClose={handleCloseFilterDialog}
+        defaultFilters={defaultFilters}
       />
       <Stack
         className='filter-section'
