@@ -18,4 +18,5 @@ export { Tab } from "./Tab";
 export { Tabs } from "./Tabs";
 export { TextField } from "./TextField";
 export { ToggleButton } from "./ToggleButton";
+export { ToggleButtonGroup } from "./ToggleButtonGroup";
 export { Typography } from "./Typography";

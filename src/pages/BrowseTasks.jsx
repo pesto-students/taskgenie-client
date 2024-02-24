@@ -78,7 +78,6 @@ const BrowseTasks = () => {
         open={dialogOpen}
         onClose={handleCloseDialog}
       />
-
       <Stack
         className='filter-section'
         component='section'
