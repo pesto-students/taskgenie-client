@@ -11,15 +11,16 @@ import {
 } from "@mui/material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import FilterDialog from "../components/FilterDialog";
+
+// Default filters
+const defaultFilters = {
+  locationType: "all",
+  taskStatus: "all",
+  distance: 5,
+  priceRange: [100, 99000],
+  sortBy: "date-desc",
+};
 const BrowseTasks = () => {
-  // Default filters
-  const defaultFilters = {
-    locationType: "all",
-    taskStatus: "all",
-    distance: 5,
-    priceRange: [100, 99000],
-    sortBy: "date-desc",
-  };
   const [filters, setFilters] = useState(defaultFilters);
   const [tasks, setTasks] = useState([
     {
@@ -77,8 +78,8 @@ const BrowseTasks = () => {
   const handleClickDialogOpen = () => {
     setDialogOpen(true);
   };
-  const handleCloseFilterDialog = (value) => {
-    console.log(value);
+  const handleCloseFilterDialog = (selectedFilters) => {
+    setFilters(selectedFilters)
     setDialogOpen(false);
   };
   return (
