@@ -49,6 +49,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: '12px',
+          width: '7rem',
           '&.Mui-selected': {
             backgroundColor: '#f6f3fc',
             fontWeight: 'bold',
