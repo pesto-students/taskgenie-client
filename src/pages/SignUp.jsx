@@ -1,18 +1,20 @@
-import React, { useState } from 'react'
-import Box from '../components/Box';
-import { InputAdornment } from '@mui/material/';
-import Typography from '../components/Typography';
-import Container from '../components/Container';
-import Stack from '../components/Stack';
-import Button from '../components/Button';
-import InputLabel from '../components/InputLabel';
-import Card from '../components/Card/Card';
-import FormControl from '../components/FormControl';
-import { FormContainer } from 'react-hook-form-mui';
-import TextField from '../components/TextField';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import GoogleButton from '../components/GoogleButton';
+import React, { useState } from "react";
+import { InputAdornment } from "@mui/material/";
+import { FormContainer } from "react-hook-form-mui";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import GoogleButton from "../components/GoogleButton";
+import {
+  Box,
+  Typography,
+  Container,
+  Stack,
+  Button,
+  InputLabel,
+  Card,
+  FormControl,
+  FormTextField,
+} from "../components/UI";
 const SignUp = () => {
     return (
         <>
@@ -80,4 +82,4 @@ const SignUp = () => {
     )
 }
 
-export default SignUp
+export default SignUp;

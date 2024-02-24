@@ -1,6 +1,6 @@
 import ErrorPage from "./pages/ErrorPage.jsx";
 import Layout from "./components/Layout.jsx";
-import TaskBrowse from "./pages/TaskBrowse.jsx";
+import BrowseTasks from "./pages/BrowseTasks.jsx";
 import Home from "./pages/Home.jsx";
 import { createBrowserRouter } from "react-router-dom";
 import MyTasks from "./pages/MyTasks.jsx";
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
       },
       {
         path: "tasks",
-        element: <TaskBrowse />,
+        element: <BrowseTasks />,
       },
       {
         path: "mytasks/:id",

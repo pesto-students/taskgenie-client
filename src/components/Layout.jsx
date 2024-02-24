@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { Box } from "@mui/material";
 import Header from "./Header";
 import { Outlet } from "react-router";
 
@@ -7,10 +7,10 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <Container component='section' className='page-wrapper'>
+      <Box component='section' className='page-wrapper' >
         {/* Use outlet to display components in Layout */}
         <Outlet />
-      </Container>
+      </Box>
     </>
   );
 };
