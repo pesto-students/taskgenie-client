@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ImageList, ImageListItem, Button, Box } from "../UI";
-import { ImageListItemBar } from "@mui/material";
-
+import { IconButton, ImageListItemBar } from "@mui/material";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 const maxImageCount = 3;
 
 const TaskImageList = () => {
@@ -32,7 +32,19 @@ const TaskImageList = () => {
               alt={item.title}
               loading='lazy'
             />
-            <ImageListItemBar />
+            <ImageListItemBar
+              sx={{
+                background:
+                  "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
+                  "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+              }}
+              position='top'
+              actionIcon={
+                <IconButton sx={{ color: "white" }}>
+                  <DeleteOutlineOutlinedIcon />
+                </IconButton>
+              }
+            />
           </ImageListItem>
         ))}
         {
