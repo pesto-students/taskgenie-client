@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 
 const StyledTextArea = styled(MuiTextArea)(() => ({
-    border: '1px solid #8659d3',
+    // border: '1px solid #8659d3',
     // backgroundColor: '#f6f3fc',
     borderRadius: '12px',
     width:'100%',
@@ -12,10 +12,10 @@ const StyledTextArea = styled(MuiTextArea)(() => ({
     },
 }));
 const TextArea = ({ariaLabel, ...props}) =>{
-    return <StyledTextArea ariaLabel={ariaLabel} {...props} />
+    return <StyledTextArea aria-label={ariaLabel} {...props} />
 }
 
 TextArea.propTypes = {
-   ariaLabel : PropTypes.string.isRequired,
+//    aria-label : PropTypes.string.isRequired,
 }
 export default TextArea;

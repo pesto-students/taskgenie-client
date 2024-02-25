@@ -18,21 +18,29 @@ import TextArea from "../components/UI/TextArea";
 import { InputAdornment } from '@mui/material/';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import CurrencyRupeeOutlinedIcon from '@mui/icons-material/CurrencyRupeeOutlined';
+import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
+import DatePicker from "../components/DatePicker";
 
 const PostTask = () => {
   const [location, setLocation] = useState("remote");
   const [time, setTime] = useState("flexible");
   const [currentStep, setCurrentStep] = useState(0);
-  const handleLocationChange = (event, newLocation) => {
-    setLocation(newLocation);
+
+  const handleLocationChange = (event) => {
+    console.log(event);
+    setLocation(event.target.value);
   };
 
-  const handleTimeChange = (event, newTime) => {
-    setLocation(newTime);
+  const handleTimeChange = (event) => {
+    setTime(event.target.value);
   };
 
   const handleNext = () => {
     setCurrentStep(1);
+  }
+
+  const handleBack = () => {
+    setCurrentStep(0);
   }
 
   const handleSubmit = () =>{
@@ -96,7 +104,15 @@ const PostTask = () => {
                   </ToggleButtonGroup>
                 </FormControl>
 
-                {/*  */}
+
+
+                {/* Date Pick */}
+              {(time === 'on' || time === 'before')?
+                <FormControl sx={{alignItems:'center', display:'flex',justifyContent:'center'}}>
+                  <DatePicker/>
+                </FormControl>
+                : null
+              }
 
                 {/* Submit */}
                 <FormControl sx={{ marginTop: "2rem" }}>
@@ -139,20 +155,33 @@ const PostTask = () => {
 
                 <FormControl>
                   <InputLabel>Task Details</InputLabel>
-                  <TextArea ariaLabel='Task Details' minRows={3} />
+                  <TextArea aria-label='Task Details' minRows={7} maxRows={7} />
                 </FormControl>
 
                 <FormControl sx={{ marginTop: "2rem" }}>
                   <InputLabel>Budget</InputLabel>
-                  <TextField name="budget" type="number" />
+                  <TextField name="budget" type="number" InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position='start'>
+                                                    <CurrencyRupeeOutlinedIcon sx={{color : 'rgb(0,0,0)'}} />
+                                                </InputAdornment>
+                                            )
+                                        }}/>
                 </FormControl>
 
-                <FormControl sx={{ marginTop: "2rem" }}>
-                  <InputLabel>Image</InputLabel>
+                {/* Image upload */}
+
+                <FormControl sx={{marginTop: "2rem" }}>
+                  
+                  <Button variant="outlined" component="label" sx={{height:'5rem', borderColor:'black', color:'black'}} >
+                    Add Photo
+                    <input accept="image/*" hidden type="file" />
+                    <AddAPhotoOutlinedIcon sx={{color:'black'}}/>
+                  </Button>
                   
                 </FormControl>
 
-                {/*  */}
+                
 
                 {/* Submit */}
                 <FormControl sx={{ marginTop: "2rem" , display: 'flex', gap:'1rem'} }>
@@ -160,6 +189,7 @@ const PostTask = () => {
                   <Button
                     variant='outlined'
                     sx={{ width: "100%" }}
+                    onClick={handleBack}
                   >
                     Back
                   </Button>
