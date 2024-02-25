@@ -1,23 +1,25 @@
 import { useState } from "react";
-import Box from "../UI/Box";
-import { ImageList, ImageListItem, Button } from "../UI";
-// const itemData = [
-//   {
-//     img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-//     title: "Breakfast",
-//   },
-//   {
-//     img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-//     title: "Burger",
-//   },
-//   {
-//     img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-//     title: "Camera",
-//   },
-// ];
+import { ImageList, ImageListItem, Button, Box } from "../UI";
+import { ImageListItemBar } from "@mui/material";
+
+const maxImageCount = 3;
 
 const TaskImageList = () => {
   const [images, setImages] = useState([]);
+  const handleAddImage = () => {
+    const image = {
+      img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
+      title: "image",
+    };
+    // Todo: Add logic to upload image and get url
+    setImages((prevImages) => [...prevImages, image]);
+  };
+  const removeImage = () => {
+    // add logic to remove image
+  };
+  const showImage = (image) => {
+    // Add logic to show image
+  };
 
   return (
     <Box>
@@ -30,11 +32,14 @@ const TaskImageList = () => {
               alt={item.title}
               loading='lazy'
             />
+            <ImageListItemBar />
           </ImageListItem>
         ))}
         {
           // Todo. redner <div> add photo</div> if there are less than 3 images
-          images.length < 3 && <Button>add</Button>
+          images.length < maxImageCount && (
+            <Button onClick={handleAddImage}>add</Button>
+          )
         }
       </ImageList>
     </Box>

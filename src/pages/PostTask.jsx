@@ -1,23 +1,19 @@
-import React, { useState } from "react";
-import Card from "../components/UI/Card";
-import TextField from "../components/UI/TextField";
-import Container from "../components/UI/Container";
-import Typography from "../components/UI/Typography";
-import Button from "../components/UI/Button";
-// import { HiOutlinePhotograph } from "react-icons/hi";
-import Box from "../components/UI/Box";
+import { useState } from "react";
+import {
+  Card,
+  TextField,
+  Button,
+  Box,
+  FormControl,
+  InputLabel,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "../components/UI";
 import { FormContainer } from "react-hook-form-mui";
-import FormControl from "../components/UI/FormControl";
-import InputLabel from "../components/UI/InputLabel";
-import Stack from "../components/UI/Stack";
-import ToggleButtonGroup from "../components/UI/ToggleButtonGroup";
-import ToggleButton from "../components/UI/ToggleButton";
-import SearchTextField from "../components/SearchTextField";
 import { TextArea, Stepper } from "../components/UI/";
 import { InputAdornment } from "@mui/material/";
-import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
 import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined";
-import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import DatePicker from "../components/DatePicker";
 import TaskImageList from "../components/TaskImageList";
 

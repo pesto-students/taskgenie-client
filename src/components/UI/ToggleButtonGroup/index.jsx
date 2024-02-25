@@ -1,1 +1,1 @@
-export { default } from './ToggleButtonGroup'
+export { default as ToggleButtonGroup } from "./ToggleButtonGroup";
