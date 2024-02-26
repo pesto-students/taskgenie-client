@@ -5,20 +5,17 @@ const StyledAutoComplete = styled(ReactFormAutocomplete)(() => {
   return {
     backgroundColor: "red",
     border: "4px solid red",
+    borderRadius: "12px",
   };
 });
 const AutocompleteElement = ({ name, options = [], ...props }) => {
   return (
-    <Box sx={{ border: "5px solid red" }}>
+    <Box>
       <StyledAutoComplete
         name={name}
         options={options}
         {...props}
-        sx={{
-          border: "5px solid blue",
-        }}
       />
-      <div>ravi</div>
     </Box>
   );
 };

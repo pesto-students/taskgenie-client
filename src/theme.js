@@ -22,6 +22,13 @@ const theme = createTheme({
   },
 
   components: {
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          borderRadius: "12px!important",
+        },
+      },
+    },
     MuiToggleButtonGroup: {
       styleOverrides: {
         root: {
