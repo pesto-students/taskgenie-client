@@ -25,24 +25,23 @@ const router = createBrowserRouter([
         path: "mytasks/:id",
         element: <MyTasks />,
       },
+      {
+        path: "/posttask",
+        element: <PostTask />,
+        errorElement: <ErrorPage />,
+      },
     ],
   },
   {
-    path: '/signup',
+    path: "/signup",
     element: <SignUp />,
     errorElement: <ErrorPage />,
   },
   {
-    path: '/signin',
+    path: "/signin",
     element: <SignIn />,
     errorElement: <ErrorPage />,
   },
-  {
-    path: '/posttask',
-    element: <PostTask/>,
-    errorElement: <ErrorPage/>,
-  }
-
 ]);
 
 export default router;

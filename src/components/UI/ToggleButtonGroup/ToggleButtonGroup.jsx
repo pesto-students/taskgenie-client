@@ -1,9 +1,13 @@
-import MuiToggleButtonGroup from "@mui/material/ToggleButtonGroup"
+import { ToggleButtonGroupElement } from "react-hook-form-mui";
+const ToggleButtonGroup = ({ name, options = [], ...props }) => {
+  return (
+    <ToggleButtonGroupElement
+      name={name}
+      options={options}
+      {...props}
+      sx={{}}
+    />
+  );
+};
 
-
-const ToggleButtonGroup = ({ children, ...props }) => {
-    return (<MuiToggleButtonGroup {...props}>{children}</MuiToggleButtonGroup>)
-}
-
-
-export default ToggleButtonGroup
+export default ToggleButtonGroup;
