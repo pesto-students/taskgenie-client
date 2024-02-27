@@ -40,7 +40,7 @@ const theme = createTheme({
     MuiToggleButton: {
       styleOverrides: {
         root: {
-          flexGrow: 1,
+          flex: 1,
           borderRadius: "12px",
           "&.Mui-selected": {
             backgroundColor: "#f6f3fc",
