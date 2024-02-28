@@ -10,6 +10,7 @@ import {
   ToggleButtonGroup,
 } from "../UI";
 import PlaceAutocomplete from "../PlaceAutocomplete";
+import { PostTaskStep1 } from "../../validation/validationSchema";
 const locationTypes = [
   { value: "in-person", label: "In Person" },
   { value: "remote", label: "Remote" },
@@ -24,28 +25,70 @@ const dateTypes = [
 const Step1 = () => {
   const [title, setTitle] = useState("");
   const [locationType, setLocationType] = useState("in-person");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState(null);
   const [dateType, setDateType] = useState("on");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
   const handleLocationTypeChange = (newLocationType) => {
     setLocationType(newLocationType);
-  };
-  const handleLocationChange = (newLocation) => {
-    setLocation(newLocation);
+    if (newLocationType === "remote") {
+      setLocation(null);
+    }
   };
   const handleDateTypeChange = (newDateType) => {
     setDateType(newDateType);
+    if (newDateType === "flexible") {
+      setDate(null);
+    }
+  };
+  const handleOnSelectPlace = (place) => {
+    setLocation(place);
+  };
+  const handleOnDateSelect = (date) => {
+    const formattedDate = new Date(date.$y, date.$M, date.$D); // Create a JavaScript Date object
+    setDate(formattedDate);
   };
 
-  const handleOnSelectPlace = (place) => {
-    console.log("Selected Place:", place);
+  const validateForm = async () => {
+    try {
+      // Validate form data against the schema
+      await PostTaskStep1.validate(
+        {
+          title,
+          location,
+          date,
+        },
+        { abortEarly: false }
+      ); // Validate all fields, don't abort on first error
+      return true;
+    } catch (validationErrors) {
+      // If validation fails, set the errors state to display error messages
+      console.log("catching", validationErrors);
+      const errors = {};
+      validationErrors.inner.forEach((error) => {
+        errors[error.path] = error.message;
+      });
+      setErrors(errors);
+      return false;
+    }
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate the form
+    const isValid = await validateForm();
+
+    if (isValid) {
+      // If validation passes, submit the form
+      console.log(
+        `submitting Title:${title}, Location Type: ${locationType}, Location:${location}, Date Type:${dateType}, Date:${date?.toISOString()}`
+      );
+    }
   };
 
   return (
@@ -111,7 +154,10 @@ const Step1 = () => {
           {/* Date Pick */}
           {(dateType === "on" || dateType === "before") && (
             <FormControl sx={{ textAlign: "center" }}>
-              <DatePicker name='date' />
+              <DatePicker
+                name='date'
+                onDateSelect={handleOnDateSelect}
+              />
             </FormControl>
           )}
 

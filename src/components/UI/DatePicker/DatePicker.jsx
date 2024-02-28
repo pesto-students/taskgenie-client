@@ -2,8 +2,8 @@ import dayjs from "dayjs"; // Import Day.js library
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
-export default function DatePickerElement({ ...props }) {
+import PropTypes from "prop-types";
+export default function DatePickerElement({ onDateSelect, ...props }) {
   // Calculate min and max dates
   const minDate = dayjs(); // Today
   const maxDate = minDate.add(3, "month");
@@ -12,8 +12,13 @@ export default function DatePickerElement({ ...props }) {
       <DatePicker
         minDate={minDate} // Convert Day.js object to Date object
         maxDate={maxDate}
+        onAccept={onDateSelect}
         {...props}
       />
     </LocalizationProvider>
   );
 }
+
+DatePickerElement.propTypes = {
+  onDateSelect: PropTypes.func,
+};
