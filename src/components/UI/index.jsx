@@ -3,7 +3,7 @@ export { Button } from "./Button";
 export { Box } from "./Box";
 export { Card } from "./Card";
 export { Container } from "./Container";
-export { DatePickerElement } from "./DatePickerElement";
+export { DatePicker } from "./DatePicker";
 export { FormControl } from "./FormControl";
 export { ImageList } from "./ImageList";
 export { ImageListItem } from "./ImageListItem";

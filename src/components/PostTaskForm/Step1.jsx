@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
-  DatePickerElement,
+  DatePicker,
   Stack,
   InputLabel,
   TextField,
@@ -10,7 +10,6 @@ import {
   ToggleButtonGroup,
 } from "../UI";
 import PlaceAutocomplete from "../PlaceAutocomplete";
-
 const locationTypes = [
   { value: "in-person", label: "In Person" },
   { value: "remote", label: "Remote" },
@@ -23,13 +22,21 @@ const dateTypes = [
 ];
 
 const Step1 = () => {
+  const [title, setTitle] = useState("");
   const [locationType, setLocationType] = useState("in-person");
+  const [location, setLocation] = useState("");
   const [dateType, setDateType] = useState("on");
+  const [date, setDate] = useState("");
 
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
   const handleLocationTypeChange = (newLocationType) => {
     setLocationType(newLocationType);
   };
-
+  const handleLocationChange = (newLocation) => {
+    setLocation(newLocation);
+  };
   const handleDateTypeChange = (newDateType) => {
     setDateType(newDateType);
   };
@@ -37,10 +44,13 @@ const Step1 = () => {
   const handleOnSelectPlace = (place) => {
     console.log("Selected Place:", place);
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <Box>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Stack
           gap={"1rem"}
           alignItems={"center"}
@@ -52,6 +62,8 @@ const Step1 = () => {
               name='title'
               required
               type='text'
+              value={title}
+              onChange={handleTitleChange}
               placeholder='Enter the title of task here'
               sx={{ width: "100%" }}
             />
@@ -60,10 +72,6 @@ const Step1 = () => {
           <FormControl
             sx={{
               marginTop: "2rem",
-              width: "100%",
-              "& .MuiFormControl-root": {
-                width: "100%",
-              },
             }}
           >
             <InputLabel>Where is it located?</InputLabel>
@@ -89,10 +97,6 @@ const Step1 = () => {
           <FormControl
             sx={{
               marginTop: "2rem",
-              width: "100%",
-              "& .MuiFormControl-root": {
-                width: "100%",
-              },
             }}
           >
             <InputLabel>When do you need this done?</InputLabel>
@@ -106,8 +110,8 @@ const Step1 = () => {
           </FormControl>
           {/* Date Pick */}
           {(dateType === "on" || dateType === "before") && (
-            <FormControl>
-              <DatePickerElement name='date' />
+            <FormControl sx={{ textAlign: "center" }}>
+              <DatePicker name='date' />
             </FormControl>
           )}
 
