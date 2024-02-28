@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -9,47 +9,38 @@ import {
   FormControl,
   ToggleButtonGroup,
 } from "../UI";
-import { FormContainer, ToggleButtonGroupElement } from "react-hook-form-mui";
 import PlaceAutocomplete from "../PlaceAutocomplete";
-const locationTypes = [
-  { id: "in-person", label: "In Person" },
-  { id: "remote", label: "Remote" },
-];
-const dateTypes = [
-  { id: "on", label: "On" },
-  { id: "before", label: "Before" },
-  { id: "flexible", label: "Flexible" },
-];
-const Step1 = ({ onSubmit }) => {
-  const [dateType, setDateType] = useState("on");
-  const [locationType, setLocationType] = useState("in-person");
-  const [Location, setLocation] = useState("");
-  const [date, setDate] = useState("");
 
-  const handleLocationTypeChange = (_, val) => {
-    setLocationType(val);
+const locationTypes = [
+  { value: "in-person", label: "In Person" },
+  { value: "remote", label: "Remote" },
+];
+
+const dateTypes = [
+  { value: "on", label: "On" },
+  { value: "before", label: "Before" },
+  { value: "flexible", label: "Flexible" },
+];
+
+const Step1 = () => {
+  const [locationType, setLocationType] = useState("in-person");
+  const [dateType, setDateType] = useState("on");
+
+  const handleLocationTypeChange = (newLocationType) => {
+    setLocationType(newLocationType);
   };
-  const handleDateTypeChange = (_, val) => {
-    setDateType(val);
+
+  const handleDateTypeChange = (newDateType) => {
+    setDateType(newDateType);
   };
-  const onSubmitStep1 = (data) => {
-    console.log("on submit step1", data);
-    //onSubmit(data);
+
+  const handleOnSelectPlace = (place) => {
+    console.log("Selected Place:", place);
   };
+
   return (
     <Box>
-      <FormContainer
-        defaultValues={{
-          title: "",
-          locationType: "in-person",
-          location: "",
-          dateType: "on",
-          date: Date.now(),
-        }}
-        onSuccess={(data) => {
-          onSubmitStep1(data);
-        }}
-      >
+      <form>
         <Stack
           gap={"1rem"}
           alignItems={"center"}
@@ -79,12 +70,20 @@ const Step1 = ({ onSubmit }) => {
 
             <ToggleButtonGroup
               name='locationType'
-              exclusive={true}
               options={locationTypes}
+              defaultValue={locationType}
               onChange={handleLocationTypeChange}
             />
 
-            {locationType === "in-person" && <PlaceAutocomplete />}
+            {locationType === "in-person" && (
+              <PlaceAutocomplete
+                name='location'
+                onSelectPlace={handleOnSelectPlace}
+                sx={{
+                  marginTop: "1rem",
+                }}
+              />
+            )}
           </FormControl>
           {/* Task Date */}
           <FormControl
@@ -100,19 +99,18 @@ const Step1 = ({ onSubmit }) => {
 
             <ToggleButtonGroup
               name='dateType'
-              exclusive={true}
               options={dateTypes}
+              defaultValue={dateType}
+              onChange={handleDateTypeChange}
             />
           </FormControl>
-
           {/* Date Pick */}
-          {dateType === "on" || dateType === "before" ? (
+          {(dateType === "on" || dateType === "before") && (
             <FormControl>
               <DatePickerElement name='date' />
             </FormControl>
-          ) : null}
+          )}
 
-          {/* Submit */}
           <FormControl sx={{ marginTop: "2rem" }}>
             <Button
               variant='contained'
@@ -123,7 +121,7 @@ const Step1 = ({ onSubmit }) => {
             </Button>
           </FormControl>
         </Stack>
-      </FormContainer>
+      </form>
     </Box>
   );
 };

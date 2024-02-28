@@ -1,15 +1,17 @@
-import { TextFieldElement } from 'react-hook-form-mui';
-import { styled } from '@mui/material/styles';
+import React from "react";
+import { styled } from "@mui/material/styles";
+import { TextField as MuiTextField } from "@mui/material";
 
-const StyledTextField = styled(TextFieldElement)(() => ({
-    "& .MuiInputBase-root": {
-        borderRadius: '12px'
-    }
-}))
+const StyledTextField = styled(MuiTextField)(() => ({
+  "& .MuiInputBase-root": {
+    borderRadius: "12px",
+  },
+}));
 
-const TextField = ({ ...props }) => {
-    return <StyledTextField {...props}
-    />
+class TextField extends React.Component {
+  render() {
+    return <StyledTextField {...this.props} />;
+  }
 }
 
 export default TextField;
