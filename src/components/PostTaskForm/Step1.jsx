@@ -10,7 +10,6 @@ import {
   ToggleButtonGroup,
 } from "../UI";
 import PlaceAutocomplete from "../PlaceAutocomplete";
-import { PostTaskStep1 } from "../../validation/validationSchema";
 const locationTypes = [
   { value: "in-person", label: "In Person" },
   { value: "remote", label: "Remote" },
@@ -54,27 +53,7 @@ const Step1 = () => {
   };
 
   const validateForm = async () => {
-    try {
-      // Validate form data against the schema
-      await PostTaskStep1.validate(
-        {
-          title,
-          location,
-          date,
-        },
-        { abortEarly: false }
-      ); // Validate all fields, don't abort on first error
-      return true;
-    } catch (validationErrors) {
-      // If validation fails, set the errors state to display error messages
-      console.log("catching", validationErrors);
-      const errors = {};
-      validationErrors.inner.forEach((error) => {
-        errors[error.path] = error.message;
-      });
-      setErrors(errors);
-      return false;
-    }
+
   };
 
   const handleSubmit = async (e) => {
@@ -103,7 +82,6 @@ const Step1 = () => {
             <InputLabel>What needs to be done?</InputLabel>
             <TextField
               name='title'
-              required
               type='text'
               value={title}
               onChange={handleTitleChange}
@@ -150,16 +128,16 @@ const Step1 = () => {
               defaultValue={dateType}
               onChange={handleDateTypeChange}
             />
+            {/* Date Pick */}
+            {(dateType === "on" || dateType === "before") && (
+              <FormControl sx={{ textAlign: "center", marginTop: "1rem" }}>
+                <DatePicker
+                  name='date'
+                  onDateSelect={handleOnDateSelect}
+                />
+              </FormControl>
+            )}
           </FormControl>
-          {/* Date Pick */}
-          {(dateType === "on" || dateType === "before") && (
-            <FormControl sx={{ textAlign: "center" }}>
-              <DatePicker
-                name='date'
-                onDateSelect={handleOnDateSelect}
-              />
-            </FormControl>
-          )}
 
           <FormControl sx={{ marginTop: "2rem" }}>
             <Button
