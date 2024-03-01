@@ -27,7 +27,6 @@ const TaskImageList = () => {
 
       s3.upload(params, (err, data) => {
         if (err) {
-          console.log("Error uploading image: ", err);
         } else {
           const imageUrl = data.Location;
           setImages((prevImages) => [

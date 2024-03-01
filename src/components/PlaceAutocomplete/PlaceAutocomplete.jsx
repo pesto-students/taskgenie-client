@@ -30,7 +30,6 @@ const PlaceAutocomplete = ({
         label: prediction.description,
         placeId: prediction.place_id,
       }));
-      console.log("transfomred plaes", transformedPlaces);
       setPlaces(transformedPlaces);
     }
   }, [placePredictions]);

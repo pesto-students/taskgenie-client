@@ -24,7 +24,7 @@ const dateTypes = [
   { value: "flexible", label: "Flexible" },
 ];
 
-const Step1 = () => {
+const Step1 = ({ onSubmit }) => {
   const [title, setTitle] = useState("");
   const [locationType, setLocationType] = useState("in-person");
   const [location, setLocation] = useState("");
@@ -76,8 +76,14 @@ const Step1 = () => {
       date: date?.toDate(),
     });
     if (isValid) {
-      setErrors({});
-      // Proceed with form submission
+      // If validation succeeds, call onSubmit function to transition to Step 2
+      onSubmit({
+        title,
+        locationType,
+        location,
+        dateType,
+        date: date?.toDate(),
+      });
     } else {
       setErrors(errors);
     }
