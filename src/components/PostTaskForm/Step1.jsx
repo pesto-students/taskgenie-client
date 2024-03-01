@@ -12,6 +12,7 @@ import {
 } from "../UI";
 import PlaceAutocomplete from "../PlaceAutocomplete";
 import { validateStep1 } from "../../validation/validate";
+
 const locationTypes = [
   { value: "in-person", label: "In Person" },
   { value: "remote", label: "Remote" },
@@ -28,39 +29,41 @@ const Step1 = () => {
   const [locationType, setLocationType] = useState("in-person");
   const [location, setLocation] = useState("");
   const [dateType, setDateType] = useState("on");
-  const [date, setDate] = useState(dayjs);
+  const [date, setDate] = useState(dayjs());
   const [errors, setErrors] = useState({});
 
   const handleTitleChange = (event) => {
     const inputValue = event.target.value;
     if (inputValue.length <= 70) {
       setTitle(inputValue);
-      setErrors((prevErrors) => ({ ...prevErrors, title: "" }));
+      clearError("title");
     }
   };
+
   const handleLocationTypeChange = (newLocationType) => {
     setLocationType(newLocationType);
     if (newLocationType === "remote") {
       setLocation(null);
     }
-    setErrors((prevErrors) => ({ ...prevErrors, location: "" }));
+    clearError("location");
   };
+
   const handleDateTypeChange = (newDateType) => {
     setDateType(newDateType);
     if (newDateType === "flexible") {
-      setDate(null);
+      setDate(dayjs());
     }
-    setErrors((prevErrors) => ({ ...prevErrors, date: "" }));
+    clearError("date");
   };
+
   const handleOnSelectPlace = (place) => {
-    console.log("setting place", place);
     setLocation(place);
-    setErrors((prevErrors) => ({ ...prevErrors, location: "" }));
+    clearError("location");
   };
+
   const handleOnDateSelect = (date) => {
-    const formattedDate = date;
-    setDate(formattedDate);
-    setErrors((prevErrors) => ({ ...prevErrors, date: "" }));
+    setDate(date);
+    clearError("date");
   };
 
   const handleSubmit = async (e) => {
@@ -72,8 +75,16 @@ const Step1 = () => {
       dateType,
       date: date?.toDate(),
     });
-    console.log(isValid, errors);
-    setErrors(errors);
+    if (isValid) {
+      setErrors({});
+      // Proceed with form submission
+    } else {
+      setErrors(errors);
+    }
+  };
+
+  const clearError = (field) => {
+    setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
   };
 
   return (
@@ -98,38 +109,26 @@ const Step1 = () => {
             />
           </FormControl>
           {/* Task Location */}
-          <FormControl
-            sx={{
-              marginTop: "1rem",
-            }}
-          >
+          <FormControl sx={{ marginTop: "1rem" }}>
             <InputLabel>Where is it located?</InputLabel>
-
             <ToggleButtonGroup
               name='locationType'
               options={locationTypes}
               defaultValue={locationType}
               onChange={handleLocationTypeChange}
             />
-
             {locationType === "in-person" && (
               <PlaceAutocomplete
                 name='location'
                 onSelectPlace={handleOnSelectPlace}
-                error={Boolean(errors?.location)}
+                error={Boolean(errors.location)}
                 helperText={errors?.location}
-                sx={{
-                  marginTop: "1rem",
-                }}
+                sx={{ marginTop: "1rem" }}
               />
             )}
           </FormControl>
           {/* Task Date */}
-          <FormControl
-            sx={{
-              marginTop: "1rem",
-            }}
-          >
+          <FormControl sx={{ marginTop: "1rem" }}>
             <InputLabel>When do you need this done?</InputLabel>
             <ToggleButtonGroup
               name='dateType'
@@ -137,14 +136,13 @@ const Step1 = () => {
               defaultValue={dateType}
               onChange={handleDateTypeChange}
             />
-            {/* Date Pick */}
             {(dateType === "on" || dateType === "before") && (
               <FormControl sx={{ textAlign: "center", marginTop: "1rem" }}>
                 <DatePicker
                   name='date'
                   onDateSelect={handleOnDateSelect}
-                  error={true}
-                  helperText={"sfds"}
+                  error={Boolean(errors.date)}
+                  helperText={errors?.date}
                 />
               </FormControl>
             )}

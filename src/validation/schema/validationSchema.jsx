@@ -22,7 +22,9 @@ export const TaskStep1Schema = Joi.object({
         "any.required": "Place ID is required for in-person tasks",
         "string.empty": "Place ID is required for in-person tasks",
       }),
-    }).required(),
+    })
+      .required()
+      .messages({ "object.base": "Please select where task is located" }),
     otherwise: Joi.object().optional().allow(null, ""),
   }),
   dateType: Joi.string().valid("on", "before", "flexible").required(),

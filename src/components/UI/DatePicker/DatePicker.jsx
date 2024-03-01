@@ -14,7 +14,7 @@ export default function DatePickerElement({
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
-        value={defaultDate} // Set default date to today
+        defaultValue={defaultDate}
         minDate={minDate} // Convert Day.js object to Date object
         maxDate={maxDate}
         onAccept={onDateSelect}
