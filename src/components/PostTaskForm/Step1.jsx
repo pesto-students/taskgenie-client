@@ -1,4 +1,5 @@
 import { useState } from "react";
+import dayjs from "dayjs";
 import {
   Box,
   Button,
@@ -10,6 +11,7 @@ import {
   ToggleButtonGroup,
 } from "../UI";
 import PlaceAutocomplete from "../PlaceAutocomplete";
+import { validateStep1 } from "../../validation/validate";
 const locationTypes = [
   { value: "in-person", label: "In Person" },
   { value: "remote", label: "Remote" },
@@ -24,57 +26,61 @@ const dateTypes = [
 const Step1 = () => {
   const [title, setTitle] = useState("");
   const [locationType, setLocationType] = useState("in-person");
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState("");
   const [dateType, setDateType] = useState("on");
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(dayjs);
   const [errors, setErrors] = useState({});
 
   const handleTitleChange = (event) => {
-    setTitle(event.target.value);
+    const inputValue = event.target.value;
+    if (inputValue.length <= 70) {
+      setTitle(inputValue);
+      setErrors((prevErrors) => ({ ...prevErrors, title: "" }));
+    }
   };
   const handleLocationTypeChange = (newLocationType) => {
     setLocationType(newLocationType);
     if (newLocationType === "remote") {
       setLocation(null);
     }
+    setErrors((prevErrors) => ({ ...prevErrors, location: "" }));
   };
   const handleDateTypeChange = (newDateType) => {
     setDateType(newDateType);
     if (newDateType === "flexible") {
       setDate(null);
     }
+    setErrors((prevErrors) => ({ ...prevErrors, date: "" }));
   };
   const handleOnSelectPlace = (place) => {
+    console.log("setting place", place);
     setLocation(place);
+    setErrors((prevErrors) => ({ ...prevErrors, location: "" }));
   };
   const handleOnDateSelect = (date) => {
-    const formattedDate = new Date(date.$y, date.$M, date.$D); // Create a JavaScript Date object
+    const formattedDate = date;
     setDate(formattedDate);
-  };
-
-  const validateForm = async () => {
-
+    setErrors((prevErrors) => ({ ...prevErrors, date: "" }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate the form
-    const isValid = await validateForm();
-
-    if (isValid) {
-      // If validation passes, submit the form
-      console.log(
-        `submitting Title:${title}, Location Type: ${locationType}, Location:${location}, Date Type:${dateType}, Date:${date?.toISOString()}`
-      );
-    }
+    const { isValid, errors } = await validateStep1({
+      title,
+      locationType,
+      location,
+      dateType,
+      date: date?.toDate(),
+    });
+    console.log(isValid, errors);
+    setErrors(errors);
   };
 
   return (
     <Box>
       <form onSubmit={handleSubmit}>
         <Stack
-          gap={"1rem"}
+          gap={"0.5rem"}
           alignItems={"center"}
         >
           {/* Task Title */}
@@ -87,12 +93,14 @@ const Step1 = () => {
               onChange={handleTitleChange}
               placeholder='Enter the title of task here'
               sx={{ width: "100%" }}
+              error={Boolean(errors.title)}
+              helperText={errors?.title}
             />
           </FormControl>
           {/* Task Location */}
           <FormControl
             sx={{
-              marginTop: "2rem",
+              marginTop: "1rem",
             }}
           >
             <InputLabel>Where is it located?</InputLabel>
@@ -108,6 +116,8 @@ const Step1 = () => {
               <PlaceAutocomplete
                 name='location'
                 onSelectPlace={handleOnSelectPlace}
+                error={Boolean(errors?.location)}
+                helperText={errors?.location}
                 sx={{
                   marginTop: "1rem",
                 }}
@@ -117,11 +127,10 @@ const Step1 = () => {
           {/* Task Date */}
           <FormControl
             sx={{
-              marginTop: "2rem",
+              marginTop: "1rem",
             }}
           >
             <InputLabel>When do you need this done?</InputLabel>
-
             <ToggleButtonGroup
               name='dateType'
               options={dateTypes}
@@ -134,6 +143,8 @@ const Step1 = () => {
                 <DatePicker
                   name='date'
                   onDateSelect={handleOnDateSelect}
+                  error={true}
+                  helperText={"sfds"}
                 />
               </FormControl>
             )}

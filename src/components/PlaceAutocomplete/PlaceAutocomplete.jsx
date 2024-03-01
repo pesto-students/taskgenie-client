@@ -5,7 +5,12 @@ import { useState, useEffect } from "react";
 // Todo move apikey
 const apiKey = "AIzaSyAC5l_xNclOKWKHAOo_2HstzoO5 - yggxIU";
 
-const PlaceAutocomplete = ({ onSelectPlace, ...props }) => {
+const PlaceAutocomplete = ({
+  onSelectPlace,
+  error = false,
+  helperText = "",
+  ...props
+}) => {
   const [places, setPlaces] = useState([]);
   const {
     placesService,
@@ -25,6 +30,7 @@ const PlaceAutocomplete = ({ onSelectPlace, ...props }) => {
         label: prediction.description,
         placeId: prediction.place_id,
       }));
+      console.log("transfomred plaes", transformedPlaces);
       setPlaces(transformedPlaces);
     }
   }, [placePredictions]);
@@ -40,7 +46,8 @@ const PlaceAutocomplete = ({ onSelectPlace, ...props }) => {
         onSelectPlace({
           label,
           placeId,
-          location: { lat: location.lat(), lng: location.lng() },
+          lat: location.lat(),
+          lng: location.lng(),
         });
       });
     }
@@ -48,17 +55,17 @@ const PlaceAutocomplete = ({ onSelectPlace, ...props }) => {
   return (
     <>
       <Autocomplete
-        required={true}
         noOptionsText={"please enter place name"}
         loading={isPlacePredictionsLoading}
         onChange={(event, value) => handlePlaceSelect(value)}
         options={places}
         renderInput={(params) => (
           <TextField
-            required={true}
             placeholder='Select place'
             {...params}
             onChange={handleInputChange}
+            error={error}
+            helperText={helperText}
           />
         )}
         {...props}
