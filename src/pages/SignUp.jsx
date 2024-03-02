@@ -16,7 +16,12 @@ import {
 import { useForm, Controller } from "react-hook-form";
 
 const SignUp = () => {
-  const { control, handleSubmit } = useForm({
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       email: "",
       password: "",
@@ -55,11 +60,13 @@ const SignUp = () => {
                     <Controller
                       name={"email"}
                       control={control}
+                      rules={{ required: "Email is required." }}
                       render={({ field }) => (
                         <TextField
                           {...field}
                           type={"email"}
                           placeholder='Enter Email'
+                          autoComplete={"username"}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position='start'>
@@ -70,6 +77,8 @@ const SignUp = () => {
                           sx={{
                             width: "100%",
                           }}
+                          error={Boolean(errors.email)}
+                          helperText={errors?.email?.message}
                         />
                       )}
                     />
@@ -77,21 +86,30 @@ const SignUp = () => {
                   {/* Password */}
                   <FormControl>
                     <InputLabel>Password</InputLabel>
-                    <TextField
-                      name='password'
-                      required
-                      type='password'
-                      placeholder='Enter Password'
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <LockOutlinedIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                      sx={{
-                        width: "100%",
-                      }}
+                    <Controller
+                      name={"password"}
+                      control={control}
+                      rules={{ required: "Password is required." }}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          type={"password"}
+                          placeholder='Enter Password'
+                          autoComplete={"current-password"}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position='start'>
+                                <LockOutlinedIcon />
+                              </InputAdornment>
+                            ),
+                          }}
+                          sx={{
+                            width: "100%",
+                          }}
+                          error={Boolean(errors.password)}
+                          helperText={errors?.password?.message}
+                        />
+                      )}
                     />
                   </FormControl>
                   {/* Submit */}
