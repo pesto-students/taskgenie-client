@@ -13,7 +13,18 @@ import {
   FormControl,
   TextField,
 } from "../components/UI";
+import { useForm, Controller } from "react-hook-form";
+
 const SignUp = () => {
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  const onSubmit = (data) => {
+    console.log("on submit", data);
+  };
   return (
     <>
       <Container>
@@ -33,10 +44,7 @@ const SignUp = () => {
               <Typography variant='subtitle2'>create an account</Typography>
             </Box>
             <Box sx={{ mt: "1rem" }}>
-              <form
-                defaultValues={{ email: "", password: "" }}
-                onSuccess={(data) => console.log(data)}
-              >
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack
                   gap={"1rem"}
                   alignItems={"center"}
@@ -44,21 +52,26 @@ const SignUp = () => {
                   {/* Email */}
                   <FormControl>
                     <InputLabel>Email</InputLabel>
-                    <TextField
-                      name='email'
-                      required
-                      type={"email"}
-                      placeholder='Enter Email'
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <EmailOutlinedIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                      sx={{
-                        width: "100%",
-                      }}
+                    <Controller
+                      name={"email"}
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          type={"email"}
+                          placeholder='Enter Email'
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position='start'>
+                                <EmailOutlinedIcon />
+                              </InputAdornment>
+                            ),
+                          }}
+                          sx={{
+                            width: "100%",
+                          }}
+                        />
+                      )}
                     />
                   </FormControl>
                   {/* Password */}
