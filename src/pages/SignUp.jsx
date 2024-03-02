@@ -14,7 +14,8 @@ import {
   TextField,
 } from "../components/UI";
 import { useForm, Controller } from "react-hook-form";
-
+import { useSignupMutation } from "../store/authAPI"; // Adjust the path as per your project structure
+import { CircularProgress } from "@mui/material";
 const SignUp = () => {
   const {
     register,
@@ -27,10 +28,16 @@ const SignUp = () => {
       password: "",
     },
   });
-
-  const onSubmit = (data) => {
-    console.log("Form data submitted:", data);
-    // Further processing such as API calls or navigation can be done here
+  const [signupMutation, { isLoading, isError, error }] = useSignupMutation();
+  const onSubmit = async (formData) => {
+    try {
+      const { data } = await signupMutation(formData);
+      console.log("Form data submitted:", data);
+      // Further processing such as navigation or showing a success message can be done here
+    } catch (error) {
+      console.error("Signup failed:", error);
+      // Handle signup failure, e.g., show an error message
+    }
   };
 
   return (
@@ -125,7 +132,20 @@ const SignUp = () => {
                         width: "100%",
                       }}
                     >
-                      Sign Up
+                      {isLoading ? (
+                        <CircularProgress
+                          size={24}
+                          sx={{
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            marginTop: "-12px",
+                            marginLeft: "-12px",
+                          }}
+                        />
+                      ) : (
+                        "Sign Up"
+                      )}
                     </Button>
                   </FormControl>
                   <Typography>Or</Typography>
