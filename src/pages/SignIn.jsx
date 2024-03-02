@@ -1,6 +1,5 @@
 import { InputAdornment } from "@mui/material";
 import React from "react";
-import { FormContainer } from "react-hook-form-mui";
 import {
   Box,
   Card,
@@ -35,7 +34,7 @@ function SignIn() {
               <Typography variant='subtitle2'>Welcome Back</Typography>
             </Box>
             <Box sx={{ mt: "1rem" }}>
-              <FormContainer
+              <form
                 defaultValues={{ email: "", password: "" }}
                 onSuccess={(data) => console.log(data)}
               >
@@ -92,7 +91,7 @@ function SignIn() {
                   <Typography>Or</Typography>
                   <GoogleButton type='signin'></GoogleButton>
                 </Stack>
-              </FormContainer>
+              </form>
             </Box>
           </Card>
         </Box>

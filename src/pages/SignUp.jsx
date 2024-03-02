@@ -1,5 +1,4 @@
 import { InputAdornment } from "@mui/material/";
-import { FormContainer } from "react-hook-form-mui";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleButton from "../components/GoogleButton";
@@ -34,7 +33,7 @@ const SignUp = () => {
               <Typography variant='subtitle2'>create an account</Typography>
             </Box>
             <Box sx={{ mt: "1rem" }}>
-              <FormContainer
+              <form
                 defaultValues={{ email: "", password: "" }}
                 onSuccess={(data) => console.log(data)}
               >
@@ -97,7 +96,7 @@ const SignUp = () => {
                   <Typography>Or</Typography>
                   <GoogleButton type='signup' />
                 </Stack>
-              </FormContainer>
+              </form>
             </Box>
           </Card>
         </Box>
