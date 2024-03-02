@@ -32,7 +32,6 @@ const SignUp = () => {
   const onSubmit = async (formData) => {
     try {
       const { data } = await signupMutation(formData);
-      console.log("Form data submitted:", data);
       // Further processing such as navigation or showing a success message can be done here
     } catch (error) {
       console.error("Signup failed:", error);
@@ -131,21 +130,9 @@ const SignUp = () => {
                       sx={{
                         width: "100%",
                       }}
+                      loading={isLoading}
                     >
-                      {isLoading ? (
-                        <CircularProgress
-                          size={24}
-                          sx={{
-                            position: "absolute",
-                            top: "50%",
-                            left: "50%",
-                            marginTop: "-12px",
-                            marginLeft: "-12px",
-                          }}
-                        />
-                      ) : (
-                        "Sign Up"
-                      )}
+                      {"Sign Up"}
                     </Button>
                   </FormControl>
                   <Typography>Or</Typography>
