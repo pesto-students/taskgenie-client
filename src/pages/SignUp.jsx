@@ -27,9 +27,12 @@ const SignUp = () => {
       password: "",
     },
   });
+
   const onSubmit = (data) => {
-    console.log("on submit", data);
+    console.log("Form data submitted:", data);
+    // Further processing such as API calls or navigation can be done here
   };
+
   return (
     <>
       <Container>
@@ -46,7 +49,7 @@ const SignUp = () => {
           <Card sx={{ padding: "2rem 1rem" }}>
             <Box component='header'>
               <Typography variant='h4'>Welcome.</Typography>
-              <Typography variant='subtitle2'>create an account</Typography>
+              <Typography variant='subtitle2'>Create an account</Typography>
             </Box>
             <Box sx={{ mt: "1rem" }}>
               <form onSubmit={handleSubmit(onSubmit)}>
@@ -67,15 +70,13 @@ const SignUp = () => {
                           type={"email"}
                           placeholder='Enter Email'
                           autoComplete={"username"}
+                          fullWidth
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position='start'>
                                 <EmailOutlinedIcon />
                               </InputAdornment>
                             ),
-                          }}
-                          sx={{
-                            width: "100%",
                           }}
                           error={Boolean(errors.email)}
                           helperText={errors?.email?.message}
@@ -95,7 +96,10 @@ const SignUp = () => {
                           {...field}
                           type={"password"}
                           placeholder='Enter Password'
-                          autoComplete={"current-password"}
+                          inputProps={{
+                            maxLength: 32,
+                          }}
+                          autoComplete={"new-password"}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position='start'>
