@@ -15,10 +15,10 @@ import {
 } from "../components/UI";
 import { useForm, Controller } from "react-hook-form";
 import { useSignupMutation } from "../store/authAPI"; // Adjust the path as per your project structure
-import { CircularProgress } from "@mui/material";
+import { useSnackbar } from "notistack";
 const SignUp = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const {
-    register,
     control,
     handleSubmit,
     formState: { errors },
@@ -32,10 +32,21 @@ const SignUp = () => {
   const onSubmit = async (formData) => {
     try {
       const { data } = await signupMutation(formData);
-      // Further processing such as navigation or showing a success message can be done here
+      console.log("data", data, "isError", isError, "error", error);
+      if (isError) {
+        const errorMessage = error.message
+          ? error.message
+          : "Error while creating account.";
+        enqueueSnackbar(errorMessage, {
+          variant: "error",
+        });
+      } else {
+        enqueueSnackbar("Account created!", { variant: "success" });
+      }
     } catch (error) {
-      console.error("Signup failed:", error);
-      // Handle signup failure, e.g., show an error message
+      enqueueSnackbar(`Can't create account. ${error.message}`, {
+        variant: "error",
+      });
     }
   };
 
