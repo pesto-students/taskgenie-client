@@ -1,31 +1,73 @@
-// authSlice.js
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { signInAPI, signUpAPI } from "../api/auth";
 
-const initialState = {
-  user: null,
-  isLoading: false,
-  error: null,
-};
+export const signInUser = createAsyncThunk(
+  "auth/signin",
+  async ({ email, password }) => {
+    const response = await signInAPI(email, password);
+    return response.data;
+  }
+);
 
-export const authSlice = createSlice({
+export const signUpUser = createAsyncThunk(
+  "auth/signup",
+  async ({ email, password }) => {
+    const response = await signUpAPI(email, password);
+    return response.data;
+  }
+);
+
+const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: {
+    user: null,
+    isAuthenticated: false,
+    isLoading: false,
+    error: null,
+    accessToken: null,
+    refreshToken: null,
+  },
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload;
+    setTokens: (state, action) => {
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
     },
-    setLoading: (state, action) => {
-      state.isLoading = action.payload;
-    },
-    setError: (state, action) => {
-      state.error = action.payload;
-    },
-    clearError: (state) => {
-      state.error = null;
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(signInUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(signInUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+        // Store tokens in local storage
+        localStorage.setItem("accessToken", action.payload.accessToken);
+        localStorage.setItem("refreshToken", action.payload.refreshToken);
+      })
+      .addCase(signInUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(signUpUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(signUpUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+        // Store tokens in local storage
+        localStorage.setItem("accessToken", action.payload.accessToken);
+        localStorage.setItem("refreshToken", action.payload.refreshToken);
+      })
+      .addCase(signUpUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      });
   },
 });
 
-export const { setUser, setLoading, setError, clearError } = authSlice.actions;
+export const { setTokens } = authSlice.actions;
 
 export default authSlice.reducer;

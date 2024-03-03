@@ -14,7 +14,7 @@ import {
   TextField,
 } from "../components/UI";
 import { useForm, Controller } from "react-hook-form";
-import { useSignupMutation } from "../store/authAPI"; // Adjust the path as per your project structure
+import { useSignupMutation } from "../store/auth/authAPI"; // Adjust the path as per your project structure
 import { useSnackbar } from "notistack";
 const SignUp = () => {
   const { enqueueSnackbar } = useSnackbar();

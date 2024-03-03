@@ -1,15 +1,15 @@
-// store.js
 import { configureStore } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/query/react";
-import { authApi } from "./authAPI";
-import authReducer from "./authSlice";
-export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    [authApi.reducerPath]: authApi.reducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware),
-});
+import workoutReducer from './workoutPlanSlice'
+import { persistStore } from 'redux-persist';
+import reduxPersistConfig from "./reduxPersistConfig";
 
-setupListeners(store.dispatch);
+
+const store =  configureStore({
+    reducer: reduxPersistConfig(workoutReducer),
+    middleware: (getDefaultMiddleware) => [...getDefaultMiddleware()]
+  
+})
+
+export const persistor = persistStore(store); // Create a persistor object
+
+export default store
