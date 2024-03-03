@@ -1,13 +1,10 @@
+import { apiSlice } from "./apiSlice";
 import { configureStore } from "@reduxjs/toolkit";
-import { persistStore } from "redux-persist";
-import reduxPersistConfig from "./reduxPersistConfig";
-import authReducer from "./authSlice";
 
-const store = configureStore({
-  reducer: reduxPersistConfig(authReducer),
-  middleware: (getDefaultMiddleware) => [...getDefaultMiddleware()],
+export default configureStore({
+  reducer: {
+    [apiSlice.reducerPath]: apiSlice.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
 });
-
-export const persistor = persistStore(store); // Create a persistor object
-
-export default store;

@@ -15,8 +15,11 @@ import {
 } from "../components/UI";
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
+import { useSignupMutation } from "../store/apiSlice";
 const SignUp = () => {
+  const [signup, { isLoading, isError, error }] = useSignupMutation();
   const { enqueueSnackbar } = useSnackbar();
+  // Todo move it to auth
   const {
     control,
     handleSubmit,
@@ -27,14 +30,20 @@ const SignUp = () => {
       password: "",
     },
   });
-  const [signupMutation, { isLoading, isError, error }] = useSignupMutation();
   const onSubmit = async (formData) => {
+    console.log("signup with", formData);
+    const response = await signup(formData);
     try {
-      console.log("fetch data");
+      if (isError) {
+        enqueueSnackbar(error.status, { variant: "error" });
+      } else if (response.error) {
+        console.log("error occuer", response.error);
+        enqueueSnackbar(response.error.data.message, { variant: "error" });
+      } else {
+        enqueueSnackbar("Registered Successfully", { variant: "success" });
+      }
     } catch (error) {
-      enqueueSnackbar(`Can't create account. ${error.message}`, {
-        variant: "error",
-      });
+      console.log("errorr signup", error);
     }
   };
 
