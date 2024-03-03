@@ -3,9 +3,6 @@ export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
   endpoints: (builder) => ({
-    getAuthStatus: builder.query({
-      query: () => "/auth/getStatus",
-    }),
     signup: builder.mutation({
       query: (data) => ({
         url: "/auth/signup",
@@ -16,4 +13,4 @@ export const apiSlice = createApi({
   }),
 });
 
-export const { useGetAuthStatusQuery, useSignupMutation } = apiSlice;
+export const { useSignupMutation } = apiSlice;
