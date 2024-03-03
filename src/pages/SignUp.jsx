@@ -14,7 +14,6 @@ import {
   TextField,
 } from "../components/UI";
 import { useForm, Controller } from "react-hook-form";
-import { useSignupMutation } from "../store/auth/authAPI"; // Adjust the path as per your project structure
 import { useSnackbar } from "notistack";
 const SignUp = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -31,18 +30,7 @@ const SignUp = () => {
   const [signupMutation, { isLoading, isError, error }] = useSignupMutation();
   const onSubmit = async (formData) => {
     try {
-      const { data } = await signupMutation(formData);
-      console.log("data", data, "isError", isError, "error", error);
-      if (isError) {
-        const errorMessage = error.message
-          ? error.message
-          : "Error while creating account.";
-        enqueueSnackbar(errorMessage, {
-          variant: "error",
-        });
-      } else {
-        enqueueSnackbar("Account created!", { variant: "success" });
-      }
+      console.log("fetch data");
     } catch (error) {
       enqueueSnackbar(`Can't create account. ${error.message}`, {
         variant: "error",
