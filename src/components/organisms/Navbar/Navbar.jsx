@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
-import { logout } from "../store/authSlice";
+import { logout } from "../../../store/authSlice.jsx";
 import { useDispatch } from "react-redux";
 const mobileNavItems = [
   { title: "Home", path: "/" },

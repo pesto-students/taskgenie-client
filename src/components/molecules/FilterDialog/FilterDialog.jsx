@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Box, Stack, Typography, Accordion, Dialog } from "../UI";
-import { SortByToggle } from "../UI/SortByToggle";
+import { Button, Box, Stack, Typography, Accordion, Dialog } from "../../atoms";
+import { SortByToggle } from "components/atoms/SortByToggle";
 import {
   Slider,
   AccordionDetails,

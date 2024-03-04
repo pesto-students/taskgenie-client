@@ -1,34 +1,34 @@
+import { InputAdornment } from "@mui/material";
 import { useEffect } from "react";
-import { InputAdornment } from "@mui/material/";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import GoogleButton from "../components/GoogleButton";
 import {
   Box,
+  Card,
+  Stack,
+  FormControl,
+  InputLabel,
+  TextField,
   Typography,
   Container,
-  Stack,
   Button,
-  InputLabel,
-  Card,
-  FormControl,
-  TextField,
-} from "../components/UI";
+} from "../atoms/index.js";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import GoogleButton from "../molecules/GoogleButton/index.jsx";
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
-import { useSignupMutation } from "../store/apiSlice";
+import { useSigninMutation } from "../../store/apiSlice.jsx";
 import { useDispatch } from "react-redux";
-import { setTokens } from "../store/authSlice";
+import { setTokens } from "../../store/authSlice.jsx";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-const SignUp = () => {
-  const notificationPosition = { vertical: "top", horizontal: "center" };
-  const navigate = useNavigate();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const [signup, { isLoading }] = useSignupMutation();
-  const { enqueueSnackbar } = useSnackbar();
-  // Todo move it to auth
+
+const SignIn = () => {
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const navigate = useNavigate();
+  const [signin, { isLoading }] = useSigninMutation();
+  const { enqueueSnackbar } = useSnackbar();
+  const notificationPosition = { vertical: "top", horizontal: "center" };
   const {
     control,
     handleSubmit,
@@ -39,8 +39,9 @@ const SignUp = () => {
       password: "",
     },
   });
+
   const onSubmit = async (formData) => {
-    const response = await signup(formData);
+    const response = await signin(formData);
     if (response.error) {
       const error = response.error;
       const { data } = error;
@@ -56,13 +57,12 @@ const SignUp = () => {
           user: response.data.user,
         })
       );
-      enqueueSnackbar("Registered Succesfully", {
+      enqueueSnackbar("Logged In Succesfully", {
         variant: "success",
         anchorOrigin: notificationPosition,
       });
     }
   };
-
   useEffect(() => {
     if (isAuthenticated) {
       // Navigate to home
@@ -72,9 +72,9 @@ const SignUp = () => {
 
   return (
     <>
+      `{" "}
       <Container>
         <Box sx={{ padding: "2rem 0" }}>
-          {/* Header */}
           <Typography
             variant='h5'
             sx={{ fontWeight: "bold", color: "#8659d3" }}
@@ -85,8 +85,8 @@ const SignUp = () => {
         <Box component={"section"}>
           <Card sx={{ padding: "2rem 1rem" }}>
             <Box component='header'>
-              <Typography variant='h4'>Welcome.</Typography>
-              <Typography variant='subtitle2'>Create an account</Typography>
+              <Typography variant='h4'>Hello.</Typography>
+              <Typography variant='subtitle2'>Welcome Back</Typography>
             </Box>
             <Box sx={{ mt: "1rem" }}>
               <form onSubmit={handleSubmit(onSubmit)}>
@@ -163,19 +163,20 @@ const SignUp = () => {
                       }}
                       loading={isLoading}
                     >
-                      {"Sign Up"}
+                      Sign In
                     </Button>
                   </FormControl>
                   <Typography>Or</Typography>
-                  <GoogleButton type='signup' />
+                  <GoogleButton type='signin'></GoogleButton>
                 </Stack>
               </form>
             </Box>
           </Card>
         </Box>
       </Container>
+      `
     </>
   );
 };
 
-export default SignUp;
+export default SignIn;

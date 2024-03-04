@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Box, Stack, TextField, Button } from "../components/UI";
-import TaskList from "../components/TaskList";
+import { Box, Stack, TextField, Button } from "../atoms/index.js";
+import TaskList from "../molecules/TaskList/index.jsx";
 import {
   Modal,
   IconButton,
@@ -10,7 +10,7 @@ import {
   Divider,
 } from "@mui/material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import FilterDialog from "../components/FilterDialog";
+import FilterDialog from "../molecules/FilterDialog/index.jsx";
 
 // Default filters
 const defaultFilters = {

@@ -1,6 +1,6 @@
 import { it, describe, expect } from "vitest";
 import { render, screen } from '@testing-library/react';
-import TaskItem from './TaskItem';
+import TaskItem from './TaskItem.jsx';
 
 describe("TaskItem", () => {
     it("Renders Task Item", () => {

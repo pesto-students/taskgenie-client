@@ -1,11 +1,11 @@
-import ErrorPage from "./pages/ErrorPage.jsx";
-import Layout from "./components/Layout.jsx";
-import BrowseTasks from "./pages/BrowseTasks.jsx";
-import Home from "./pages/Home.jsx";
-import MyTasks from "./pages/MyTasks.jsx";
-import SignUp from "./pages/SignUp.jsx";
-import SignIn from "./pages/SignIn.jsx";
-import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
+import ErrorPage from "src/components/pages/ErrorPage.jsx";
+import Layout from "components/organisms/Layout/Layout.jsx";
+import BrowseTasks from "components/pages/BrowseTasks.jsx";
+import Home from "components/pages/Home.jsx";
+import MyTasks from "components/pages/MyTasks.jsx";
+import SignUp from "components/pages/SignUp.jsx";
+import SignIn from "components/pages/SignIn.jsx";
+import ProtectedRoutes from "components/templates/ProtectedRoutes.jsx";
 
 const routes = [
   {

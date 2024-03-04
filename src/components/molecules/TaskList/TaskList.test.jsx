@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it } from 'vitest';
-import TaskList from './TaskList';
+import TaskList from './TaskList.jsx';
 
 describe("TaskList", () => {
     it("renders task list ", () => {

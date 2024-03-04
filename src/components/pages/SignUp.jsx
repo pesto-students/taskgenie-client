@@ -1,34 +1,34 @@
-import { InputAdornment } from "@mui/material";
 import { useEffect } from "react";
-import {
-  Box,
-  Card,
-  Stack,
-  FormControl,
-  InputLabel,
-  TextField,
-  Typography,
-  Container,
-  Button,
-} from "../components/UI";
+import { InputAdornment } from "@mui/material/";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import GoogleButton from "../components/GoogleButton";
+import GoogleButton from "../molecules/GoogleButton/index.jsx";
+import {
+  Box,
+  Typography,
+  Container,
+  Stack,
+  Button,
+  InputLabel,
+  Card,
+  FormControl,
+  TextField,
+} from "../atoms/index.js";
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
-import { useSigninMutation } from "../store/apiSlice";
+import { useSignupMutation } from "../../store/apiSlice.jsx";
 import { useDispatch } from "react-redux";
-import { setTokens } from "../store/authSlice";
+import { setTokens } from "../../store/authSlice.jsx";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
-const SignIn = () => {
-  const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const navigate = useNavigate();
-  const [signin, { isLoading }] = useSigninMutation();
-  const { enqueueSnackbar } = useSnackbar();
+const SignUp = () => {
   const notificationPosition = { vertical: "top", horizontal: "center" };
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const [signup, { isLoading }] = useSignupMutation();
+  const { enqueueSnackbar } = useSnackbar();
+  // Todo move it to auth
+  const dispatch = useDispatch();
   const {
     control,
     handleSubmit,
@@ -39,9 +39,8 @@ const SignIn = () => {
       password: "",
     },
   });
-
   const onSubmit = async (formData) => {
-    const response = await signin(formData);
+    const response = await signup(formData);
     if (response.error) {
       const error = response.error;
       const { data } = error;
@@ -57,12 +56,13 @@ const SignIn = () => {
           user: response.data.user,
         })
       );
-      enqueueSnackbar("Logged In Succesfully", {
+      enqueueSnackbar("Registered Succesfully", {
         variant: "success",
         anchorOrigin: notificationPosition,
       });
     }
   };
+
   useEffect(() => {
     if (isAuthenticated) {
       // Navigate to home
@@ -72,9 +72,9 @@ const SignIn = () => {
 
   return (
     <>
-      `{" "}
       <Container>
         <Box sx={{ padding: "2rem 0" }}>
+          {/* Header */}
           <Typography
             variant='h5'
             sx={{ fontWeight: "bold", color: "#8659d3" }}
@@ -85,8 +85,8 @@ const SignIn = () => {
         <Box component={"section"}>
           <Card sx={{ padding: "2rem 1rem" }}>
             <Box component='header'>
-              <Typography variant='h4'>Hello.</Typography>
-              <Typography variant='subtitle2'>Welcome Back</Typography>
+              <Typography variant='h4'>Welcome.</Typography>
+              <Typography variant='subtitle2'>Create an account</Typography>
             </Box>
             <Box sx={{ mt: "1rem" }}>
               <form onSubmit={handleSubmit(onSubmit)}>
@@ -163,20 +163,19 @@ const SignIn = () => {
                       }}
                       loading={isLoading}
                     >
-                      Sign In
+                      {"Sign Up"}
                     </Button>
                   </FormControl>
                   <Typography>Or</Typography>
-                  <GoogleButton type='signin'></GoogleButton>
+                  <GoogleButton type='signup' />
                 </Stack>
               </form>
             </Box>
           </Card>
         </Box>
       </Container>
-      `
     </>
   );
 };
 
-export default SignIn;
+export default SignUp;

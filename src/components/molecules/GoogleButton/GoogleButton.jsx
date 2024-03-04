@@ -1,5 +1,5 @@
-import SignUpLogo from "../../assets/google_signup.svg?react";
-import SignInLogo from '../../assets/google_signin.svg?react';
+import SignUpLogo from "assets/google_signup.svg?react";
+import SignInLogo from 'assets/google_signin.svg?react';
 import { IconButton } from '@mui/material';
 
 const GoogleButton = ({ children, type = 'signup', ...props }) => {
