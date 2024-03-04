@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import Header from "./Header";
+import Header from "components/organisms/Header/Header.jsx";
 import { Outlet } from "react-router";
 
 // Layout component to get consistent layout experience

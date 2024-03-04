@@ -1,6 +1,6 @@
 import React from "react";
-import TaskItem from "../TaskItem/TaskItem";
-import { Stack } from "../UI";
+import TaskItem from "../TaskItem/TaskItem.jsx";
+import { Stack } from "../../atoms/index.js";
 /**
  * Renders a list of tasks.
  *

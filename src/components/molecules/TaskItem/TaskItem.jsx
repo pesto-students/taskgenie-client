@@ -1,11 +1,11 @@
 import React from "react";
-import { Card, CardContent, Typography, Chip, Box, Stack } from "../UI";
+import { Card, CardContent, Typography, Chip, Box, Stack } from "../../atoms/index.js";
 import { Divider } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import { useTheme } from "@mui/material/styles";
-import { formatDate } from "../../utils";
+import { formatDate } from "../../../utils.jsx";
 
 // TaskItem component
 const TaskItem = ({ task }) => {
