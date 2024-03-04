@@ -17,8 +17,10 @@ import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
 import { useSignupMutation } from "../store/apiSlice";
 import { useDispatch } from "react-redux";
+import { setTokens } from "../store/authSlice";
+
 const SignUp = () => {
-  const [signup, { isLoading, isError, error }] = useSignupMutation();
+  const [signup, { isLoading }] = useSignupMutation();
   const { enqueueSnackbar } = useSnackbar();
   // Todo move it to auth
   const dispatch = useDispatch();
@@ -37,6 +39,13 @@ const SignUp = () => {
     if (response.error) {
       enqueueSnackbar(response.error.data.message, { variant: "error" });
     } else {
+      dispatch(
+        setTokens({
+          accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken,
+          user: response.data.user,
+        })
+      );
       enqueueSnackbar("Registered Succesfully", { variant: "success" });
     }
   };
