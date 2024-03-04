@@ -16,10 +16,12 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
 import { useSignupMutation } from "../store/apiSlice";
+import { useDispatch } from "react-redux";
 const SignUp = () => {
   const [signup, { isLoading, isError, error }] = useSignupMutation();
   const { enqueueSnackbar } = useSnackbar();
   // Todo move it to auth
+  const dispatch = useDispatch();
   const {
     control,
     handleSubmit,
@@ -31,19 +33,11 @@ const SignUp = () => {
     },
   });
   const onSubmit = async (formData) => {
-    console.log("signup with", formData);
     const response = await signup(formData);
-    try {
-      if (isError) {
-        enqueueSnackbar(error.status, { variant: "error" });
-      } else if (response.error) {
-        console.log("error occuer", response.error);
-        enqueueSnackbar(response.error.data.message, { variant: "error" });
-      } else {
-        enqueueSnackbar("Registered Successfully", { variant: "success" });
-      }
-    } catch (error) {
-      console.log("errorr signup", error);
+    if (response.error) {
+      enqueueSnackbar(response.error.data.message, { variant: "error" });
+    } else {
+      enqueueSnackbar("Registered Succesfully", { variant: "success" });
     }
   };
 

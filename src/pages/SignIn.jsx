@@ -18,7 +18,6 @@ import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
 import { useSigninMutation } from "../store/apiSlice";
 const SignIn = () => {
-
   const [signin, { isLoading, isError, error }] = useSigninMutation();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -51,8 +50,6 @@ const SignIn = () => {
     }
   };
 
-
-
   return (
     <>
       `{" "}
@@ -72,16 +69,14 @@ const SignIn = () => {
               <Typography variant='subtitle2'>Welcome Back</Typography>
             </Box>
             <Box sx={{ mt: "1rem" }}>
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-              >
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack
                   gap={"1rem"}
                   alignItems={"center"}
                 >
                   {/* Email */}
                   <FormControl>
-                  <InputLabel>Email</InputLabel>
+                    <InputLabel>Email</InputLabel>
                     <Controller
                       name={"email"}
                       control={control}
@@ -104,11 +99,11 @@ const SignIn = () => {
                           helperText={errors?.email?.message}
                         />
                       )}
-                      />
+                    />
                   </FormControl>
                   {/* Password */}
                   <FormControl>
-                  <InputLabel>Password</InputLabel>
+                    <InputLabel>Password</InputLabel>
                     <Controller
                       name={"password"}
                       control={control}
@@ -140,7 +135,7 @@ const SignIn = () => {
                   </FormControl>
                   {/* Submit */}
                   <FormControl sx={{ marginTop: "2rem" }}>
-                  <Button
+                    <Button
                       variant='contained'
                       type='submit'
                       sx={{
@@ -162,6 +157,6 @@ const SignIn = () => {
       `
     </>
   );
-}
+};
 
 export default SignIn;
