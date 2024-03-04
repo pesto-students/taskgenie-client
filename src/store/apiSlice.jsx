@@ -1,7 +1,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:5000/api",
+    prepareHeaders: (headers, { getState }) => {
+      const { token } = getState().auth;
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
   endpoints: (builder) => ({
     signup: builder.mutation({
       query: (data) => ({
@@ -21,3 +30,4 @@ export const apiSlice = createApi({
 });
 
 export const { useSignupMutation, useSigninMutation } = apiSlice;
+export default apiSlice;

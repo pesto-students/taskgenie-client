@@ -1,12 +1,7 @@
-import React from 'react';
-import MyTasksCard from '../components/MyTasksCard';
+import React from "react";
 
 function MyTasks() {
-  return (
-    <>
-        <MyTasksCard/>
-    </>
-  );
+  return <>my task</>;
 }
 
 export default MyTasks;

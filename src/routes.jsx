@@ -2,11 +2,12 @@ import ErrorPage from "./pages/ErrorPage.jsx";
 import Layout from "./components/Layout.jsx";
 import BrowseTasks from "./pages/BrowseTasks.jsx";
 import Home from "./pages/Home.jsx";
-import { createBrowserRouter } from "react-router-dom";
 import MyTasks from "./pages/MyTasks.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import SignIn from "./pages/SignIn.jsx";
-const router = createBrowserRouter([
+import ProtectedRoutes from "./components/ProtectedRoutes.jsx";
+
+const routes = [
   {
     path: "/",
     element: <Layout />,
@@ -20,23 +21,23 @@ const router = createBrowserRouter([
         path: "tasks",
         element: <BrowseTasks />,
       },
+      // Make MyTasks page protected
       {
-        path: "mytasks/:id",
-        element: <MyTasks />,
+        path: "/mytasks",
+        element: <ProtectedRoutes element={<MyTasks />} />,
       },
     ],
   },
   {
-    path: '/signup',
+    path: "/signup",
     element: <SignUp />,
     errorElement: <ErrorPage />,
   },
   {
-    path: '/signin',
+    path: "/signin",
     element: <SignIn />,
     errorElement: <ErrorPage />,
-  }
+  },
+];
 
-]);
-
-export default router;
+export default routes;
