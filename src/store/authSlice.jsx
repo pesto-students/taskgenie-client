@@ -1,12 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Function to check if access token exists in localStorage
+const isAccessTokenExists = () => {
+  const accessToken = localStorage.getItem("accessToken");
+  return accessToken !== null && accessToken !== "null";
+};
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
     accessToken: localStorage.getItem("accessToken") || null,
     refreshToken: localStorage.getItem("refreshToken") || null,
-    isAuthenticated: false,
-    userId: localStorage.getItem("userId") || null, // Retrieve userId from localStorage
+    isAuthenticated: isAccessTokenExists(), // Set isAuthenticated based on accessToken presence
+    userId: localStorage.getItem("userId") || null,
   },
   reducers: {
     setTokens: (state, action) => {
@@ -16,7 +22,7 @@ export const authSlice = createSlice({
       localStorage.setItem("accessToken", action.payload.accessToken);
       localStorage.setItem("refreshToken", action.payload.refreshToken);
       state.userId = action.payload.user.id;
-      localStorage.setItem("userId", action.payload.user.id); // Save userId to localStorage
+      localStorage.setItem("userId", action.payload.user.id);
     },
     logout: (state) => {
       state.accessToken = null;
@@ -25,7 +31,7 @@ export const authSlice = createSlice({
       state.userId = null;
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
-      localStorage.removeItem("userId"); // Remove userId from localStorage on logout
+      localStorage.removeItem("userId");
     },
   },
 });

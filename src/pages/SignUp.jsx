@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { InputAdornment } from "@mui/material/";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -18,8 +19,11 @@ import { useSnackbar } from "notistack";
 import { useSignupMutation } from "../store/apiSlice";
 import { useDispatch } from "react-redux";
 import { setTokens } from "../store/authSlice";
-
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const SignUp = () => {
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [signup, { isLoading }] = useSignupMutation();
   const { enqueueSnackbar } = useSnackbar();
   // Todo move it to auth
@@ -49,6 +53,14 @@ const SignUp = () => {
       enqueueSnackbar("Registered Succesfully", { variant: "success" });
     }
   };
+
+  useEffect(() => {
+    console.log("here", isAuthenticated);
+    if (isAuthenticated) {
+      // Navigate to home
+      navigate("/");
+    }
+  }, [isAuthenticated]);
 
   return (
     <>
