@@ -1,5 +1,5 @@
 import { InputAdornment } from "@mui/material";
-import React from "react";
+import { useEffect } from "react";
 import {
   Box,
   Card,
@@ -17,11 +17,18 @@ import GoogleButton from "../components/GoogleButton";
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
 import { useSigninMutation } from "../store/apiSlice";
+import { useDispatch } from "react-redux";
+import { setTokens } from "../store/authSlice";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 const SignIn = () => {
-  const [signin, { isLoading, isError, error }] = useSigninMutation();
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const navigate = useNavigate();
+  const [signin, { isLoading }] = useSigninMutation();
   const { enqueueSnackbar } = useSnackbar();
 
-  // Using useForm hook
   const {
     control,
     handleSubmit,
@@ -34,21 +41,26 @@ const SignIn = () => {
   });
 
   const onSubmit = async (formData) => {
-    console.log("signin with", formData);
     const response = await signin(formData);
-    try {
-      if (isError) {
-        enqueueSnackbar(error.status, { variant: "error" });
-      } else if (response.error) {
-        console.log("error occuer", response.error);
-        enqueueSnackbar(response.error.data.message, { variant: "error" });
-      } else {
-        enqueueSnackbar("Logged-in Successfully", { variant: "success" });
-      }
-    } catch (error) {
-      console.log("errorr signin", error);
+    if (response.error) {
+      enqueueSnackbar(response.error.data.message, { variant: "error" });
+    } else {
+      dispatch(
+        setTokens({
+          accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken,
+          user: response.data.user,
+        })
+      );
+      enqueueSnackbar("Logged In Succesfully", { variant: "success" });
     }
   };
+  useEffect(() => {
+    if (isAuthenticated) {
+      // Navigate to home
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <>

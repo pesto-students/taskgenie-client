@@ -55,12 +55,11 @@ const SignUp = () => {
   };
 
   useEffect(() => {
-    console.log("here", isAuthenticated);
     if (isAuthenticated) {
       // Navigate to home
       navigate("/");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
 
   return (
     <>
