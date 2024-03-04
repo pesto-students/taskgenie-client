@@ -10,7 +10,6 @@ export { Chip } from "./Chip";
 export { Container } from "./Container";
 export { Dialog } from "./Dialog";
 export { FormControl } from "./FormControl";
-export { FormTextField } from "./FormTextField";
 export { InputLabel } from "./InputLabel";
 export { Slider } from "./Slider";
 export { Stack } from "./Stack";

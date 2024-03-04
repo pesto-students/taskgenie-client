@@ -1,6 +1,5 @@
 import { InputAdornment } from "@mui/material";
-import React from "react";
-import { FormContainer } from "react-hook-form-mui";
+import { useEffect } from "react";
 import {
   Box,
   Card,
@@ -15,7 +14,62 @@ import {
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleButton from "../components/GoogleButton";
-function SignIn() {
+import { useForm, Controller } from "react-hook-form";
+import { useSnackbar } from "notistack";
+import { useSigninMutation } from "../store/apiSlice";
+import { useDispatch } from "react-redux";
+import { setTokens } from "../store/authSlice";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+const SignIn = () => {
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const navigate = useNavigate();
+  const [signin, { isLoading }] = useSigninMutation();
+  const { enqueueSnackbar } = useSnackbar();
+  const notificationPosition = { vertical: "top", horizontal: "center" };
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (formData) => {
+    const response = await signin(formData);
+    if (response.error) {
+      const error = response.error;
+      const { data } = error;
+      enqueueSnackbar(data.message, {
+        variant: "error",
+        anchorOrigin: notificationPosition,
+      });
+    } else {
+      dispatch(
+        setTokens({
+          accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken,
+          user: response.data.user,
+        })
+      );
+      enqueueSnackbar("Logged In Succesfully", {
+        variant: "success",
+        anchorOrigin: notificationPosition,
+      });
+    }
+  };
+  useEffect(() => {
+    if (isAuthenticated) {
+      // Navigate to home
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
+
   return (
     <>
       `{" "}
@@ -35,10 +89,7 @@ function SignIn() {
               <Typography variant='subtitle2'>Welcome Back</Typography>
             </Box>
             <Box sx={{ mt: "1rem" }}>
-              <FormContainer
-                defaultValues={{ email: "", password: "" }}
-                onSuccess={(data) => console.log(data)}
-              >
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack
                   gap={"1rem"}
                   alignItems={"center"}
@@ -46,37 +97,60 @@ function SignIn() {
                   {/* Email */}
                   <FormControl>
                     <InputLabel>Email</InputLabel>
-                    <TextField
-                      name='email'
-                      required
-                      type={"email"}
-                      placeholder='Enter Email'
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <EmailOutlinedIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                      sx={{ width: "100%" }}
+                    <Controller
+                      name={"email"}
+                      control={control}
+                      rules={{ required: "Email is required." }}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          type={"email"}
+                          placeholder='Enter Email'
+                          autoComplete={"username"}
+                          fullWidth
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position='start'>
+                                <EmailOutlinedIcon />
+                              </InputAdornment>
+                            ),
+                          }}
+                          error={Boolean(errors.email)}
+                          helperText={errors?.email?.message}
+                        />
+                      )}
                     />
                   </FormControl>
                   {/* Password */}
                   <FormControl>
                     <InputLabel>Password</InputLabel>
-                    <TextField
-                      name='password'
-                      required
-                      type={"password"}
-                      placeholder='Enter Password'
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <LockOutlinedIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                      sx={{ width: "100%" }}
+                    <Controller
+                      name={"password"}
+                      control={control}
+                      rules={{ required: "Password is required." }}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          type={"password"}
+                          placeholder='Enter Password'
+                          inputProps={{
+                            maxLength: 32,
+                          }}
+                          autoComplete={"new-password"}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position='start'>
+                                <LockOutlinedIcon />
+                              </InputAdornment>
+                            ),
+                          }}
+                          sx={{
+                            width: "100%",
+                          }}
+                          error={Boolean(errors.password)}
+                          helperText={errors?.password?.message}
+                        />
+                      )}
                     />
                   </FormControl>
                   {/* Submit */}
@@ -84,7 +158,10 @@ function SignIn() {
                     <Button
                       variant='contained'
                       type='submit'
-                      sx={{ width: "100%" }}
+                      sx={{
+                        width: "100%",
+                      }}
+                      loading={isLoading}
                     >
                       Sign In
                     </Button>
@@ -92,7 +169,7 @@ function SignIn() {
                   <Typography>Or</Typography>
                   <GoogleButton type='signin'></GoogleButton>
                 </Stack>
-              </FormContainer>
+              </form>
             </Box>
           </Card>
         </Box>
@@ -100,6 +177,6 @@ function SignIn() {
       `
     </>
   );
-}
+};
 
 export default SignIn;

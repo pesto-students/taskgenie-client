@@ -7,7 +7,10 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <Box component='section' className='page-wrapper' >
+      <Box
+        component='section'
+        className='page-wrapper'
+      >
         {/* Use outlet to display components in Layout */}
         <Outlet />
       </Box>
