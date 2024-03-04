@@ -1,13 +1,13 @@
-import React from "react";
-import { useLocation, Outlet, Navigate } from "react-router-dom";
-import { useSelector } from "react-redux"; // Import useSelector hook
+import { useLocation, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import PropTypes from "prop-types"; // Import PropTypes for prop validation
 
 const ProtectedRoutes = ({ element }) => {
   const location = useLocation();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated); // Get isAuthenticated from Redux store
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   if (isAuthenticated === undefined) {
-    return null; // or loading indicator/spinner/etc
+    return null;
   }
 
   return isAuthenticated ? (
@@ -19,6 +19,11 @@ const ProtectedRoutes = ({ element }) => {
       state={{ from: location }}
     />
   );
+};
+
+// Prop validation using PropTypes
+ProtectedRoutes.propTypes = {
+  element: PropTypes.node.isRequired, // Ensure element prop is required and is a node
 };
 
 export default ProtectedRoutes;

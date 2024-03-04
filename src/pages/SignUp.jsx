@@ -44,7 +44,10 @@ const SignUp = () => {
     if (response.error) {
       const error = response.error;
       const { data } = error;
-      enqueueSnackbar(data.message, { variant: "error" });
+      enqueueSnackbar(data.message, {
+        variant: "error",
+        anchorOrigin: notificationPosition,
+      });
     } else {
       dispatch(
         setTokens({

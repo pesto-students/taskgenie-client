@@ -41,7 +41,6 @@ const SignIn = () => {
   });
 
   const onSubmit = async (formData) => {
-    console.log("signin", formData);
     const response = await signin(formData);
     if (response.error) {
       const error = response.error;
