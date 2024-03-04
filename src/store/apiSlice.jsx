@@ -10,7 +10,14 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+    signin: builder.mutation({
+      query: (data) => ({
+        url: "/auth/signin",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useSignupMutation } = apiSlice;
+export const { useSignupMutation, useSigninMutation } = apiSlice;
