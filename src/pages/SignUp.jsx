@@ -22,6 +22,7 @@ import { setTokens } from "../store/authSlice";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const SignUp = () => {
+  const notificationPosition = { vertical: "top", horizontal: "center" };
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [signup, { isLoading }] = useSignupMutation();
@@ -41,7 +42,9 @@ const SignUp = () => {
   const onSubmit = async (formData) => {
     const response = await signup(formData);
     if (response.error) {
-      enqueueSnackbar(response.error.data.message, { variant: "error" });
+      const error = response.error;
+      const { data } = error;
+      enqueueSnackbar(data.message, { variant: "error" });
     } else {
       dispatch(
         setTokens({
@@ -50,7 +53,10 @@ const SignUp = () => {
           user: response.data.user,
         })
       );
-      enqueueSnackbar("Registered Succesfully", { variant: "success" });
+      enqueueSnackbar("Registered Succesfully", {
+        variant: "success",
+        anchorOrigin: notificationPosition,
+      });
     }
   };
 

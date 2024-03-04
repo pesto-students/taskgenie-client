@@ -28,7 +28,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [signin, { isLoading }] = useSigninMutation();
   const { enqueueSnackbar } = useSnackbar();
-
+  const notificationPosition = { vertical: "top", horizontal: "center" };
   const {
     control,
     handleSubmit,
@@ -41,9 +41,15 @@ const SignIn = () => {
   });
 
   const onSubmit = async (formData) => {
+    console.log("signin", formData);
     const response = await signin(formData);
     if (response.error) {
-      enqueueSnackbar(response.error.data.message, { variant: "error" });
+      const error = response.error;
+      const { data } = error;
+      enqueueSnackbar(data.message, {
+        variant: "error",
+        anchorOrigin: notificationPosition,
+      });
     } else {
       dispatch(
         setTokens({
@@ -52,7 +58,10 @@ const SignIn = () => {
           user: response.data.user,
         })
       );
-      enqueueSnackbar("Logged In Succesfully", { variant: "success" });
+      enqueueSnackbar("Logged In Succesfully", {
+        variant: "success",
+        anchorOrigin: notificationPosition,
+      });
     }
   };
   useEffect(() => {
