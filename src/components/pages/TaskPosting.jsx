@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -17,7 +17,7 @@ const TaskPosting = () => {
   const isMobileView = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   return (
-    <Container maxWidth='md' >
+    <Container maxWidth='md'>
       <Box
         style={{
           display: "flex",
@@ -25,8 +25,7 @@ const TaskPosting = () => {
           marginBottom: "20px",
         }}
       >
-       <Typography
-              variant='h1'>Lets find someone to help you!</Typography>
+        <Typography variant='h1'>Lets find someone to help you!</Typography>
       </Box>
 
       <Grid

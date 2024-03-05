@@ -1,16 +1,11 @@
-import MuiTypography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
-
-const StyledTypography = styled(MuiTypography)(({ theme }) => {
-    return {
-        // Add global styles here
-    }
-})
+import MuiTypography from "@mui/material/Typography";
+import PropTypes from "prop-types";
 
 const Typography = ({ children, ...props }) => {
-    return (
-        <StyledTypography {...props}>{children}</StyledTypography>
-    )
-}
+  return <MuiTypography {...props}>{children}</MuiTypography>;
+};
 
+Typography.propTypes = {
+  children: PropTypes.node,
+};
 export default Typography;

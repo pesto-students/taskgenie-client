@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import MuiButton from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -24,7 +23,10 @@ function Button({
       {...props}
     >
       {loading ? (
-        <CircularProgress size={24} color="inherit" /> // Show CircularProgress when loading is true
+        <CircularProgress
+          size={24}
+          color='inherit'
+        /> // Show CircularProgress when loading is true
       ) : (
         children // Show button text when loading is false
       )}

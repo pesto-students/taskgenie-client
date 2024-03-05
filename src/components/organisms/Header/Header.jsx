@@ -1,4 +1,3 @@
-import React from 'react'
 import NavBar from 'components/organisms/Navbar/Navbar.jsx'
 
 const Header = () => {

@@ -1,13 +1,15 @@
-import MuiInputLabel from '@mui/material/InputLabel';
-import { styled } from '@mui/material/styles';
-
-const StyledInputLabel = styled(MuiInputLabel)(({ theme }) => ({
-    color: '#000',
-    fontWeight: 'bold'
+import MuiInputLabel from "@mui/material/InputLabel";
+import { styled } from "@mui/material/styles";
+import PropTypes from "prop-typres";
+const StyledInputLabel = styled(MuiInputLabel)(() => ({
+  color: "#000",
+  fontWeight: "bold",
 }));
 
 const InputLabel = ({ children, ...props }) => {
-    return <StyledInputLabel {...props}>{children}</StyledInputLabel>
-}
-
+  return <StyledInputLabel {...props}>{children}</StyledInputLabel>;
+};
+InputLabel.propTypes = {
+  children: PropTypes.node,
+};
 export default InputLabel;

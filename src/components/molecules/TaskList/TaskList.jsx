@@ -1,6 +1,7 @@
-import React from "react";
+import PropTypes from "prop-types";
 import TaskItem from "../TaskItem/TaskItem.jsx";
 import { Stack } from "../../atoms/index.js";
+
 /**
  * Renders a list of tasks.
  *
@@ -21,6 +22,21 @@ const TaskList = ({ tasks = [] }) => {
       </Stack>
     </>
   );
+};
+
+// Prop validation for TaskList component
+TaskList.propTypes = {
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      status: PropTypes.string,
+      location: PropTypes.string,
+      date: PropTypes.instanceOf(Date),
+      budget: PropTypes.number.isRequired,
+      postedBy: PropTypes.string,
+    })
+  ),
 };
 
 export default TaskList;

@@ -1,5 +1,12 @@
-import React from "react";
-import { Card, CardContent, Typography, Chip, Box, Stack } from "../../atoms/index.js";
+import PropTypes from "prop-types";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Chip,
+  Box,
+  Stack,
+} from "../../atoms/index.js";
 import { Divider } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
@@ -109,6 +116,18 @@ const TaskItem = ({ task }) => {
       </Card>
     </>
   );
+};
+
+// Prop validation for TaskItem component
+TaskItem.propTypes = {
+  task: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    status: PropTypes.string,
+    location: PropTypes.string,
+    date: PropTypes.instanceOf(Date),
+    budget: PropTypes.number.isRequired,
+    postedBy: PropTypes.string,
+  }).isRequired,
 };
 
 export default TaskItem;

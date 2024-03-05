@@ -1,13 +1,13 @@
-import MuiBox from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
-const StyledBox = styled(MuiBox)(() => {
-    return {
-        // CSS styling
-    }
-})
+import PropTypes from "prop-types"; // Import PropTypes
+import MuiBox from "@mui/material/Box";
+
 const Box = ({ children, ...props }) => {
-    return (
-        <StyledBox {...props}>{children}</StyledBox>
-    )
-}
+  return <MuiBox {...props}>{children}</MuiBox>;
+};
+
+// Define prop types for the Box component
+Box.propTypes = {
+  children: PropTypes.node.isRequired, // Require children to be valid React nodes
+};
+
 export default Box;

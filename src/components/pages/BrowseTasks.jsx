@@ -1,14 +1,7 @@
-import React, { useState } from "react";
-import { Box, Stack, TextField, Button } from "../atoms/index.js";
+import { useState } from "react";
+import { Box, Stack, TextField } from "../atoms/index.js";
 import TaskList from "../molecules/TaskList/index.jsx";
-import {
-  Modal,
-  IconButton,
-  Typography,
-  Dialog,
-  DialogActions,
-  Divider,
-} from "@mui/material";
+import { IconButton } from "@mui/material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import FilterDialog from "../molecules/FilterDialog/index.jsx";
 
@@ -22,7 +15,7 @@ const defaultFilters = {
 };
 const BrowseTasks = () => {
   const [filters, setFilters] = useState(defaultFilters);
-  const [tasks, setTasks] = useState([
+  const [tasks] = useState([
     {
       id: 1,
       title: "Need social media marketer for a restaurant",
@@ -79,7 +72,7 @@ const BrowseTasks = () => {
     setDialogOpen(true);
   };
   const handleCloseFilterDialog = (selectedFilters) => {
-    setFilters(selectedFilters)
+    setFilters(selectedFilters);
     setDialogOpen(false);
   };
   return (
@@ -88,7 +81,7 @@ const BrowseTasks = () => {
       <FilterDialog
         open={dialogOpen}
         onClose={handleCloseFilterDialog}
-        defaultFilters={defaultFilters}
+        defaultFilters={filters}
       />
       <Stack
         className='filter-section'
