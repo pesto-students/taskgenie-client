@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { InputAdornment } from "@mui/material/";
-import { FormContainer } from "react-hook-form-mui";
+// import { FormContainer } from "react-hook-form-mui";
 import Autocomplete from '@mui/material/Autocomplete';
-import PlaceAutocomplete from "../components/PlaceAutocomplete";
+import PlaceAutocomplete from "components/molecules/PlaceAutocomplete";
 import {
   Box,
   Typography,
@@ -15,7 +15,7 @@ import {
   FormControl,
   TextField,
   ToggleButtonGroup,
-} from "../components/atoms";
+} from "components/atoms";
 // import { validateSetupProfile } from "../validation/validate";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -50,15 +50,15 @@ const SetUpProfile = () => {
         {value: "find-task", label: "Find Task"},
     ];
 
-    // const [choice, setChoice] = useState('post-task')
+    const [choice, setChoice] = useState('post-task')
     // const [firstName, setFirstName] = useState("");
     // const [lastName, setLastName] = useState("");
-    // const [city, setCity] = useState(null);
+    const [city, setCity] = useState(null);
     // const [errors, setErrors] = useState({});
 
-    // const handleChoiceTypeChange = (newChoice) =>{
-    //     setChoice(newChoice);
-    //   }
+    const handleChoiceTypeChange = (newChoice) =>{
+        setChoice(newChoice);
+      }
     
     // const handleFirstNameChange = (event) => {
     //     if(event.target.value.length < 20){
@@ -74,11 +74,11 @@ const SetUpProfile = () => {
     //     }
     // };
 
-    // const handleOnSelectPlace = (place) => {
-    //     console.log(place);
-    //     setCity(place);
-    //     clearError("city");
-    // };
+    const handleOnSelectPlace = (place) => {
+        console.log(place);
+        setCity(place);
+        // clearError("city");
+    };
 
     useEffect(() => {
         if (userProfile && userProfile.isSetupProfileComplete) {
@@ -200,39 +200,40 @@ const SetUpProfile = () => {
                                     {/* City */}
                                     <FormControl>
                                         <InputLabel>City</InputLabel>
-                                        <Controller
-                                            name = {"city"}
-                                            control={control}
-                                            rules={{ required: "City is required." }}
-                                            render={({ field}) => (
+                                        {/* <Controller */}
+                                            {/* // name = {"city"}
+                                            // control={control}
+                                            // rules={{ required: "City is required." }}
+                                            // render={({ field}) => ( */}
                                             <PlaceAutocomplete
-                                                {...field}
-                                                // onSelectPlace={handleOnSelectPlace}
+                                                // {...field}
+                                                onSelectPlace={handleOnSelectPlace}
                                             />
-                                            )}
-                                        />
+                                
+                                        
                                     </FormControl>
                                     
 
                                     {/* Post/Find Task */}
                                     <FormControl sx={{marginTop: '2rem'}}>
                                         <InputLabel sx={{display:'flex', alignItems:'center', justifyContent:'center'}}>You want to?</InputLabel>
-                                        <Controller
+                                        {/* <Controller
                                             name = {"choice"}
                                             control={control}
                                             rules={{ required: "Select your choice" }}
-                                            render={({ field}) => (
+                                            render={({ field}) => ( */}
                                             <ToggleButtonGroup
-                                                {...field}
+                                                // {...field}
+                                                name="choice"
                                                 value={choice}
                                                 defaultValue={choice}
                                                 options={choiceTypes}
-                                                // onChange={handleChoiceTypeChange}
+                                                onChange={handleChoiceTypeChange}
                                                 sx={{justifyContent:'center', mt:'1rem'}}
                                             >
                                             </ToggleButtonGroup>
-                                            )}
-                                        />
+                                            {/* )} */}
+                                        {/* /> */}
                                     </FormControl>
 
                                     {/* Finish Setting up */}
