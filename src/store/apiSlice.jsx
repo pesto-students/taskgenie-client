@@ -26,8 +26,18 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+    getUserProfile: builder.query({
+      query: () => "/setup-profile",
+    }),
+    setupProfile: builder.mutation({
+      query: (data) => ({
+        url: "/setup-profile",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useSignupMutation, useSigninMutation } = apiSlice;
+export const { useSignupMutation, useSigninMutation, useSetupProfileMutation, useGetUserProfileQuery } = apiSlice;
 export default apiSlice;
