@@ -1,11 +1,16 @@
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 // Todo move apikey
 const apiKey = "AIzaSyAC5l_xNclOKWKHAOo_2HstzoO5 - yggxIU";
 
-const PlaceAutocomplete = ({ onSelectPlace, ...props }) => {
+const PlaceAutocomplete = ({
+  onSelectPlace,
+  locationType = "sublocality",
+  ...props
+}) => {
   const [places, setPlaces] = useState([]);
   const {
     placesService,
@@ -15,7 +20,7 @@ const PlaceAutocomplete = ({ onSelectPlace, ...props }) => {
   } = usePlacesService({
     apiKey: apiKey,
     options: {
-      types: ["sublocality"],
+      types: [locationType],
       componentRestrictions: { country: "in" },
     },
   });
@@ -65,6 +70,10 @@ const PlaceAutocomplete = ({ onSelectPlace, ...props }) => {
       />
     </>
   );
+};
+PlaceAutocomplete.propTypes = {
+  onSelectPlace: PropTypes.func,
+  locationType: PropTypes.oneOf(["sublocality", "locality"]),
 };
 
 export default PlaceAutocomplete;
