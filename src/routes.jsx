@@ -38,6 +38,16 @@ const routes = [
     element: <SignIn />,
     errorElement: <ErrorPage />,
   },
+  {
+    path: '/setup-profile',
+    element: <SetupProfile />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/member-profile',
+    element: <MemberProfile />,
+    errorElement: <ErrorPage />
+  }
 ];
 
 export default routes;
