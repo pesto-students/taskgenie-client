@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { InputAdornment } from "@mui/material/";
 import { FormContainer } from "react-hook-form-mui";
 import Autocomplete from '@mui/material/Autocomplete';
@@ -15,97 +15,120 @@ import {
   FormControl,
   TextField,
   ToggleButtonGroup,
-} from "../components/UI";
-import { validateSetupProfile } from "../validation/validate";
+} from "../components/atoms";
+// import { validateSetupProfile } from "../validation/validate";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useForm, Controller } from "react-hook-form";
+import { useSnackbar } from "notistack";
+import { useSetupProfileMutation, useGetUserProfileQuery } from "../../store/apiSlice.jsx";
 
 const SetUpProfile = () => {
+
+    const dispatch = useDispatch();
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const navigate = useNavigate();
+    const [setupProfile, { isLoading }] = useSetupProfileMutation();
+    const { data: userProfile } = useGetUserProfileQuery
+    const { enqueueSnackbar } = useSnackbar();
+    const notificationPosition = { vertical: "top", horizontal: "center" };
+
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+      } = useForm({
+        defaultValues: {
+          firstName: "",
+          lastName: "",
+
+        },
+      });
 
     const choiceTypes = [
         {value: "post-task", label: "Post Task"},
         {value: "find-task", label: "Find Task"},
     ];
 
-    const [choice, setChoice] = useState('post-task')
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [city, setCity] = useState(null);
-    const [errors, setErrors] = useState({});
+    // const [choice, setChoice] = useState('post-task')
+    // const [firstName, setFirstName] = useState("");
+    // const [lastName, setLastName] = useState("");
+    // const [city, setCity] = useState(null);
+    // const [errors, setErrors] = useState({});
 
-    const handleChoiceTypeChange = (newChoice) =>{
-        setChoice(newChoice);
-      }
+    // const handleChoiceTypeChange = (newChoice) =>{
+    //     setChoice(newChoice);
+    //   }
     
-    const handleFirstNameChange = (event) => {
-        if(event.target.value.length < 20){
-            setFirstName(event.target.value);
-            clearError("firstName");
+    // const handleFirstNameChange = (event) => {
+    //     if(event.target.value.length < 20){
+    //         setFirstName(event.target.value);
+    //         clearError("firstName");
+    //     }
+    // };
+    
+    // const handleLastNameChange = (event) => {
+    //     if(event.target.value.length < 20){
+    //         setLastName(event.target.value);
+    //         clearError("firstName");
+    //     }
+    // };
+
+    // const handleOnSelectPlace = (place) => {
+    //     console.log(place);
+    //     setCity(place);
+    //     clearError("city");
+    // };
+
+    useEffect(() => {
+        if (userProfile && userProfile.isSetupProfileComplete) {
+          navigate('/');
         }
-    };
-    
-    const handleLastNameChange = (event) => {
-        if(event.target.value.length < 20){
-            setLastName(event.target.value);
-            clearError("firstName");
-        }
-    };
+      }, [userProfile, navigate]);
 
-    const handleOnSelectPlace = (place) => {
-        console.log(place);
-        setCity(place);
-        clearError("city");
-    };
-
-    const handleSubmit = async(e) => {
-        e.preventDefault();
-
-        // Validate form data
-        const { isValid, errors } = await validateSetupProfile({
-            firstName,
-            lastName,
-            city,
-            choice,
-        });
-    
-        if (isValid) {
-            // Prepare form data
-            const formData = {
-                firstName,
-                lastName,
-                city: location.label,
-                choice,
-            };
-    
-            try {
-                // Send POST request to backend
-                const res = await fetch('/api/setup-profile', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData),
-                });
-    
-                // Check if request was successful
-                if (res.ok) {
-                    // Handle successful response
-                    // navigate('/mytasks');
-                    console.log('Form submitted successfully!');
-                } else {
-                    // Handle unsuccessful response
-                    console.error('Failed to submit form:', res.statusText);
-                }
-            } catch (error) {
-                // Handle fetch error
-                console.error('Error while submitting form:', error);
-            }
+    const onSubmit = async (formData) => {
+        const response = await setupProfile(formData);
+        if (response.error) {
+          const error = response.error;
+          const { data } = error;
+          enqueueSnackbar(data.message, {
+            variant: "error",
+            anchorOrigin: notificationPosition,
+          });
         } else {
-            // Set form validation errors
-            setErrors(errors);
+          enqueueSnackbar("Profile Set up successful", {
+            variant: "success",
+            anchorOrigin: notificationPosition,
+          });
         }
-    }
-
-
-    const clearError = (field) => {
-        setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
     };
+
+
+    // const onSubmit = async(e) => {
+    //     e.preventDefault();
+
+    //     // Validate form data
+    //     const { isValid, errors } = await validateSetupProfile({
+    //         firstName,
+    //         lastName,
+    //         city,
+    //         choice,
+    //     });
+    
+    //     if (isValid) {
+    //         // Prepare form data
+    //         const formData = {
+    //             firstName,
+    //             lastName,
+    //             city: location.label,
+    //             choice,
+    //         };
+    
+
+
+    // const clearError = (field) => {
+    //     setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
+    // };
 
     return (
         <>
@@ -124,48 +147,69 @@ const SetUpProfile = () => {
 
                             {/* Form1 */}
 
-                            <form 
-                                onSubmit={handleSubmit}
-                            >
+                            <form onSubmit={handleSubmit(onSubmit)} >
                                 <Stack gap={'1rem'} alignItems={'center'}>
 
                                     {/* First Name */}
                                     <FormControl>
                                         <InputLabel>First Name</InputLabel>
-                                        <TextField 
-                                            name = 'firstName' 
-                                            type = 'text'
-                                            value = {firstName}
-                                            required
-                                            onChange = {handleFirstNameChange}
-                                            placeholder='Eg. Syntax' 
-                                            sx={{
-                                                width: '100%',
-                                            }} />
+                                        <Controller
+                                            name = {"firstName"}
+                                            control={control}
+                                            rules={{ required: "First Name is required." }}
+                                            render={({ field}) => (
+                                                <TextField 
+                                                    {...field}
+                                                    type ={"text"}
+                                                    // onChange = {handleFirstNameChange}
+                                                    placeholder='Eg. Syntax' 
+                                                    sx={{
+                                                        width: '100%',
+                                                    }}
+                                                    error={Boolean(errors.firstName)}
+                                                    helperText={errors?.firstName?.message}
+                                                />
+                                            )}
+                                        />
+                                        
                                     </FormControl>
 
                                     {/* Last Name */}
                                     <FormControl>
                                         <InputLabel>Last Name</InputLabel>
-                                        <TextField 
-                                            name = 'lastName' 
-                                            type = 'text'
-                                            value = {lastName}
-                                            required
-                                            onChange = {handleLastNameChange}
-                                            placeholder='Eg. Sculptors'
-                                            sx={{
-                                                width: '100%',
-                                            }}
+                                        <Controller
+                                            name = {"lastName"}
+                                            control={control}
+                                            rules={{ required: "Last Name is required." }}
+                                            render={({ field}) => (
+                                            <TextField
+                                                {...field}
+                                                type = {"text"}
+                                                // onChange = {handleLastNameChange}
+                                                placeholder='Eg. Sculptors'
+                                                sx={{
+                                                    width: '100%',
+                                                }}
+                                                error={Boolean(errors.lastName)}
+                                                helperText={errors?.lastName?.message}
+                                            />
+                                            )}
                                         />
                                     </FormControl>
                                     
                                     {/* City */}
                                     <FormControl>
                                         <InputLabel>City</InputLabel>
-                                        <PlaceAutocomplete
-                                            name='city'
-                                            onSelectPlace={handleOnSelectPlace}
+                                        <Controller
+                                            name = {"city"}
+                                            control={control}
+                                            rules={{ required: "City is required." }}
+                                            render={({ field}) => (
+                                            <PlaceAutocomplete
+                                                {...field}
+                                                // onSelectPlace={handleOnSelectPlace}
+                                            />
+                                            )}
                                         />
                                     </FormControl>
                                     
@@ -173,14 +217,22 @@ const SetUpProfile = () => {
                                     {/* Post/Find Task */}
                                     <FormControl sx={{marginTop: '2rem'}}>
                                         <InputLabel sx={{display:'flex', alignItems:'center', justifyContent:'center'}}>You want to?</InputLabel>
-                                        <ToggleButtonGroup
-                                            value={choice}
-                                            defaultValue={choice}
-                                            options={choiceTypes}
-                                            onChange={handleChoiceTypeChange}
-                                            sx={{justifyContent:'center', mt:'1rem'}}
-                                        >
-                                        </ToggleButtonGroup>
+                                        <Controller
+                                            name = {"choice"}
+                                            control={control}
+                                            rules={{ required: "Select your choice" }}
+                                            render={({ field}) => (
+                                            <ToggleButtonGroup
+                                                {...field}
+                                                value={choice}
+                                                defaultValue={choice}
+                                                options={choiceTypes}
+                                                // onChange={handleChoiceTypeChange}
+                                                sx={{justifyContent:'center', mt:'1rem'}}
+                                            >
+                                            </ToggleButtonGroup>
+                                            )}
+                                        />
                                     </FormControl>
 
                                     {/* Finish Setting up */}
@@ -189,6 +241,7 @@ const SetUpProfile = () => {
                                         variant='contained'
                                         sx={{ width: "100%" }}
                                         type='submit'
+                                        loading={isLoading}
                                         >
                                         Finish setting up!
                                         </Button>

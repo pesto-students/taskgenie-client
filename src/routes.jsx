@@ -5,6 +5,8 @@ import Home from "components/pages/Home.jsx";
 import MyTasks from "components/pages/MyTasks.jsx";
 import SignUp from "components/pages/SignUp.jsx";
 import SignIn from "components/pages/SignIn.jsx";
+import SetupProfile from "components/pages/SetupProfile";
+import MemberProfile from "components/pages/SetupProfile";
 import ProtectedRoutes from "components/templates/ProtectedRoutes.jsx";
 
 const routes = [
