@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { InputAdornment } from "@mui/material/";
 import Autocomplete from "@mui/material/Autocomplete";
 import PlaceAutocomplete from "components/molecules/PlaceAutocomplete";
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import {
   Box,
   Typography,
@@ -61,6 +62,10 @@ const SetUpProfile = () => {
     setCity(place.label);
   };
 
+  const handleClose = () => {
+    navigate("/");
+  };
+  
   useEffect(() => {
     if (userProfile && userProfile.isSetupProfileComplete) {
       navigate("/");
@@ -68,7 +73,7 @@ const SetUpProfile = () => {
   }, [userProfile, navigate]);
 
   const onSubmit = async (formData) => {
-    console.log("submit formData", formData, "city", city);
+    console.log("submit formData", formData, "city", city, "choice", choice);
     // const response = await setupProfile(formData);
     // if (response.error) {
     //   const error = response.error;
@@ -98,7 +103,15 @@ const SetUpProfile = () => {
           </Typography>
         </Box>
         <Box component={"section"}>
-          <Card sx={{ padding: "2rem 1rem" }}>
+          <Card sx={{ padding: "2rem 1rem", position: "relative" }}>
+          <CloseOutlinedIcon 
+            sx={{ 
+                position: 'absolute', 
+                top: '5px', 
+                right: '5px', 
+                cursor: 'pointer' }}
+            onClick={handleClose} 
+          />
             <Box component='header'>
               <Typography variant='h5'>Setup your account</Typography>
             </Box>
@@ -204,6 +217,7 @@ const SetUpProfile = () => {
                 </Stack>
               </form>
             </Box>
+            {/* <CloseOutlinedIcon/> */}
           </Card>
         </Box>
       </Container>
