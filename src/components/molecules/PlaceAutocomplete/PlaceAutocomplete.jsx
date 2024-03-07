@@ -1,14 +1,14 @@
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
-// Todo move apikey
-const apiKey = "AIzaSyAC5l_xNclOKWKHAOo_2HstzoO5 - yggxIU";
+
+const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
 const PlaceAutocomplete = ({
   onSelectPlace,
-  error = false,
-  helperText = "",
+  locationType = "sublocality",
   ...props
 }) => {
   const [places, setPlaces] = useState([]);
@@ -20,7 +20,7 @@ const PlaceAutocomplete = ({
   } = usePlacesService({
     apiKey: apiKey,
     options: {
-      types: ["sublocality"],
+      types: [locationType],
       componentRestrictions: { country: "in" },
     },
   });
@@ -45,8 +45,7 @@ const PlaceAutocomplete = ({
         onSelectPlace({
           label,
           placeId,
-          lat: location.lat(),
-          lng: location.lng(),
+          location: { lat: location.lat(), lng: location.lng() },
         });
       });
     }
@@ -54,23 +53,27 @@ const PlaceAutocomplete = ({
   return (
     <>
       <Autocomplete
+        required={true}
         noOptionsText={"please enter place name"}
         loading={isPlacePredictionsLoading}
         onChange={(event, value) => handlePlaceSelect(value)}
         options={places}
         renderInput={(params) => (
           <TextField
+            required={true}
             placeholder='Select place'
             {...params}
             onChange={handleInputChange}
-            error={error}
-            helperText={helperText}
           />
         )}
         {...props}
       />
     </>
   );
+};
+PlaceAutocomplete.propTypes = {
+  onSelectPlace: PropTypes.func,
+  locationType: PropTypes.oneOf(["sublocality", "locality"]),
 };
 
 export default PlaceAutocomplete;
