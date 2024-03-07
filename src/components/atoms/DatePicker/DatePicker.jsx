@@ -14,6 +14,9 @@ export default function DatePickerElement({ onDateSelect, ...props }) {
         minDate={minDate} // Convert Day.js object to Date object
         maxDate={maxDate}
         onAccept={onDateSelect}
+        error={true}
+        format='DD/MM/YYYY' // Specify the date format
+        helperText={"sdf"}
         {...props}
       />
     </LocalizationProvider>

@@ -34,9 +34,7 @@ export const TaskStep1Schema = Joi.object({
       "any.required": "Date is required for on or before tasks",
       "date.base": "Date must be a valid date",
     }),
-    otherwise: Joi.date().valid(null).required().messages({
-      "any.required": "Date is required for flexible tasks",
-    }),
+    otherwise: Joi.date().valid(null).optional(),
   }),
 });
 

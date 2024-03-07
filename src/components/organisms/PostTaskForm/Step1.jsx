@@ -71,7 +71,7 @@ const Step1 = ({ formData, setFormData, onSubmit, onNextStep }) => {
   const handleOnDateSelect = (date) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      date: date,
+      date: date.toDate(),
     }));
     clearError("date");
   };
@@ -160,7 +160,7 @@ const Step1 = ({ formData, setFormData, onSubmit, onNextStep }) => {
                   name='date'
                   value={formData.date}
                   onDateSelect={handleOnDateSelect}
-                  error={Boolean(errors?.date)}
+                  error={true}
                   helperText={errors?.date}
                 />
               </FormControl>
