@@ -9,7 +9,7 @@ import {
   TextField,
   FormControl,
   ToggleButtonGroup,
-} from "../../UI";
+} from "components/atoms";
 import PlaceAutocomplete from "../../molecules/PlaceAutocomplete";
 import { validateStep1 } from "../../../validation/validate";
 

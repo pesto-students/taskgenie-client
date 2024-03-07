@@ -1,6 +1,6 @@
 import MuiInputLabel from "@mui/material/InputLabel";
 import { styled } from "@mui/material/styles";
-import PropTypes from "prop-typres";
+import PropTypes from "prop-types";
 const StyledInputLabel = styled(MuiInputLabel)(() => ({
   color: "#000",
   fontWeight: "bold",
