@@ -7,7 +7,7 @@ import {
   InputLabel,
 } from "components/atoms";
 import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined";
-const Step2 = ({ onSubmit, onPreviousStep, formData }) => {
+const Step2 = ({ onSubmit, onPrevious, formData }) => {
   const [taskDetails, setTaskDetails] = useState("");
   const [budget, setBudget] = useState("");
   const [errors, setErrors] = useState({});
@@ -95,7 +95,7 @@ const Step2 = ({ onSubmit, onPreviousStep, formData }) => {
         <FormControl sx={{ marginTop: "2rem" }}>
           <Button
             variant='outlined'
-            onClick={onPreviousStep}
+            onClick={onPrevious}
           >
             Back
           </Button>

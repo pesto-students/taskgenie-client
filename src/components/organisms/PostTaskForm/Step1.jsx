@@ -25,7 +25,7 @@ const dateTypes = [
   { value: "flexible", label: "Flexible" },
 ];
 
-const Step1 = ({ formData, setFormData, onSubmit, onNextStep }) => {
+const Step1 = ({ formData, setFormData, onSubmit }) => {
   const [errors, setErrors] = useState({});
 
   const handleTitleChange = (event) => {
@@ -92,10 +92,9 @@ const Step1 = ({ formData, setFormData, onSubmit, onNextStep }) => {
       validationObject.date = date;
     }
     const { isValid, errors } = await validateStep1(validationObject);
-    console.log("isValid", isValid, "errors", errors);
     if (isValid) {
       // If validation succeeds, call onSubmit function to transition to Step 2
-      onNextStep();
+      onSubmit();
     } else {
       setErrors(errors);
     }
@@ -158,7 +157,7 @@ const Step1 = ({ formData, setFormData, onSubmit, onNextStep }) => {
               <FormControl sx={{ textAlign: "center", marginTop: "1rem" }}>
                 <DatePicker
                   name='date'
-                  value={formData.date}
+                  value={dayjs(formData.date)}
                   onDateSelect={handleOnDateSelect}
                   error={true}
                   helperText={errors?.date}
