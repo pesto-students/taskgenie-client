@@ -41,5 +41,5 @@ export const TaskStep1Schema = Joi.object({
 export const TaskStep2Schema = Joi.object({
   description: Joi.string().max(1000).optional(),
   budget: Joi.number().integer().min(100).max(99000).optional(),
-  imageURLs: Joi.array().max(3).items(Joi.string()).optional(),
+  imageUrls: Joi.array().max(3).items(Joi.string()).optional(),
 });

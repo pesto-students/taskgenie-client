@@ -1,9 +1,7 @@
-import { TaskStep1Schema } from "./schema/validationSchema";
-
-export const validateStep1 = async (data) => {
+export const validateTask = async (schema, data) => {
   let errors = {};
   try {
-    await TaskStep1Schema.validateAsync(data);
+    await schema.validateAsync(data);
   } catch (error) {
     // Map validation errors to field names and error messages
     error.details.forEach((detail) => {

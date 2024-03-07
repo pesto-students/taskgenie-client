@@ -12,8 +12,8 @@ import {
   ToggleButtonGroup,
 } from "components/atoms";
 import PlaceAutocomplete from "../../molecules/PlaceAutocomplete";
-import { validateStep1 } from "../../../validation/validate";
-
+import { validateTask } from "../../../validation/validate";
+import { TaskStep1Schema } from "../../../validation/schema/validationSchema";
 const locationTypes = [
   { value: "in-person", label: "In Person" },
   { value: "remote", label: "Remote" },
@@ -71,7 +71,7 @@ const Step1 = ({ formData, setFormData, onSubmit }) => {
   const handleOnDateSelect = (date) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      date: date.toDate(),
+      date: date,
     }));
     clearError("date");
   };
@@ -89,9 +89,12 @@ const Step1 = ({ formData, setFormData, onSubmit }) => {
 
     // Include date in validation only if it is not null
     if (date !== null) {
-      validationObject.date = date;
+      validationObject.date = date.toDate();
     }
-    const { isValid, errors } = await validateStep1(validationObject);
+    const { isValid, errors } = await validateTask(
+      TaskStep1Schema,
+      validationObject
+    );
     if (isValid) {
       // If validation succeeds, call onSubmit function to transition to Step 2
       onSubmit();
@@ -157,10 +160,10 @@ const Step1 = ({ formData, setFormData, onSubmit }) => {
               <FormControl sx={{ textAlign: "center", marginTop: "1rem" }}>
                 <DatePicker
                   name='date'
-                  value={dayjs(formData.date)}
+                  value={formData.date}
                   onDateSelect={handleOnDateSelect}
-                  error={true}
                   helperText={errors?.date}
+                  error={Boolean(errors?.date)}
                 />
               </FormControl>
             )}
@@ -184,5 +187,6 @@ const Step1 = ({ formData, setFormData, onSubmit }) => {
 Step1.propTypes = {
   formData: PropTypes.object.isRequired,
   setFormData: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 export default Step1;

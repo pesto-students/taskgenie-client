@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Box, Stepper, Card } from "components/atoms";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
-import dayjs from "dayjs";
-const PostTaskForm = ({ onSubmit }) => {
+const PostTaskForm = () => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     title: "",
@@ -19,8 +18,8 @@ const PostTaskForm = ({ onSubmit }) => {
   const handlePreviousStep = () => {
     if (step == 1) setStep(step - 1);
   };
-  const handleSubmitData = (data) => {
-    onSubmit(data);
+  const handleSubmitData = () => {
+    console.log("check passed", formData);
   };
   const handleNextStep = () => {
     setStep(step + 1);
@@ -49,7 +48,7 @@ const PostTaskForm = ({ onSubmit }) => {
           )}
           {step === 1 && (
             <Step2
-              onSubmit={handleNextStep}
+              onSubmit={handleSubmitData}
               onPrevious={handlePreviousStep}
               setFormData={handleFormDataChange}
               formData={formData}
