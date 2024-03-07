@@ -46,9 +46,8 @@ const PlaceAutocomplete = ({
       placesService?.getDetails({ placeId }, (placeDetails) => {
         const location = placeDetails.geometry.location;
         onSelectPlace({
-          label,
-          placeId,
-          location: { lat: location.lat(), lng: location.lng() },
+          name: label,
+          coordinates: [location.lng(), location.lat()],
         });
       });
     }

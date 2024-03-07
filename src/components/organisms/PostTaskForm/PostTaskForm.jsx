@@ -5,14 +5,28 @@ import Step2 from "./Step2";
 
 const PostTaskForm = ({ onSubmit }) => {
   const [step, setStep] = useState(0);
-  const [formData, setFormData] = useState({});
-  const handleNextStep = (data) => {
-    console.log(data);
-    setFormData({ ...formData, data });
-    setStep(step + 1);
+  const [formData, setFormData] = useState({
+    title: "",
+    locationType: "in-person",
+    location: null,
+    dateType: "on",
+    date: null,
+    description: "",
+    budget: "",
+    imageUrls: [],
+  });
+
+  const handlePreviousStep = () => {
+    if (step == 1) setStep(step - 1);
   };
   const handleSubmitData = (data) => {
     onSubmit(data);
+  };
+  const handleNextStep = () => {
+    setStep(step + 1);
+  };
+  const handleFormDataChange = (data) => {
+    setFormData(data);
   };
   return (
     <Box>
@@ -20,14 +34,27 @@ const PostTaskForm = ({ onSubmit }) => {
         {/* Stepper */}
         <Stepper
           steps={2}
-          currentStep={step}
+          currentStep={0}
         />
       </Box>
       <Box>
         {/* Task Creation Steps */}
         <Card sx={{ padding: "1rem" }}>
-          {step === 0 && <Step1 onSubmit={handleNextStep} />}
-          {step === 1 && <Step2 onSubmit={handleNextStep} />}
+          {step === 0 && (
+            <Step1
+              onSubmit={handleNextStep}
+              formData={formData}
+              setFormData={handleFormDataChange}
+            />
+          )}
+          {step === 1 && (
+            <Step2
+              onSubmit={handleNextStep}
+              onPrevious={handlePreviousStep}
+              setFormData={handleFormDataChange}
+              formData={formData}
+            />
+          )}
         </Card>
       </Box>
     </Box>
