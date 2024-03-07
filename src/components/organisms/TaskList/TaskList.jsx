@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import TaskItem from "../TaskItem/TaskItem.jsx";
-import { Stack } from "../../atoms/index.js";
+import TaskItem from "components/molecules/TaskItem/TaskItem.jsx";
+import { Stack } from "components/atoms/index.js";
 
 /**
  * Renders a list of tasks.

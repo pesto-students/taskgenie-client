@@ -22,7 +22,7 @@ import NavLink from "components/molecules/NavLink";
 
 const mobileNavItems = [
   { title: "Home", path: "/" },
-  { title: "Post a Task", path: "/create-post" },
+  { title: "Post a Task", path: "/postTask" },
   { title: "My Tasks", path: "/mytasks" },
   { title: "Browse Tasks", path: "/tasks" },
   { title: "My Wallet", path: "/wallet" },
@@ -30,7 +30,7 @@ const mobileNavItems = [
 ];
 
 const desktopNavItems = [
-  { title: "Post a Task", path: "/create-post" },
+  { title: "Post a Task", path: "/postTask" },
   { title: "My Tasks", path: "/mytasks" },
   { title: "Browse Tasks", path: "/browse-tasks" },
 ];
