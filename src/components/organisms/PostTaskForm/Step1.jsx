@@ -9,9 +9,9 @@ import {
   TextField,
   FormControl,
   ToggleButtonGroup,
-} from "../UI";
-import PlaceAutocomplete from "../PlaceAutocomplete";
-import { validateStep1 } from "../../validation/validate";
+} from "../../UI";
+import PlaceAutocomplete from "../../molecules/PlaceAutocomplete";
+import { validateStep1 } from "../../../validation/validate";
 
 const locationTypes = [
   { value: "in-person", label: "In Person" },

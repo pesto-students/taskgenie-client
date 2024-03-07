@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, FormControl, Button, TextField, InputLabel } from "../UI";
+import { Box, FormControl, Button, TextField, InputLabel } from "../../UI";
 import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined";
 const Step2 = ({ onSubmit, onPreviousStep, formData }) => {
   const [taskDetails, setTaskDetails] = useState("");

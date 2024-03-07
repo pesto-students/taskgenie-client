@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Stepper, Card } from "../UI";
+import { Box, Stepper, Card } from "../../UI";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 
