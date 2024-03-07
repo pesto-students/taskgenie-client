@@ -29,16 +29,18 @@ const PostTaskForm = () => {
   };
   return (
     <Box>
-      <Box>
+      <Box
+        sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
+      >
         {/* Stepper */}
         <Stepper
           steps={2}
           currentStep={0}
         />
       </Box>
-      <Box>
+      <Box sx={{ paddingTop: "2rem" }}>
         {/* Task Creation Steps */}
-        <Card sx={{ padding: "1rem" }}>
+        <Card sx={{ padding: "2rem 1rem" }}>
           {step === 0 && (
             <Step1
               onSubmit={handleNextStep}

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import dayjs from "dayjs";
 import {
   Box,
   Button,
@@ -60,7 +59,6 @@ const Step1 = ({ formData, setFormData, onSubmit }) => {
   };
 
   const handleOnSelectPlace = (place) => {
-    console.log("plcce", place);
     setFormData((prevFormData) => ({
       ...prevFormData,
       location: place,
@@ -78,7 +76,6 @@ const Step1 = ({ formData, setFormData, onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("validate", formData);
     const { title, locationType, location, dateType, date } = formData;
     let validationObject = {
       title,
