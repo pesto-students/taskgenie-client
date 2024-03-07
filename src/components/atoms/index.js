@@ -11,6 +11,7 @@ export { Container } from "./Container";
 export { Dialog } from "./Dialog";
 export { DatePicker } from "./DatePicker";
 export { FormControl } from "./FormControl";
+export { Grid } from "./Grid";
 export { InputLabel } from "./InputLabel";
 export { Slider } from "./Slider";
 export { Stack } from "./Stack";
