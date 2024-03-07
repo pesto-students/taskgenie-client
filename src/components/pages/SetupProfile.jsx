@@ -170,7 +170,7 @@ const SetUpProfile = () => {
                   </FormControl>
 
                   {/* Post/Find Task */}
-                  {/* <FormControl sx={{ marginTop: "2rem" }}>
+                  <FormControl sx={{ marginTop: "2rem" }}>
                     <InputLabel
                       sx={{
                         display: "flex",
@@ -188,7 +188,7 @@ const SetUpProfile = () => {
                       onChange={handleChoiceTypeChange}
                       sx={{ justifyContent: "center", mt: "1rem" }}
                     ></ToggleButtonGroup>
-                  </FormControl> */}
+                  </FormControl>
 
                   {/* Finish Setting up */}
                   <FormControl sx={{ marginTop: "2rem" }}>
