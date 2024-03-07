@@ -2,10 +2,14 @@ import { Container } from "components/atoms/Container";
 import PostTaskForm from "components/organisms/PostTaskForm/PostTaskForm";
 
 const PostTask = () => {
-  const handleSubmitData = (data) => {};
+  document.title = "Create Task";
+  const handleSubmitData = (formData) => {};
   return (
     <Container>
-      <PostTaskForm onSubmit={handleSubmitData} />
+      <PostTaskForm
+        onSubmit={handleSubmitData}
+        onSubmitData={handleSubmitData}
+      />
     </Container>
   );
 };

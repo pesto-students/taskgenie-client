@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import {
   Box,
@@ -27,7 +28,7 @@ const dateTypes = [
 const Step1 = ({ onSubmit }) => {
   const [title, setTitle] = useState("");
   const [locationType, setLocationType] = useState("in-person");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState(null);
   const [dateType, setDateType] = useState("on");
   const [date, setDate] = useState(dayjs());
   const [errors, setErrors] = useState({});
@@ -57,7 +58,8 @@ const Step1 = ({ onSubmit }) => {
   };
 
   const handleOnSelectPlace = (place) => {
-    setLocation(place);
+    const { label, location } = place;
+    setLocation({ name: label, coordinates: [location.lng, location.lat] });
     clearError("location");
   };
 
@@ -75,6 +77,8 @@ const Step1 = ({ onSubmit }) => {
       dateType,
       date: date?.toDate(),
     });
+    console.log("validating", title, locationType, location, dateType, date);
+    console.log("isv alid", isValid, "errors", errors);
     if (isValid) {
       // If validation succeeds, call onSubmit function to transition to Step 2
       onSubmit({
@@ -127,7 +131,7 @@ const Step1 = ({ onSubmit }) => {
               <PlaceAutocomplete
                 name='location'
                 onSelectPlace={handleOnSelectPlace}
-                error={Boolean(errors.location)}
+                error={Boolean(errors?.location)}
                 helperText={errors?.location}
                 sx={{ marginTop: "1rem" }}
               />
@@ -167,6 +171,10 @@ const Step1 = ({ onSubmit }) => {
       </form>
     </Box>
   );
+};
+
+Step1.propTypes = {
+  onSubmit: PropTypes.func,
 };
 
 export default Step1;

@@ -9,6 +9,9 @@ const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 const PlaceAutocomplete = ({
   onSelectPlace,
   locationType = "sublocality",
+  required = false,
+  error = false,
+  helperText = "",
   ...props
 }) => {
   const [places, setPlaces] = useState([]);
@@ -53,20 +56,21 @@ const PlaceAutocomplete = ({
   return (
     <>
       <Autocomplete
-        required={true}
         noOptionsText={"please enter place name"}
         loading={isPlacePredictionsLoading}
         onChange={(event, value) => handlePlaceSelect(value)}
         options={places}
         renderInput={(params) => (
           <TextField
-            required={true}
+            required={required}
             placeholder='Select place'
+            error={error}
+            helperText={helperText}
+            {...props}
             {...params}
             onChange={handleInputChange}
           />
         )}
-        {...props}
       />
     </>
   );
@@ -74,6 +78,9 @@ const PlaceAutocomplete = ({
 PlaceAutocomplete.propTypes = {
   onSelectPlace: PropTypes.func,
   locationType: PropTypes.oneOf(["sublocality", "locality"]),
+  required: PropTypes.bool,
+  error: PropTypes.bool,
+  helperText: PropTypes.string,
 };
 
 export default PlaceAutocomplete;

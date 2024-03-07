@@ -7,6 +7,7 @@ const PostTaskForm = ({ onSubmit }) => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({});
   const handleNextStep = (data) => {
+    console.log(data);
     setFormData({ ...formData, data });
     setStep(step + 1);
   };
