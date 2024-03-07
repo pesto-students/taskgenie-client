@@ -12,10 +12,7 @@ const textLight = "#6A719A";
 const theme = createTheme({
   htmlFontSize: 16,
   typography: {
-    fontFamily: [
-      lexendFont,
-      encodeSansFont,
-    ].join(','),
+    fontFamily: [lexendFont, encodeSansFont].join(","),
     body: {
       color: textDark,
     },
@@ -23,21 +20,21 @@ const theme = createTheme({
       color: textDark,
     },
     caption: {
-      color: textLight
-    }
+      color: textLight,
+    },
   },
   palette: {
     primary: {
-      main: '#8659d3',
-      light: '#b396e3',
-      dark: '#5d3e93'
+      main: "#8659d3",
+      light: "#b396e3",
+      dark: "#5d3e93",
     },
-    accordionBorder: '#dee1e6',
+    accordionBorder: "#dee1e6",
     textDark: {
-      main: textDark
+      main: textDark,
     },
     textLight: {
-      main: textLight
+      main: textLight,
     },
   },
 

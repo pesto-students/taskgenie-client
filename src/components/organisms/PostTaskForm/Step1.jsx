@@ -1,5 +1,5 @@
 import { useState } from "react";
-import dayjs from "dayjs";
+import PropTypes from "prop-types";
 import {
   Box,
   Button,
@@ -11,8 +11,8 @@ import {
   ToggleButtonGroup,
 } from "components/atoms";
 import PlaceAutocomplete from "../../molecules/PlaceAutocomplete";
-import { validateStep1 } from "../../../validation/validate";
-
+import { validateTask } from "../../../validation/validate";
+import { TaskStep1Schema } from "../../../validation/schema/validationSchema";
 const locationTypes = [
   { value: "in-person", label: "In Person" },
   { value: "remote", label: "Remote" },
@@ -24,66 +24,77 @@ const dateTypes = [
   { value: "flexible", label: "Flexible" },
 ];
 
-const Step1 = ({ onSubmit }) => {
-  const [title, setTitle] = useState("");
-  const [locationType, setLocationType] = useState("in-person");
-  const [location, setLocation] = useState("");
-  const [dateType, setDateType] = useState("on");
-  const [date, setDate] = useState(dayjs());
+const Step1 = ({ formData, setFormData, onSubmit }) => {
   const [errors, setErrors] = useState({});
 
   const handleTitleChange = (event) => {
     const inputValue = event.target.value;
     if (inputValue.length <= 70) {
-      setTitle(inputValue);
+      // Update the title field in formData
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        title: inputValue,
+      }));
       clearError("title");
     }
   };
 
   const handleLocationTypeChange = (newLocationType) => {
-    setLocationType(newLocationType);
-    if (newLocationType === "remote") {
-      setLocation(null);
-    }
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      locationType: newLocationType,
+      location: newLocationType === "remote" ? null : prevFormData.location,
+    }));
     clearError("location");
   };
 
   const handleDateTypeChange = (newDateType) => {
-    setDateType(newDateType);
-    if (newDateType === "flexible") {
-      setDate(dayjs());
-    }
+    const newDate = newDateType === "flexible" ? null : formData.date;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      dateType: newDateType,
+      date: newDate,
+    }));
     clearError("date");
   };
 
   const handleOnSelectPlace = (place) => {
-    setLocation(place);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      location: place,
+    }));
     clearError("location");
   };
 
   const handleOnDateSelect = (date) => {
-    setDate(date);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      date: date,
+    }));
     clearError("date");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { isValid, errors } = await validateStep1({
+    const { title, locationType, location, dateType, date } = formData;
+    let validationObject = {
       title,
       locationType,
       location,
       dateType,
-      date: date?.toDate(),
-    });
+    };
+
+    // Include date in validation only if it is not null
+    if (date !== null) {
+      validationObject.date = date.toDate();
+    }
+    const { isValid, errors } = await validateTask(
+      TaskStep1Schema,
+      validationObject
+    );
     if (isValid) {
       // If validation succeeds, call onSubmit function to transition to Step 2
-      onSubmit({
-        title,
-        locationType,
-        location,
-        dateType,
-        date: date?.toDate(),
-      });
+      onSubmit();
     } else {
       setErrors(errors);
     }
@@ -106,7 +117,7 @@ const Step1 = ({ onSubmit }) => {
             <TextField
               name='title'
               type='text'
-              value={title}
+              value={formData.title}
               onChange={handleTitleChange}
               placeholder='Enter the title of task here'
               sx={{ width: "100%" }}
@@ -120,14 +131,14 @@ const Step1 = ({ onSubmit }) => {
             <ToggleButtonGroup
               name='locationType'
               options={locationTypes}
-              defaultValue={locationType}
+              value={formData.locationType}
               onChange={handleLocationTypeChange}
             />
-            {locationType === "in-person" && (
+            {formData.locationType === "in-person" && (
               <PlaceAutocomplete
                 name='location'
                 onSelectPlace={handleOnSelectPlace}
-                error={Boolean(errors.location)}
+                error={Boolean(errors?.location)}
                 helperText={errors?.location}
                 sx={{ marginTop: "1rem" }}
               />
@@ -139,16 +150,17 @@ const Step1 = ({ onSubmit }) => {
             <ToggleButtonGroup
               name='dateType'
               options={dateTypes}
-              defaultValue={dateType}
+              value={formData.dateType}
               onChange={handleDateTypeChange}
             />
-            {(dateType === "on" || dateType === "before") && (
+            {(formData.dateType === "on" || formData.dateType === "before") && (
               <FormControl sx={{ textAlign: "center", marginTop: "1rem" }}>
                 <DatePicker
                   name='date'
+                  value={formData.date}
                   onDateSelect={handleOnDateSelect}
-                  error={Boolean(errors.date)}
                   helperText={errors?.date}
+                  error={Boolean(errors?.date)}
                 />
               </FormControl>
             )}
@@ -169,4 +181,9 @@ const Step1 = ({ onSubmit }) => {
   );
 };
 
+Step1.propTypes = {
+  formData: PropTypes.object.isRequired,
+  setFormData: PropTypes.func,
+  onSubmit: PropTypes.func,
+};
 export default Step1;
