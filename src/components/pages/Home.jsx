@@ -8,16 +8,21 @@ import {
   Stack,
   Grid,
 } from "components/atoms";
-
+import { useNavigate } from "react-router-dom";
 const sectionPadding = "1.5rem 1rem";
 
 const Home = () => {
   const theme = useTheme();
   const [taskTitle, setTaskTitle] = useState("");
+  const navigateTo = useNavigate();
   const handleTitleChange = (event) => {
     setTaskTitle(event.target.value);
   };
-
+  const handlePostTask = () => {
+    // Redirect to /postTask route and pass the taskTitle as a query parameter
+    console.log("her");
+    navigateTo(`/postTask?title=${encodeURIComponent(taskTitle)}`);
+  };
   return (
     <>
       <Box
@@ -53,6 +58,7 @@ const Home = () => {
           <Button
             variant='contained'
             sx={{ backgroundColor: theme.palette.primary.light }}
+            onClick={handlePostTask}
           >
             Post Task
           </Button>
