@@ -24,6 +24,7 @@ import { useSnackbar } from "notistack";
 import {
   useSetupProfileMutation,
   useGetUserProfileQuery,
+  useUpdateUserProfileMutation,
 } from "../../store/apiSlice.jsx";
 
 const SetUpProfile = () => {
@@ -31,7 +32,8 @@ const SetUpProfile = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
   const [setupProfile, { isLoading }] = useSetupProfileMutation();
-  const { data: userProfile } = useGetUserProfileQuery;
+  const [updateProfile] = useUpdateUserProfileMutation();
+  const { data: profileStatus } = useGetUserProfileQuery();
   const { enqueueSnackbar } = useSnackbar();
   const notificationPosition = { vertical: "top", horizontal: "center" };
 
@@ -67,14 +69,15 @@ const SetUpProfile = () => {
   };
   
   useEffect(() => {
-    if (userProfile && userProfile.isSetupProfileComplete) {
+    if (profileStatus && profileStatus.isSetupProfileComplete) {
       navigate("/");
     }
-  }, [userProfile, navigate]);
+  }, [profileStatus, navigate]);
+  
 
   const onSubmit = async (formData) => {
     console.log("submit formData", formData, "city", city, "choice", choice);
-    // const response = await setupProfile(formData);
+    const response = await setupProfile(formData);
     // if (response.error) {
     //   const error = response.error;
     //   const { data } = error;
@@ -87,7 +90,14 @@ const SetUpProfile = () => {
     //     variant: "success",
     //     anchorOrigin: notificationPosition,
     //   });
-    // }
+      try {
+        await updateProfile({ id: profileStatus.userId, isSetupProfileComplete: true });
+        // If successful, navigate to home
+        navigate("/");
+      } catch (error) {
+        // Handle error
+        console.error("Error updating profile status:", error);
+      }
   };
 
   return (
@@ -217,7 +227,6 @@ const SetUpProfile = () => {
                 </Stack>
               </form>
             </Box>
-            {/* <CloseOutlinedIcon/> */}
           </Card>
         </Box>
       </Container>

@@ -27,7 +27,14 @@ export const apiSlice = createApi({
       }),
     }),
     getUserProfile: builder.query({
-      query: () => "/setup-profile",
+      query: () => "/user/:id/profileStatus",
+    }),
+    updateUserProfile: builder.mutation({
+      query: (data, id) => ({
+        url: `/user/${id}/profileStatus`,
+        method: "PATCH",
+        body: data,
+      })
     }),
     setupProfile: builder.mutation({
       query: (data) => ({
@@ -39,5 +46,5 @@ export const apiSlice = createApi({
   }),
 });
 
-export const { useSignupMutation, useSigninMutation, useSetupProfileMutation, useGetUserProfileQuery } = apiSlice;
+export const { useSignupMutation, useSigninMutation, useSetupProfileMutation, useGetUserProfileQuery, useUpdateUserProfileMutation } = apiSlice;
 export default apiSlice;

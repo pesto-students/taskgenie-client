@@ -16,7 +16,7 @@ import {
 } from "../atoms/index.js";
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
-import { useSignupMutation } from "../../store/apiSlice.jsx";
+import { useSignupMutation, useGetUserProfileQuery } from "../../store/apiSlice.jsx";
 import { useDispatch } from "react-redux";
 import { setTokens } from "../../store/authSlice.jsx";
 import { useSelector } from "react-redux";
@@ -26,6 +26,7 @@ const SignUp = () => {
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [signup, { isLoading }] = useSignupMutation();
+  const { data: profileStatus } = useGetUserProfileQuery();
   const { enqueueSnackbar } = useSnackbar();
   // Todo move it to auth
   const dispatch = useDispatch();
@@ -61,14 +62,16 @@ const SignUp = () => {
         anchorOrigin: notificationPosition,
       });
     }
+      navigate("/setup-profile");
   };
 
+  
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && profileStatus && profileStatus.isSetupProfileComplete) {
       // Navigate to home
       navigate("/");
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, profileStatus, navigate]);
 
   return (
     <>
