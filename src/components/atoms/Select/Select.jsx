@@ -6,6 +6,7 @@ const Select = ({ value, onChange, options = [], ...props }) => {
     <MuiSelect
       value={value}
       onChange={onChange}
+      fullWidth={true}
       {...props}
     >
       {options.map((option) => (

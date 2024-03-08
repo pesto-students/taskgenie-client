@@ -1,82 +1,29 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import { Box, Stack, TextField, Select } from "components/atoms";
 import TaskList from "components/organisms/TaskList";
-const taskTypes = [
-  {
-    label: "Default",
-    value: "default",
-  },
-  {
-    label: "Assigned",
-    value: "assigned",
-  },
-  {
-    label: "Completed",
-    value: "completed",
-  },
-  {
-    label: "Cancelled",
-    value: "cancelled",
-  },
-];
+import { taskTypes } from "/src/constants";
+import { useGetMyTasksQuery } from "/src/store/apiSlice";
+
 const MyTasks = () => {
-  const [tasks] = useState([
-    {
-      id: 1,
-      title: "Need social media marketer for a restaurant",
-      location: "Electronic City, Bangalore",
-      dateType: "on",
-      date: Date.now(),
-      postedBy: "Anuraja",
-      budget: 5000,
-      status: "open",
-    },
-    {
-      id: 2,
-      title: "Resume and cover letter",
-      location: "Remote",
-      dateType: "before",
-      date: "2024-02-22",
-      postedBy: "Manoj",
-      budget: 1000,
-      status: "open",
-    },
-    {
-      id: 3,
-      title: "Hi just need some parcels picked up",
-      location: "Whitefield, Bangalore",
-      dateType: "on",
-      date: "2024-02-01",
-      postedBy: "Deepak",
-      budget: 250,
-      status: "assigned",
-    },
-    {
-      id: 4,
-      title: "Help clean my car",
-      location: "Kodegehalli, Bangalore",
-      dateType: "on",
-      date: Date.now(),
-      budget: 500,
-      postedBy: "Chau",
-      status: "open",
-    },
-    {
-      id: 5,
-      title: "Need a driver for a day to drive us around the market",
-      location: "JP Nagar, Bangalore",
-      dateType: "on",
-      date: Date.now(),
-      postedBy: "Shivam",
-      budget: 1200,
-      status: "open",
-    },
-  ]);
-  const [taskType, setTaskType] = useState("default");
+  const [taskStatus, setTaskStatus] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const {
+    data: tasks = [],
+    error,
+    isLoading,
+  } = useGetMyTasksQuery({
+    status: taskStatus,
+    searchText,
+  });
   const handleTaskTypeChange = (e) => {
-    setTaskType(e.target.value);
+    setTaskStatus(e.target.value);
   };
+  const handleSearchTextChange = (event) => {
+    setSearchText(event.target.value);
+  };
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  console.log(tasks);
   return (
     <>
       <Stack
@@ -99,19 +46,22 @@ const MyTasks = () => {
         <Box sx={{ flex: 1 }}>
           {/* Location */}
           <Select
+            name='search-taskType'
             options={taskTypes}
             size={"small"}
-            value={taskType}
+            value={taskStatus}
             onChange={handleTaskTypeChange}
-            sx={{ width: "100%" }}
           />
         </Box>
         <Box sx={{ flex: 1 }}>
           {/* Search field */}
           <TextField
-            label='Search'
-            aria-label='Search'
+            name='search-title'
+            aria-label='search-title'
             size='small'
+            placeholder={"search Tasks"}
+            value={searchText}
+            onChange={handleSearchTextChange}
           />
         </Box>
       </Stack>
