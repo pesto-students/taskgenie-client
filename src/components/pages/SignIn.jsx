@@ -25,10 +25,11 @@ import { useNavigate } from "react-router-dom";
 const SignIn = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const userId = useSelector((state) => state.auth.userId);
   const navigate = useNavigate();
   const [signin, { isLoading }] = useSigninMutation();
   const { enqueueSnackbar } = useSnackbar();
-  const { data: profileStatus } = useGetUserProfileQuery();
+  const { data: profileStatus, isLoading: profileLoading } = useGetUserProfileQuery({userId});
   const notificationPosition = { vertical: "top", horizontal: "center" };
   const {
     control,
@@ -63,23 +64,28 @@ const SignIn = () => {
         anchorOrigin: notificationPosition,
       });
     }
-    if (profileStatus && !profileStatus.isSetupProfileComplete) {
-      console.log("isSetupProfileComplete: ", profileStatus.isSetupProfileComplete);
-      navigate("/setup-profile");
-    } else {
-      navigate("/");
-    }
+    // if (profileStatus && !profileStatus.isSetupProfileComplete) {
+    //   console.log("isSetupProfileComplete: ", profileStatus.isSetupProfileComplete);
+    //   navigate("/setup-profile");
+    // } else {
+    //   navigate("/");
+    // }
   };
 
-  // useEffect(() => {
-  //   if (isAuthenticated && profileStatus) {
-  //     if (!profileStatus.isSetupProfileComplete) {
-  //       navigate("/setup-profile");
-  //     } else {
-  //       navigate("/");
-  //     }
-  //   }
-  // }, [isAuthenticated, profileStatus, navigate]);
+  useEffect(() => {
+    if ( isAuthenticated && !profileStatus ) {
+      navigate("/setup-profile");
+    } else if (isAuthenticated && profileStatus) {
+      navigate("/");
+    }
+    // if authenticated and profile complete --> home
+    // else if authenticated && !profile --> setup-profile
+  
+  }, [isAuthenticated, profileStatus, navigate]);
+
+  if (profileLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>

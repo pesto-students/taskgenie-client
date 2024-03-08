@@ -16,7 +16,7 @@ import {
 } from "../atoms/index.js";
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
-import { useSignupMutation, useGetUserProfileQuery } from "../../store/apiSlice.jsx";
+import { useSignupMutation, useGetUserProfileQuery, useUpdateUserProfileMutation } from "../../store/apiSlice.jsx";
 import { useDispatch } from "react-redux";
 import { setTokens } from "../../store/authSlice.jsx";
 import { useSelector } from "react-redux";

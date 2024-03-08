@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
@@ -27,18 +28,18 @@ export const apiSlice = createApi({
       }),
     }),
     getUserProfile: builder.query({
-      query: () => "/user/:id/profileStatus",
+      query: (id) => `/user/${id}/profileStatus`,
     }),
     updateUserProfile: builder.mutation({
-      query: (data, id) => ({
-        url: `/user/${id}/profileStatus`,
+      query: (data) => ({
+        url: `/user/:id/profileStatus`,
         method: "PATCH",
         body: data,
       })
     }),
     setupProfile: builder.mutation({
       query: (data) => ({
-        url: "/setup-profile",
+        url: "/user/:id",
         method: "POST",
         body: data,
       }),

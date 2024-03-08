@@ -30,10 +30,10 @@ import {
 const SetUpProfile = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const userId = useSelector((state) => state.auth.userId);
+  const { data: profileStatus } = useGetUserProfileQuery({userId});
   const navigate = useNavigate();
   const [setupProfile, { isLoading }] = useSetupProfileMutation();
-  const [updateProfile] = useUpdateUserProfileMutation();
-  const { data: profileStatus } = useGetUserProfileQuery();
   const { enqueueSnackbar } = useSnackbar();
   const notificationPosition = { vertical: "top", horizontal: "center" };
 
@@ -68,16 +68,18 @@ const SetUpProfile = () => {
     navigate("/");
   };
   
-  useEffect(() => {
-    if (profileStatus && profileStatus.isSetupProfileComplete) {
-      navigate("/");
-    }
-  }, [profileStatus, navigate]);
+  // useEffect(() => {
+  //   if (profileStatus && profileStatus.isSetupProfileComplete) {
+  //     navigate("/");
+  //   }
+  // }, [profileStatus, navigate]);
   
 
   const onSubmit = async (formData) => {
     console.log("submit formData", formData, "city", city, "choice", choice);
     const response = await setupProfile(formData);
+    console.log(data);
+    // console.log(profileStatus.isSetupProfileComplete);
     // if (response.error) {
     //   const error = response.error;
     //   const { data } = error;
@@ -90,14 +92,7 @@ const SetUpProfile = () => {
     //     variant: "success",
     //     anchorOrigin: notificationPosition,
     //   });
-      try {
-        await updateProfile({ id: profileStatus.userId, isSetupProfileComplete: true });
-        // If successful, navigate to home
         navigate("/");
-      } catch (error) {
-        // Handle error
-        console.error("Error updating profile status:", error);
-      }
   };
 
   return (
