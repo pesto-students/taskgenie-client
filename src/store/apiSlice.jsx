@@ -38,9 +38,9 @@ export const apiSlice = createApi({
       })
     }),
     setupProfile: builder.mutation({
-      query: (data) => ({
-        url: "/user/:id",
-        method: "POST",
+      query: (data, id) => ({
+        url: `/user/${id}`,
+        method: "PATCH",
         body: data,
       }),
     }),

@@ -26,12 +26,13 @@ import {
   useGetUserProfileQuery,
   useUpdateUserProfileMutation,
 } from "../../store/apiSlice.jsx";
+import { logout } from "../../store/authSlice.jsx";
 
 const SetUpProfile = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const userId = useSelector((state) => state.auth.userId);
-  const { data: profileStatus } = useGetUserProfileQuery({userId});
+  const { data: isSetupProfileComplete } = useGetUserProfileQuery({userId});
   const navigate = useNavigate();
   const [setupProfile, { isLoading }] = useSetupProfileMutation();
   const { enqueueSnackbar } = useSnackbar();
@@ -65,6 +66,7 @@ const SetUpProfile = () => {
   };
 
   const handleClose = () => {
+    dispatch(logout);
     navigate("/");
   };
   
@@ -75,10 +77,17 @@ const SetUpProfile = () => {
   // }, [profileStatus, navigate]);
   
 
-  const onSubmit = async (formData) => {
-    console.log("submit formData", formData, "city", city, "choice", choice);
-    const response = await setupProfile(formData);
-    console.log(data);
+  const onSubmit = async ( formData ) => {
+    const combinedData = {
+      ...formData,
+      city,
+      isSetupProfileComplete: true // or whatever value you want to assign
+    };
+    console.log("submit Data::", combinedData);
+    const response = await setupProfile(combinedData, userId);
+    console.log(userId);
+    console.log(response);
+    // console.log(profileStatus);
     // console.log(profileStatus.isSetupProfileComplete);
     // if (response.error) {
     //   const error = response.error;
