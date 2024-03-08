@@ -5,7 +5,6 @@ export const apiSlice = createApi({
     baseUrl: "http://localhost:5000/api",
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.accessToken;
-      console.log("preparing token", token);
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
@@ -34,9 +33,18 @@ export const apiSlice = createApi({
         };
       },
     }),
+    getTaskDetails: builder.query({
+      query: (taskId) => ({
+        url: `/my-tasks/${taskId}`,
+      }),
+    }),
   }),
 });
 
-export const { useSignupMutation, useSigninMutation, useGetMyTasksQuery } =
-  apiSlice;
+export const {
+  useSignupMutation,
+  useSigninMutation,
+  useGetMyTasksQuery,
+  useGetTaskDetailsQuery,
+} = apiSlice;
 export default apiSlice;

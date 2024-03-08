@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import TaskItem from "components/molecules/TaskItem/TaskItem.jsx";
-import { Stack } from "components/atoms/index.js";
-
+import { Stack, Link } from "components/atoms/index.js";
 /**
  * Renders a list of tasks.
  *
@@ -14,10 +13,16 @@ const TaskList = ({ tasks = [] }) => {
     <>
       <Stack spacing={1.2}>
         {tasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            task={task}
-          />
+          <Link
+            key={task._id}
+            underline={"none"}
+            href={`/mytasks/${task._id}`}
+          >
+            <TaskItem
+              key={task._id}
+              task={task}
+            />
+          </Link>
         ))}
       </Stack>
     </>
@@ -28,11 +33,11 @@ const TaskList = ({ tasks = [] }) => {
 TaskList.propTypes = {
   tasks: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      _id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       status: PropTypes.string,
-      location: PropTypes.string,
-      date: PropTypes.instanceOf(Date),
+      location: PropTypes.object,
+      date: PropTypes.any,
       budget: PropTypes.number.isRequired,
       postedBy: PropTypes.string,
     })

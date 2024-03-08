@@ -48,29 +48,29 @@ const TaskItem = ({ task }) => {
           </Stack>
           <Box sx={{ paddingTop: "0.7rem" }}>
             {/* Task Location */}
-            {task.locationName && (
-              <Stack
-                direction='row'
-                alignItems='center'
-                color='secondary'
+
+            <Stack
+              direction='row'
+              alignItems='center'
+              color='secondary'
+            >
+              <LocationOnOutlinedIcon
+                sx={{
+                  color: iconColor,
+                  fontSize: "16px",
+                  marginRight: "6px",
+                }}
+              />
+              <Typography
+                variant='caption'
+                component='span'
               >
-                <LocationOnOutlinedIcon
-                  sx={{
-                    color: iconColor,
-                    fontSize: "16px",
-                    marginRight: "6px",
-                  }}
-                />
-                <Typography
-                  variant='caption'
-                  component='span'
-                >
-                  {task.locationName}
-                </Typography>
-              </Stack>
-            )}
+                {task.locationType === "remote" ? "Remote" : task.locationName}
+              </Typography>
+            </Stack>
+
             {/* Date */}
-            {task.date && (
+            {task.dateType && (
               <Stack
                 direction='row'
                 alignItems='center'
@@ -86,7 +86,11 @@ const TaskItem = ({ task }) => {
                   variant='caption'
                   component='span'
                 >
-                  {formatDate(task.date)}
+                  {task.dateType === "flexible"
+                    ? "Flexible"
+                    : task.dateType === "on"
+                    ? `on ${formatDate(task.date)}`
+                    : `before ${formatDate(task.date)}`}
                 </Typography>
               </Stack>
             )}
@@ -123,8 +127,10 @@ TaskItem.propTypes = {
   task: PropTypes.shape({
     title: PropTypes.string.isRequired,
     status: PropTypes.string,
+    locationType: PropTypes.string,
     locationName: PropTypes.string,
-    date: PropTypes.instanceOf(Date),
+    dateType: PropTypes.string,
+    date: PropTypes.string,
     budget: PropTypes.number.isRequired,
     postedBy: PropTypes.string,
   }).isRequired,

@@ -21,9 +21,7 @@ const MyTasks = () => {
   const handleSearchTextChange = (event) => {
     setSearchText(event.target.value);
   };
-  if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  console.log(tasks);
   return (
     <>
       <Stack
@@ -71,7 +69,10 @@ const MyTasks = () => {
         aria-label='Task List'
         sx={{ padding: "1rem", position: "relative" }}
       >
-        <TaskList tasks={tasks} />
+        <TaskList
+          tasks={tasks}
+          isLoading={isLoading}
+        />
       </Box>
     </>
   );

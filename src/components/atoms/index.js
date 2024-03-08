@@ -13,6 +13,7 @@ export { DatePicker } from "./DatePicker";
 export { FormControl } from "./FormControl";
 export { Grid } from "./Grid";
 export { InputLabel } from "./InputLabel";
+export { Link } from "./Link";
 export { Slider } from "./Slider";
 export { Stack } from "./Stack";
 export { Select } from "./Select";
