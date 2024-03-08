@@ -15,6 +15,7 @@ export { Grid } from "./Grid";
 export { InputLabel } from "./InputLabel";
 export { Slider } from "./Slider";
 export { Stack } from "./Stack";
+export { Select } from "./Select";
 export { Stepper } from "./Stepper";
 export { Tab } from "./Tab";
 export { Tabs } from "./Tabs";

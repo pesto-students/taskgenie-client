@@ -1,7 +1,25 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Box, Stack, TextField } from "components/atoms";
+import { Box, Stack, TextField, Select } from "components/atoms";
 import TaskList from "components/organisms/TaskList";
+const taskTypes = [
+  {
+    label: "Default",
+    value: "default",
+  },
+  {
+    label: "Assigned",
+    value: "assigned",
+  },
+  {
+    label: "Completed",
+    value: "completed",
+  },
+  {
+    label: "Cancelled",
+    value: "cancelled",
+  },
+];
 const MyTasks = () => {
   const [tasks] = useState([
     {
@@ -55,6 +73,10 @@ const MyTasks = () => {
       status: "open",
     },
   ]);
+  const [taskType, setTaskType] = useState("default");
+  const handleTaskTypeChange = (e) => {
+    setTaskType(e.target.value);
+  };
   return (
     <>
       <Stack
@@ -74,15 +96,17 @@ const MyTasks = () => {
         }}
       >
         {/* Filter Section */}
-        <Box>
+        <Box sx={{ flex: 1 }}>
           {/* Location */}
-          <TextField
-            label='Location'
-            aria-label='Location'
-            size='small'
+          <Select
+            options={taskTypes}
+            size={"small"}
+            value={taskType}
+            onChange={handleTaskTypeChange}
+            sx={{ width: "100%" }}
           />
         </Box>
-        <Box>
+        <Box sx={{ flex: 1 }}>
           {/* Search field */}
           <TextField
             label='Search'
@@ -91,6 +115,7 @@ const MyTasks = () => {
           />
         </Box>
       </Stack>
+      {/* TaskList */}
       <Box
         component='section'
         aria-label='Task List'
