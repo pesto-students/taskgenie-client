@@ -1,7 +1,7 @@
 export const taskTypes = [
   {
     label: "Default",
-    value: "",
+    value: "default",
   },
   {
     label: "Assigned",

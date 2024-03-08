@@ -5,14 +5,14 @@ import { taskTypes } from "/src/constants";
 import { useGetMyTasksQuery } from "/src/store/apiSlice";
 
 const MyTasks = () => {
-  const [taskStatus, setTaskStatus] = useState("");
+  const [taskStatus, setTaskStatus] = useState("default");
   const [searchText, setSearchText] = useState("");
   const {
     data: tasks = [],
     error,
     isLoading,
   } = useGetMyTasksQuery({
-    status: taskStatus,
+    status: taskStatus === "default" ? "" : taskStatus,
     searchText,
   });
   const handleTaskTypeChange = (e) => {
