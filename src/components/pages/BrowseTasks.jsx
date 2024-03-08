@@ -83,6 +83,7 @@ const BrowseTasks = () => {
         onClose={handleCloseFilterDialog}
         defaultFilters={filters}
       />
+      {/* Filters */}
       <Stack
         className='filter-section'
         component='section'
@@ -126,6 +127,8 @@ const BrowseTasks = () => {
           </IconButton>
         </Box>
       </Stack>
+
+      {/* Task List */}
       <Box
         component='section'
         aria-label='Task List'
