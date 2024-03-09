@@ -1,13 +1,10 @@
-import MuiSlider from '@mui/material/Slider'
-import { styled } from '@mui/material/styles'
-const StyledSlider = styled(MuiSlider)(({ theme }) => {
-    return ({
-        // Add styling here
-    })
-})
+import MuiSlider from "@mui/material/Slider";
+import PropTypes from "prop-types";
 
 const Slider = ({ children, ...props }) => {
-    return <StyledSlider {...props}>{children}</StyledSlider>
-}
-
+  return <MuiSlider {...props}>{children}</MuiSlider>;
+};
+Slider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 export default Slider;

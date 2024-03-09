@@ -1,24 +1,24 @@
-import MuiTabs from '@mui/material/Tabs';
-import { styled } from '@mui/material/styles';
+import MuiTabs from "@mui/material/Tabs";
+import { styled } from "@mui/material/styles";
+import PropTypes from "prop-types";
 
 // const StyledTabs = styled(MuiTabs)(({ theme }) => {
-//     return {
-//         borderBottom: `1px solid ${theme.palette.divider}`,
-//     }
-// })
+//   return {
+//     borderBottom: `1px solid ${theme.palette.divider}`,
+//   };
+// });
 
 // const Tabs = ({ children, ...props }) => {
 //     return <StyledTabs {...props}>{children}</StyledTabs>
 // }
 
 import { useState } from "react";
-import PropTypes from "prop-types";
 import {
   Tab,
 } from "../Tab";
 
-const StyledTabs = styled(MuiTabs)(() => {
-  return {};
+const StyledTabs = styled(MuiTabs)(({theme}) => {
+  return {borderBottom: `1px solid ${theme.palette.divider}`,};
 });
 const Tabs = ({ options, defaultValue, onChange, ...props }) => {
   const [selectedValue, setSelectedValue] = useState(defaultValue);
@@ -57,4 +57,7 @@ Tabs.propTypes = {
   onChange: PropTypes.func,
 };
 
+Tabs.propTypes = {
+  children: PropTypes.node,
+};
 export default Tabs;

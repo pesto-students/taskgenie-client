@@ -11,14 +11,29 @@ const theme = createTheme({
   htmlFontSize: 16,
   typography: {
     fontFamily: [lexendFont, encodeSansFont].join(","),
+    body: {
+      color: textDark,
+    },
+    h6: {
+      color: textDark,
+    },
+    caption: {
+      color: textLight,
+    },
   },
   palette: {
     primary: {
       main: "#8659d3",
-      light: "#9e7adb",
+      light: "#b396e3",
       dark: "#5d3e93",
     },
     accordionBorder: "#dee1e6",
+    textDark: {
+      main: textDark,
+    },
+    textLight: {
+      main: textLight,
+    },
   },
 
   components: {
@@ -29,9 +44,19 @@ const theme = createTheme({
         },
       },
     },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          borderRadius: "12px!important",
+        },
+      },
+    },
     MuiToggleButtonGroup: {
       styleOverrides: {
         root: {
+          display: "flex",
+          flexDirection: "row",
+        },
           display: "flex",
           flexDirection: "row",
         },
@@ -50,9 +75,20 @@ const theme = createTheme({
             "&:hover": {
               backgroundColor: "#d9d6e9",
             },
+          flex: 1,
+          borderRadius: "12px",
+          "&.Mui-selected": {
+            backgroundColor: "#f6f3fc",
+            fontWeight: "bold",
+            color: "#8659d3",
+            border: "1px solid #8659d3",
+            "&:hover": {
+              backgroundColor: "#d9d6e9",
+            },
           },
         },
       },
+    },
     },
   },
 });
