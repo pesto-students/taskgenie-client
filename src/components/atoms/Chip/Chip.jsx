@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import MuiChip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';

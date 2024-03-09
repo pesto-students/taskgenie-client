@@ -1,12 +1,10 @@
-import MuiContainer from '@mui/material/Container';
-import { styled } from '@mui/material/styles';
-
-const StyledContainer = styled(MuiContainer)(({ theme }) => ({
-    // Add global styles here
-}));
+import MuiContainer from "@mui/material/Container";
+import PropTypes from "prop-types";
 
 const Container = ({ children, ...props }) => {
-    return <StyledContainer {...props}>{children}</StyledContainer>
-}
-
+  return <MuiContainer {...props}>{children}</MuiContainer>;
+};
+Container.propTypes = {
+  children: PropTypes.node,
+};
 export default Container;

@@ -1,9 +1,11 @@
-import { styled } from '@mui/material/styles';
-import MuiToggleButton from '@mui/material/ToggleButton';
-
+import MuiToggleButton from "@mui/material/ToggleButton";
+import PropTypes from "prop-types";
 
 const ToggleButton = ({ children, ...props }) => {
-    return <MuiToggleButton {...props}>{children}</MuiToggleButton>
-}
+  return <MuiToggleButton {...props}>{children}</MuiToggleButton>;
+};
 
-export default ToggleButton
+ToggleButton.propTypes = {
+  children: PropTypes.node,
+};
+export default ToggleButton;

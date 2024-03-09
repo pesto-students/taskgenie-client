@@ -9,10 +9,12 @@ import { Provider } from "react-redux";
 import { SnackbarProvider } from "notistack";
 import { createBrowserRouter } from "react-router-dom";
 import routes from "./routes";
+import { CssBaseline } from "@mui/material";
 const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <CssBaseline />
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <SnackbarProvider>

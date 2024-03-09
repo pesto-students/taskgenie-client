@@ -7,6 +7,7 @@ import SignUp from "components/pages/SignUp.jsx";
 import SignIn from "components/pages/SignIn.jsx";
 import SetupProfile from "components/pages/SetupProfile";
 import MemberProfile from "components/pages/SetupProfile";
+import PostTask from "components/pages/PostTask.jsx";
 import ProtectedRoutes from "components/templates/ProtectedRoutes.jsx";
 
 const routes = [
@@ -27,6 +28,11 @@ const routes = [
       {
         path: "/mytasks",
         element: <ProtectedRoutes element={<MyTasks />} />,
+      },
+      {
+        path: "/posttask",
+        element: <PostTask />,
+        errorElement: <ErrorPage />,
       },
     ],
   },

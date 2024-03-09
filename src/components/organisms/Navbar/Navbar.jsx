@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import PropTypes from "prop-types"; // Import PropTypes
+import { useState } from "react";
 import {
   AppBar,
   Toolbar,
   IconButton,
   Typography,
-  Button,
   Drawer,
   List,
   ListItem,
-  ListItemText,
-  Container,
   Box,
   CssBaseline,
   Link,
@@ -20,9 +18,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import { logout } from "../../../store/authSlice.jsx";
 import { useDispatch } from "react-redux";
+import NavLink from "components/molecules/NavLink";
+
 const mobileNavItems = [
   { title: "Home", path: "/" },
-  { title: "Post a Task", path: "/create-post" },
+  { title: "Post a Task", path: "/postTask" },
   { title: "My Tasks", path: "/mytasks" },
   { title: "Browse Tasks", path: "/tasks" },
   { title: "My Wallet", path: "/wallet" },
@@ -30,28 +30,23 @@ const mobileNavItems = [
 ];
 
 const desktopNavItems = [
-  { title: "Post a Task", path: "/create-post" },
+  { title: "Post a Task", path: "/postTask" },
   { title: "My Tasks", path: "/mytasks" },
   { title: "Browse Tasks", path: "/browse-tasks" },
 ];
-const drawerWidth = 360;
 
-// todo: move navlink to components
-const NavLink = ({ title, path }) => {
-  return <Link sx={{ textDecoration: "none" }}>{title}</Link>;
-};
-
-const Navbar = (props) => {
+const Navbar = ({ window }) => {
   const dispatch = useDispatch();
-  const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
+
   const handleDrawerToggle = () => {
-    // toggle the prevState
     setMobileOpen((prevState) => !prevState);
   };
+
   const handleLogout = () => {
     dispatch(logout());
   };
+
   const drawer = (
     <Box>
       <Stack direction={"column"}>
@@ -87,10 +82,11 @@ const Navbar = (props) => {
       </Stack>
     </Box>
   );
+
   const container = window !== undefined ? window().documents.body : undefined;
+
   return (
     <Box sx={{ display: "flex" }}>
-      {/* Normalise css */}
       <CssBaseline />
       <AppBar
         component={"nav"}
@@ -108,9 +104,7 @@ const Navbar = (props) => {
           >
             <MenuIcon />
           </IconButton>
-
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {/* Show on sm and greater screen */}
             <Typography
               variant='h5'
               sx={{ fontWeight: 700 }}
@@ -118,9 +112,7 @@ const Navbar = (props) => {
               TaskGenie
             </Typography>
           </Box>
-
           <Box sx={{ display: { xs: "none", sm: "block" }, ml: "16px" }}>
-            {/* Nav Items */}
             <Stack
               direction={"row"}
               gap={"1rem"}
@@ -143,7 +135,7 @@ const Navbar = (props) => {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },
@@ -158,6 +150,11 @@ const Navbar = (props) => {
       </nav>
     </Box>
   );
+};
+
+// Prop validation for Navbar component
+Navbar.propTypes = {
+  window: PropTypes.func,
 };
 
 export default Navbar;

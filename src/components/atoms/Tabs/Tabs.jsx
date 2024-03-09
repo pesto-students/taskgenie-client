@@ -1,6 +1,16 @@
 import MuiTabs from '@mui/material/Tabs';
 import { styled } from '@mui/material/styles';
+import { useState } from "react";
+import PropTypes from "prop-types";
+import {
+  Tab,
+} from "../Tab";
 
+const StyledTabs = styled(MuiTabs)(({ theme }) => {
+  return {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+  };
+});
 // const StyledTabs = styled(MuiTabs)(({ theme }) => {
 //     return {
 //         borderBottom: `1px solid ${theme.palette.divider}`,
@@ -11,11 +21,7 @@ import { styled } from '@mui/material/styles';
 //     return <StyledTabs {...props}>{children}</StyledTabs>
 // }
 
-import { useState } from "react";
-import PropTypes from "prop-types";
-import {
-  Tab,
-} from "../Tab";
+
 
 const StyledTabs = styled(MuiTabs)(() => {
   return {};
