@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from 'prop-types';
 import { IconButton } from "@mui/material";
 import {
   Accordion,
@@ -10,15 +11,20 @@ import {
   Typography,
 } from "components/atoms";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-const TaskDescriptionCard = () => {
+import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
+
+const TaskDescriptionCard = ({description = ''}) => {
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
-  const description =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non tincidunt nunc. In hac habitasse platea dictumst. Quisque eu nisl non ipsum ullamcorper rhoncus. Suspendisse et est eu lectus venenatis malesuada nec vel leo. Sed non augue in sapien facilisis placerat nec a lorem. In hac habitasse platea dictumst. Integer a vehicula orci. Suspendisse congue justo vel odio efficitur, quis vehicula sem suscipit. Mauris scelerisque risus ut tortor dictum, sed varius ipsum tincidunt. Donec id tortor quis purus lobortis laoreet id sed tellus. Curabitur a arcu ut leo luctus sollicitudin sit amet sit amet magna. Nam vel sapien nec eros laoreet aliquam. Integer nec justo volutpat, suscipit magna sit amet, rhoncus urna. Nam efficitur lorem libero, eu egestas orci sollicitudin in. Duis tincidunt risus nec felis vestibulum tincidunt. Curabitur feugiat lorem magna, nec molestie dui gravida id. Nullam in urna sit amet ligula dictum tincidunt. Quisque ac nibh in mauris dignissim ultricies vel sit amet quam. Nullam tempus, sapien sit amet viverra suscipit, metus ligula vestibulum dolor, nec fringilla sem magna ut risus.mi. ";
 
   return (
     <Card>
       <CardContent>
-        <Box>
+        <Typography variant="subtitle1">Description</Typography>
+        <Box sx={{ marginTop:"0.5rem"}}>
+        {
+          description.length <= 500 ? (<Box>
+            <Typography variant="body1">{description}</Typography>
+          </Box>) : (<Box>
           <Accordion
             expanded={descriptionExpanded}
             sx={{
@@ -28,10 +34,10 @@ const TaskDescriptionCard = () => {
             <AccordionSummary
               sx={{ display: descriptionExpanded ? "none" : "block" }}
             >
-              <Typography>{description.substring(0, 500) + "..."}</Typography>
+              <Typography variant="body1">{description.substring(0, 500) + "..."}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography>{description}</Typography>
+              <Typography variant="body1">{description}</Typography>
             </AccordionDetails>
           </Accordion>
           <IconButton
@@ -39,12 +45,19 @@ const TaskDescriptionCard = () => {
               setDescriptionExpanded(!descriptionExpanded);
             }}
           >
-            <ExpandMoreIcon />
+            { !descriptionExpanded ? <ExpandMoreIcon /> : <ExpandLessOutlinedIcon/>}
           </IconButton>
+        </Box>)
+        }
         </Box>
+        
+        
       </CardContent>
     </Card>
   );
 };
 
+TaskDescriptionCard.propTypes = {
+  description: PropTypes.string,
+}
 export default TaskDescriptionCard;
