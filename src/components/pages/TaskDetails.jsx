@@ -46,44 +46,48 @@ const TaskDetails = () => {
       >
         <Card>
           <CardContent>
-            <Box>
-              <Chip
-                label={status}
-                size='small'
-              />
-            </Box>
-            {/* Title */}
-            <Typography
-              variant='h6'
-              sx={{ margin: "0.8rem 0.5rem" }}
-            >
-              {title}
-            </Typography>
-            <Box>
-              {/* Task Owner */}
-              <TaskDetailAttribute
-                label={"Task Owner"}
-                icon={<Person2OutlinedIcon sx={{ fontSize: "1.2rem" }} />}
-                value={"Ravi Rathore"}
-              />
-              {/* Location */}
-              <TaskDetailAttribute
-                label={"Location"}
-                icon={<LocationOnOutlinedIcon sx={{ fontSize: "1.2rem" }} />}
-                value={locationName}
-              />
-              {/* Date */}
-              <TaskDetailAttribute
-                label={"Date"}
-                icon={<CalendarMonthOutlinedIcon sx={{ fontSize: "1.2rem" }} />}
-                value={formatDate(date)}
-              />
-              {/* Assignee */}
-              <TaskDetailAttribute
-                label={"TaskGenie"}
-                icon={<Person2OutlinedIcon sx={{ fontSize: "1.2rem" }} />}
-                value={locationName}
-              />
+            <Box aria-label='task-attributes'>
+              <Box>
+                <Chip
+                  label={status}
+                  size='small'
+                />
+              </Box>
+              {/* Title */}
+              <Typography
+                variant='h6'
+                sx={{ margin: "0.8rem 0.5rem" }}
+              >
+                {title}
+              </Typography>
+              <Box>
+                {/* Task Owner */}
+                <TaskDetailAttribute
+                  label={"Task Owner"}
+                  icon={<Person2OutlinedIcon sx={{ fontSize: "1.2rem" }} />}
+                  value={"Ravi Rathore"}
+                />
+                {/* Location */}
+                <TaskDetailAttribute
+                  label={"Location"}
+                  icon={<LocationOnOutlinedIcon sx={{ fontSize: "1.2rem" }} />}
+                  value={locationName}
+                />
+                {/* Date */}
+                <TaskDetailAttribute
+                  label={"Date"}
+                  icon={
+                    <CalendarMonthOutlinedIcon sx={{ fontSize: "1.2rem" }} />
+                  }
+                  value={formatDate(date)}
+                />
+                {/* Assignee */}
+                <TaskDetailAttribute
+                  label={"TaskGenie"}
+                  icon={<Person2OutlinedIcon sx={{ fontSize: "1.2rem" }} />}
+                  value={locationName}
+                />
+              </Box>
             </Box>
           </CardContent>
         </Card>
