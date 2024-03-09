@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useGetTaskDetailsQuery } from "/src/store/apiSlice";
+import { useTheme } from "@mui/material";
 import {
   Card,
   Stack,
@@ -8,15 +9,19 @@ import {
   Box,
   Typography,
 } from "components/atoms";
+import TaskDescriptionCard from "components/organisms/TaskDescriptionCard";
 import TaskDetailAttribute from "components/molecules/TaskDetailAttribute";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
-import { formatDate } from "../../utils";
 
+import { formatDate, formatAmount } from "../../utils";
+import { Divider } from "@mui/material";
 const TaskDetails = () => {
   const { taskId } = useParams();
   const navigate = useNavigate();
+  const { palette } = useTheme();
+  const { textLight } = palette;
   const { data, isLoading, error } = useGetTaskDetailsQuery(taskId);
 
   console.log(error);
@@ -35,7 +40,6 @@ const TaskDetails = () => {
     dateType,
     date,
     budget,
-    description,
   } = data;
 
   return (
@@ -43,10 +47,11 @@ const TaskDetails = () => {
       <Stack
         sx={{ padding: "1rem 1rem" }}
         gap={1}
+        component='article'
       >
         <Card>
           <CardContent>
-            <Box aria-label='task-attributes'>
+            <Box>
               <Box>
                 <Chip
                   label={status}
@@ -89,18 +94,29 @@ const TaskDetails = () => {
                 />
               </Box>
             </Box>
+            <Divider sx={{ margin: "1rem 0" }} />
+            {/* Budget */}
+            <Stack
+              direction='row'
+              gap={3}
+            >
+              <Box>
+                <Typography sx={{ color: textLight.main }}>Budget</Typography>
+              </Box>
+              <Box>
+                <Typography
+                  variant='h4'
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {formatAmount(budget)}
+                </Typography>
+              </Box>
+            </Stack>
           </CardContent>
         </Card>
-        {/* Task Budget */}
-        <Card>
-          <CardContent>
-            <Typography>Budget</Typography>
-            <Box>
-              <Typography variant='h4'>{budget}</Typography>
-            </Box>
-          </CardContent>
-        </Card>
+
         {/* Task Description */}
+        <TaskDescriptionCard />
       </Stack>
     </>
   );
