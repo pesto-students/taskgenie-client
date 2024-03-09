@@ -16,7 +16,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleButton from "../molecules/GoogleButton/index.jsx";
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
-import { useSigninMutation, useGetUserProfileQuery } from "../../store/apiSlice.jsx";
+import { useSigninMutation, useGetProfileStatusQuery } from "../../store/apiSlice.jsx";
 import { useDispatch } from "react-redux";
 import { setTokens } from "../../store/authSlice.jsx";
 import { useSelector } from "react-redux";
@@ -29,7 +29,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [signin, { isLoading }] = useSigninMutation();
   const { enqueueSnackbar } = useSnackbar();
-  const { data: profileStatus, isLoading: profileLoading } = useGetUserProfileQuery({userId});
+  const { data: isSetupProfileComplete } = useGetProfileStatusQuery({userId});
   const notificationPosition = { vertical: "top", horizontal: "center" };
   const {
     control,
@@ -73,19 +73,15 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    if ( isAuthenticated && !profileStatus ) {
-      navigate("/setup-profile");
-    } else if (isAuthenticated && profileStatus) {
+    if (isAuthenticated && isSetupProfileComplete) {
       navigate("/");
     }
-    // if authenticated and profile complete --> home
-    // else if authenticated && !profile --> setup-profile
-  
-  }, [isAuthenticated, profileStatus, navigate]);
+    else if ( isAuthenticated && !isSetupProfileComplete ) {
+      navigate("/setup-profile");
+    } 
+  },
+  [isAuthenticated, isSetupProfileComplete, navigate]);
 
-  if (profileLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <>

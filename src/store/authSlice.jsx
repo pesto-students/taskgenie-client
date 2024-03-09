@@ -13,6 +13,7 @@ export const authSlice = createSlice({
     refreshToken: localStorage.getItem("refreshToken") || null,
     isAuthenticated: isAccessTokenExists(), // Set isAuthenticated based on accessToken presence
     userId: localStorage.getItem("userId") || null,
+    isSetupProfileComplete: localStorage.getItem('isSetupProfileComplete') || false
   },
   reducers: {
     setTokens: (state, action) => {
@@ -33,8 +34,12 @@ export const authSlice = createSlice({
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("userId");
     },
+    updateProfileStatus: (state) => {
+      state.isSetupProfileComplete = true;
+      localStorage.setItem('isSetupProfileComplete', true);
+    }
   },
 });
 
-export const { setTokens, logout } = authSlice.actions;
+export const { setTokens, logout, updateProfileStatus } = authSlice.actions;
 export default authSlice.reducer;

@@ -5,7 +5,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api",
     prepareHeaders: (headers, { getState }) => {
-      const { token } = getState().auth;
+      const token = getState().auth.accessToken;
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
@@ -27,7 +27,7 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
-    getUserProfile: builder.query({
+    getProfileStatus: builder.query({
       query: (id) => `/user/${id}/profileStatus`,
     }),
     updateUserProfile: builder.mutation({
@@ -47,5 +47,5 @@ export const apiSlice = createApi({
   }),
 });
 
-export const { useSignupMutation, useSigninMutation, useSetupProfileMutation, useGetUserProfileQuery, useUpdateUserProfileMutation } = apiSlice;
+export const { useSignupMutation, useSigninMutation, useSetupProfileMutation, useGetProfileStatusQuery, useUpdateUserProfileMutation } = apiSlice;
 export default apiSlice;

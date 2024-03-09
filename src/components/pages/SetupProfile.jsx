@@ -23,18 +23,18 @@ import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
 import {
   useSetupProfileMutation,
-  useGetUserProfileQuery,
-  useUpdateUserProfileMutation,
+  useGetProfileStatusQuery,
 } from "../../store/apiSlice.jsx";
-import { logout } from "../../store/authSlice.jsx";
+import { logout, updateProfileStatus } from "../../store/authSlice.jsx";
 
 const SetUpProfile = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isSetupProfileComplete = useSelector((state) => state.auth.isSetupProfileComplete);
   const userId = useSelector((state) => state.auth.userId);
-  const { data: isSetupProfileComplete } = useGetUserProfileQuery({userId});
+  // const { data: isSetupProfileComplete, isLoading = true } = useGetProfileStatusQuery(userId);
   const navigate = useNavigate();
-  const [setupProfile, { isLoading }] = useSetupProfileMutation();
+  const [setupProfile] = useSetupProfileMutation();
   const { enqueueSnackbar } = useSnackbar();
   const notificationPosition = { vertical: "top", horizontal: "center" };
 
@@ -66,22 +66,23 @@ const SetUpProfile = () => {
   };
 
   const handleClose = () => {
-    dispatch(logout);
+    dispatch(logout());
     navigate("/");
   };
   
-  // useEffect(() => {
-  //   if (profileStatus && profileStatus.isSetupProfileComplete) {
-  //     navigate("/");
-  //   }
-  // }, [profileStatus, navigate]);
+  useEffect(() => {
+    console.log(isSetupProfileComplete);
+    if (isSetupProfileComplete) {
+      navigate("/");
+    }
+  }, [isSetupProfileComplete, navigate]);
   
 
   const onSubmit = async ( formData ) => {
     const combinedData = {
       ...formData,
       city,
-      isSetupProfileComplete: true // or whatever value you want to assign
+      isSetupProfileComplete: true,
     };
     console.log("submit Data::", combinedData);
     const response = await setupProfile(combinedData, userId);
@@ -101,8 +102,13 @@ const SetUpProfile = () => {
     //     variant: "success",
     //     anchorOrigin: notificationPosition,
     //   });
+        dispatch(updateProfileStatus());
         navigate("/");
   };
+
+  // if(isLoading){
+  //   return <div>Loading</div>
+  // }
 
   return (
     <>
@@ -223,7 +229,7 @@ const SetUpProfile = () => {
                       variant='contained'
                       sx={{ width: "100%" }}
                       type='submit'
-                      loading={isLoading}
+                      // loading={isLoading}
                     >
                       Finish setting up!
                     </Button>
