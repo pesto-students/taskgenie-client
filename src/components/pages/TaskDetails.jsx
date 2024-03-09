@@ -4,6 +4,7 @@ import { useGetTaskDetailsQuery } from "/src/store/apiSlice";
 import { Stack } from "components/atoms";
 import TaskDescriptionCard from "components/organisms/TaskDescriptionCard";
 import TaskAttributesCard from "components/organisms/TaskAttributesCard";
+import TaskCommentsOffersCard from "../organisms/TaskCommentsOffersCard/TaskCommentsOffersCard";
 const TaskDetails = () => {
   const { taskId } = useParams();
   const navigate = useNavigate();
@@ -28,8 +29,8 @@ const TaskDetails = () => {
     date,
     description,
     budget,
+    comments,
   } = data;
-
   return (
     <>
       <Stack
@@ -48,6 +49,8 @@ const TaskDetails = () => {
         />
         {/* Task Description */}
         <TaskDescriptionCard description={description} />
+        {/* Task Quotes and Comments */}
+        <TaskCommentsOffersCard comments={comments} />
       </Stack>
     </>
   );
