@@ -6,6 +6,8 @@ import { createTheme } from "@mui/material";
 
 const lexendFont = "'Lexend', sans-serif";
 const encodeSansFont = "'Encode Sans', sans-serif";
+const textDark = "#061257";
+const textLight = "#6A719A";
 
 const theme = createTheme({
   htmlFontSize: 16,
