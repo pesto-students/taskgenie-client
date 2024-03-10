@@ -1,11 +1,15 @@
-import React from "react";
+import { useState } from "react";
 import { Avatar, Divider } from "@mui/material";
-import { Box, Stack, Typography, Button } from "components/atoms";
+import { Box, Stack, Typography, Button, TextField } from "components/atoms";
 import { useTheme } from "@mui/material";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 const CommentAccordion = ({ comment, canReply = false }) => {
   const theme = useTheme();
-  const { primary } = theme.palette;
-  const { name, userId, replies, message } = comment;
+  const [showReplyTextField, setshowReplyTextField] = useState(false);
+  const { name, userId, reply, message } = comment;
+  const handleSubmitReply = (event) => {
+    event.preventDefault();
+  };
   return (
     <Box>
       <Stack
@@ -13,6 +17,7 @@ const CommentAccordion = ({ comment, canReply = false }) => {
         sx={{ padding: "0.5rem 0" }}
         gap={1}
       >
+        {/* Avatar and Name */}
         <Stack
           alignItems={"center"}
           gap={0.5}
@@ -43,9 +48,19 @@ const CommentAccordion = ({ comment, canReply = false }) => {
               {message}
             </Typography>
           </Box>
+          {reply && (
+            <Stack
+              direction='row'
+              gap={1}
+              sx={{ marginTop: "0.5rem" }}
+            >
+              <Avatar sx={{ height: 20, width: 20 }}>d</Avatar>
+              <Typography sx={{ fontSize: "0.85rem" }}>{reply}</Typography>
+            </Stack>
+          )}
         </Box>
       </Stack>
-      {canReply && (
+      {canReply && !reply && (
         <Box
           style={{
             display: "flex",
@@ -54,13 +69,45 @@ const CommentAccordion = ({ comment, canReply = false }) => {
           }}
         >
           {/* Todo: Only task owner can reply */}
-          <div></div> {/* Empty div to create space */}
-          <Button
-            variant='text'
-            size='small'
-          >
-            Reply
-          </Button>
+          <Box sx={{ padding: "1rem 1rem" }}>
+            {" "}
+            {showReplyTextField && (
+              <Box>
+                <form onSubmit={handleSubmitReply}>
+                  <TextField
+                    size='small'
+                    required={true}
+                  />
+                  <Button
+                    size='small'
+                    variant='text'
+                    onClick={() => setshowReplyTextField(!showReplyTextField)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    size='small'
+                    variant='text'
+                    type='submit'
+                  >
+                    Submit
+                  </Button>
+                </form>
+              </Box>
+            )}
+          </Box>{" "}
+          {/* Empty div to create space */}
+          {!showReplyTextField && (
+            <Button
+              variant='text'
+              size='small'
+              onClick={() => {
+                setshowReplyTextField((prev) => !prev);
+              }}
+            >
+              Reply
+            </Button>
+          )}
         </Box>
       )}
       <Divider />

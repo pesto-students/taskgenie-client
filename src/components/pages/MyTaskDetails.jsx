@@ -1,14 +1,14 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useGetTaskDetailsQuery } from "/src/store/apiSlice";
-
-import { Stack } from "components/atoms";
+import CommentItem from "components/molecules/CommentItem";
+import { Stack, Card, CardContent, Typography, Box } from "components/atoms";
 import TaskDescriptionCard from "components/organisms/TaskDescriptionCard";
 import TaskAttributesCard from "components/organisms/TaskAttributesCard";
-import TaskCommentsOffersCard from "../organisms/TaskCommentsOffersCard/TaskCommentsOffersCard";
+import { useTheme } from "@mui/material";
 const MyTaskDetails = () => {
   const { taskId } = useParams();
   const navigate = useNavigate();
-
+  const theme = useTheme();
   const { data, isLoading } = useGetTaskDetailsQuery(taskId);
 
   if (!taskId) {
@@ -29,7 +29,7 @@ const MyTaskDetails = () => {
     date,
     description,
     budget,
-    comments,
+    questions,
   } = data;
   return (
     <>
@@ -50,7 +50,25 @@ const MyTaskDetails = () => {
         {/* Task Description */}
         <TaskDescriptionCard description={description} />
         {/* Task Quotes and Comments */}
-        <TaskCommentsOffersCard comments={comments} />
+        <Card>
+          <CardContent>
+            <Typography
+              sx={{ color: theme.palette.textLight.main, fontSize: "0.8rem" }}
+            >
+              Need more details? Post here
+            </Typography>
+            {/* Questions */}
+            <Box sx={{ padding: "1.5rem 0rem" }}>
+              {questions.map((comment) => (
+                <CommentItem
+                  key={comment.id}
+                  comment={comment}
+                  canReply={true}
+                />
+              ))}
+            </Box>
+          </CardContent>
+        </Card>
       </Stack>
     </>
   );

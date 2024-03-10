@@ -76,6 +76,13 @@ export const apiSlice = createApi({
         body,
       }),
     }),
+    replyToQuestion: builder.mutation({
+      query: ({ taskId, questionId, body }) => ({
+        url: `/tasks/${taskId}/questions/${questionId}`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
