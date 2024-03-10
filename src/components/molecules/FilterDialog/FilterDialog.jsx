@@ -17,11 +17,12 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { DialogActions } from "@mui/material";
 
 const FilterDialog = ({ open, onClose, defaultFilters, ...props }) => {
-  const [locationType, setLocationType] = useState("all");
-  const [taskStatus, setTaskStatus] = useState("all");
-  const [distance, setDistance] = useState(5);
-  const [priceRange, setPriceRange] = useState([100, 99000]);
-  const [sortBy, setSortBy] = useState("date-desc");
+  const [locationType, setLocationType] = useState(defaultFilters.locationType);
+  const [taskStatus, setTaskStatus] = useState(defaultFilters.taskStatus);
+  const [distance, setDistance] = useState(defaultFilters.distance);
+  const [priceRange, setPriceRange] = useState(defaultFilters.priceRange);
+  const [sortBy, setSortBy] = useState(defaultFilters.sortBy);
+
   const handleLocationTypeChange = (event) => {
     setLocationType(event.target.value);
   };
@@ -37,20 +38,23 @@ const FilterDialog = ({ open, onClose, defaultFilters, ...props }) => {
   const handleDistanceChange = (event, value) => {
     setDistance(value);
   };
+
   const resetFilters = () => {
     setLocationType(defaultFilters.locationType);
     setTaskStatus(defaultFilters.taskStatus);
     setDistance(defaultFilters.distance);
     setPriceRange(defaultFilters.priceRange);
-    setPriceRange(defaultFilters.sortBy);
+    setSortBy(defaultFilters.sortBy);
   };
   const applyFilters = () => {
     onClose({
-      locationType,
-      taskStatus,
-      distance,
-      priceRange,
-      sortBy,
+      filters: {
+        locationType,
+        taskStatus,
+        distance,
+        priceRange,
+        sortBy,
+      },
     });
   };
 

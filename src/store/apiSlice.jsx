@@ -2,16 +2,23 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
+    /**
+     * Base URL
+     */
     baseUrl: "http://localhost:5000/api",
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.accessToken;
       if (token) {
+        // Attach authorization token with the request
         headers.set("Authorization", `Bearer ${token}`);
       }
       return headers;
     },
   }),
   endpoints: (builder) => ({
+    /**
+     * Auth Endpoints
+     */
     signup: builder.mutation({
       query: (data) => ({
         url: "/auth/signup",
@@ -26,6 +33,9 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+    /**
+     * My Tasks Endpoints
+     */
     getMyTasks: builder.query({
       query: ({ status, searchText }) => {
         return {
@@ -38,6 +48,14 @@ export const apiSlice = createApi({
         url: `/my-tasks/${taskId}`,
       }),
     }),
+    /**
+     * Browse Tasks Endpoints
+     */
+    getTasks: builder.query({
+      query: (filters) => ({
+        url: `/tasks?distance=${filters.distance}`,
+      }),
+    }),
   }),
 });
 
@@ -46,5 +64,6 @@ export const {
   useSigninMutation,
   useGetMyTasksQuery,
   useGetTaskDetailsQuery,
+  useGetTasksQuery,
 } = apiSlice;
 export default apiSlice;

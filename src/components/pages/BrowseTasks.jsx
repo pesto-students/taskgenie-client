@@ -4,76 +4,37 @@ import TaskList from "components/organisms/TaskList/index.jsx";
 import { IconButton } from "@mui/material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import FilterDialog from "components/molecules/FilterDialog/index.jsx";
-
+import { useGetTasksQuery } from "/src/store/apiSlice.jsx";
 // Default filters
 const defaultFilters = {
   locationType: "all",
   taskStatus: "all",
-  distance: 5,
+  distance: 50,
   priceRange: [100, 99000],
   sortBy: "date-desc",
 };
 const BrowseTasks = () => {
   const [filters, setFilters] = useState(defaultFilters);
-  const [tasks] = useState([
-    {
-      id: 1,
-      title: "Need social media marketer for a restaurant",
-      location: "Electronic City, Bangalore",
-      dateType: "on",
-      date: Date.now(),
-      postedBy: "Anuraja",
-      budget: 5000,
-      status: "open",
-    },
-    {
-      id: 2,
-      title: "Resume and cover letter",
-      location: "Remote",
-      dateType: "before",
-      date: "2024-02-22",
-      postedBy: "Manoj",
-      budget: 1000,
-      status: "open",
-    },
-    {
-      id: 3,
-      title: "Hi just need some parcels picked up",
-      location: "Whitefield, Bangalore",
-      dateType: "on",
-      date: "2024-02-01",
-      postedBy: "Deepak",
-      budget: 250,
-      status: "assigned",
-    },
-    {
-      id: 4,
-      title: "Help clean my car",
-      location: "Kodegehalli, Bangalore",
-      dateType: "on",
-      date: Date.now(),
-      budget: 500,
-      postedBy: "Chau",
-      status: "open",
-    },
-    {
-      id: 5,
-      title: "Need a driver for a day to drive us around the market",
-      location: "JP Nagar, Bangalore",
-      dateType: "on",
-      date: Date.now(),
-      postedBy: "Shivam",
-      budget: 1200,
-      status: "open",
-    },
-  ]);
+  const [searchText, setSearchText] = useState("");
+  let { data: tasks = [] } = useGetTasksQuery(filters);
+  // Filter tasks based on search text
+  const filteredTasks = tasks.filter((task) =>
+    task.title.toLowerCase().includes(searchText.toLowerCase())
+  );
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleClickDialogOpen = () => {
     setDialogOpen(true);
   };
-  const handleCloseFilterDialog = (selectedFilters) => {
-    setFilters(selectedFilters);
+  const handleCloseFilterDialog = (event) => {
+    const filters = event.filters;
+    if (filters) {
+      console.log("got filters", filters);
+      // setFilters(event.filters);
+    }
     setDialogOpen(false);
+  };
+  const handleSearchTextChange = (event) => {
+    setSearchText(event.target.value);
   };
   return (
     <>
@@ -115,6 +76,8 @@ const BrowseTasks = () => {
             label='Search'
             aria-label='Search'
             size='small'
+            value={searchText}
+            onChange={handleSearchTextChange}
           />
         </Box>
         <Box>
@@ -134,7 +97,7 @@ const BrowseTasks = () => {
         aria-label='Task List'
         sx={{ padding: "1rem", position: "relative" }}
       >
-        <TaskList tasks={tasks} />
+        <TaskList tasks={filteredTasks} />
       </Box>
     </>
   );
