@@ -8,7 +8,7 @@ import { Stack, Link } from "components/atoms/index.js";
  * @param {Object[]} tasks - The array of tasks to be rendered.
  * @returns {JSX.Element} The rendered TaskList component.
  */
-const TaskList = ({ tasks = [] }) => {
+const TaskList = ({ tasks = [], type }) => {
   return (
     <>
       <Stack spacing={1.2}>
@@ -16,7 +16,7 @@ const TaskList = ({ tasks = [] }) => {
           <Link
             key={task._id}
             underline={"none"}
-            href={`/mytasks/${task._id}`}
+            href={`/${type}/${task._id}`}
           >
             <TaskItem
               key={task._id}
@@ -42,6 +42,7 @@ TaskList.propTypes = {
       postedBy: PropTypes.string,
     })
   ),
+  type: PropTypes.string.isRequired,
 };
 
 export default TaskList;

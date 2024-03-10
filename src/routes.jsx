@@ -6,6 +6,7 @@ import MyTasks from "components/pages/MyTasks.jsx";
 import SignUp from "components/pages/SignUp.jsx";
 import SignIn from "components/pages/SignIn.jsx";
 import TaskDetails from "components/pages/TaskDetails.jsx";
+import MyTaskDetails from "components/pages/MyTaskDetails";
 import PostTask from "components/pages/PostTask.jsx";
 import ProtectedRoutes from "components/templates/ProtectedRoutes.jsx";
 
@@ -24,12 +25,16 @@ const routes = [
         element: <BrowseTasks />,
       },
       {
+        path: "tasks/:taskId",
+        element: <TaskDetails />,
+      },
+      {
         path: "/mytasks",
         element: <ProtectedRoutes element={<MyTasks />} />,
       },
       {
         path: "/mytasks/:taskId",
-        element: <ProtectedRoutes element={<TaskDetails />} />,
+        element: <ProtectedRoutes element={<MyTaskDetails />} />,
       },
       {
         path: "/posttask",
