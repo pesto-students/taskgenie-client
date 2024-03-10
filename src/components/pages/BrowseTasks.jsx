@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Stack, TextField } from "../atoms/index.js";
 import TaskList from "components/organisms/TaskList/index.jsx";
 import { IconButton } from "@mui/material";
@@ -8,7 +8,7 @@ import { useGetTasksQuery } from "/src/store/apiSlice.jsx";
 // Default filters
 const defaultFilters = {
   locationType: "all",
-  taskStatus: "all",
+  taskStatus: "open",
   distance: 50,
   priceRange: [100, 99000],
   sortBy: "date-desc",
@@ -16,20 +16,44 @@ const defaultFilters = {
 const BrowseTasks = () => {
   const [filters, setFilters] = useState(defaultFilters);
   const [searchText, setSearchText] = useState("");
-  let { data: tasks = [] } = useGetTasksQuery(filters);
+  const [userLocation, setUserLocation] = useState(null);
+  let { data: tasks = [] } = useGetTasksQuery({ ...filters, ...userLocation });
+
   // Filter tasks based on search text
   const filteredTasks = tasks.filter((task) =>
     task.title.toLowerCase().includes(searchText.toLowerCase())
   );
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  // fetch Geolocation
+  const fetchUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ lat: latitude, lng: longitude });
+        },
+        (error) => {
+          console.error("Error fetching user location:", error);
+        },
+        {
+          message:
+            "Taskgenie needs your location to show availabe tasks around you.",
+        }
+      );
+    }
+  };
+
+  useEffect(() => {
+    fetchUserLocation();
+  }, []);
   const handleClickDialogOpen = () => {
     setDialogOpen(true);
   };
   const handleCloseFilterDialog = (event) => {
     const filters = event.filters;
     if (filters) {
-      console.log("got filters", filters);
-      // setFilters(event.filters);
+      setFilters(event.filters);
     }
     setDialogOpen(false);
   };

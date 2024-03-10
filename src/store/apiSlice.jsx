@@ -52,9 +52,17 @@ export const apiSlice = createApi({
      * Browse Tasks Endpoints
      */
     getTasks: builder.query({
-      query: (filters) => ({
-        url: `/tasks?distance=${filters.distance}`,
-      }),
+      query: ({ distance, locationType, taskStatus, lat, lng }) => {
+        let url = "/tasks?";
+        url += distance ? `distance=${distance}&` : "";
+        url += locationType ? `locationType=${locationType}&` : "";
+        url += taskStatus ? `status=${taskStatus}&` : "";
+        url += lng ? `lng=${lng}&` : "";
+        url += lat ? `lat=${lat}&` : "";
+        // Remove the trailing '&' if it exists
+        url = url.endsWith("&") ? url.slice(0, -1) : url;
+        return { url };
+      },
     }),
   }),
 });

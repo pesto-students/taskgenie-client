@@ -125,7 +125,7 @@ const FilterDialog = ({ open, onClose, defaultFilters, ...props }) => {
                 label='All'
               />
               <FormControlLabel
-                value='inperson'
+                value='in-person'
                 control={<Radio size='small' />}
                 label='in-person'
               />
@@ -149,11 +149,6 @@ const FilterDialog = ({ open, onClose, defaultFilters, ...props }) => {
               value={taskStatus}
               onChange={handleTaskStatusChange}
             >
-              <FormControlLabel
-                value='all'
-                control={<Radio size='small' />}
-                label='All'
-              />
               <FormControlLabel
                 value='open'
                 control={<Radio size='small' />}
@@ -245,7 +240,7 @@ FilterDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   defaultFilters: PropTypes.shape({
-    locationType: PropTypes.oneOf(["all", "inperson", "remote"]),
+    locationType: PropTypes.oneOf(["all", "in-person", "remote"]),
     taskStatus: PropTypes.oneOf(["all", "open", "assigned"]),
     distance: PropTypes.number,
     priceRange: PropTypes.arrayOf(PropTypes.number),
