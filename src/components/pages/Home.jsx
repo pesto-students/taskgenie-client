@@ -11,9 +11,9 @@ import {
 } from "components/atoms";
 import { useNavigate } from "react-router-dom";
 import DoneIcon from "@mui/icons-material/Done";
-import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import HouseCleaning from "assets/cleaning-service.svg?react";
 import Shopping from "assets/Eco-shopping.svg?react";
 import OpenSource from "assets/Open-source.svg?react";
@@ -80,6 +80,9 @@ const Home = () => {
           </Button>
         </Stack>
       </Box>
+
+      {/* Popular Services */}
+      {/* TODO :  size of svgs */}
       <Box
         component='section'
         className='popular-services-section'
@@ -88,42 +91,92 @@ const Home = () => {
         <Box component='header'>
           <Typography variant='h6'>Popular Services</Typography>
         </Box>
-        <Box>
+        <Box sx={{ display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",}}>
           <Grid
             container
             spacing={2}
+            marginTop='1rem'
           >
             <Grid
               item
               xs={6}
             >
-              <div>
-                <HouseCleaning />
+              <div
+                className={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant='subheading 1' sx={{ textAlign: 'center', mb: 2 }}>House Cleaning</Typography>
+                <Box>
+                  <HouseCleaning />
+                </Box>
               </div>
             </Grid>
             <Grid
               item
               xs={6}
             >
-              <div>
-                <OpenSource />
+              <div
+                className={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin:'auto',
+                }}
+              >
+                <Typography variant='subheading 1' sx={{ textAlign: 'center', mb: 2 }}>
+                  Website Development
+                </Typography>
+                <Box>
+                  <OpenSource />
+                </Box>
               </div>
             </Grid>
             <Grid
               item
               xs={6}
             >
-              <div>
-                <Shopping />
+              <div
+                className={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant='subheading 1' sx={{ textAlign: 'center', mb: 2 }}>Shopping</Typography>
+                <Box>
+                  <Shopping />
+                </Box>
               </div>
             </Grid>
             <Grid
               item
               xs={6}
             >
-              <div>
-                <Electrician />
+              <div
+                className={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant='subheading 1' sx={{ textAlign: 'center', mb: 2 }}>
+                  Electrical Repairs
+                </Typography>
+                <Box>
+                  <Electrician />
+                </Box>
               </div>
+              
             </Grid>
           </Grid>
         </Box>
@@ -274,16 +327,30 @@ const Home = () => {
             <Typography variant='subtitle'>Contact Us</Typography>
           </Stack>
         </Box>
-        <Box sx={{marginTop:'1rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}} >
-          <Typography variant='h5'>
-            TaskGenie
-            </Typography>
+        <Box
+          sx={{
+            marginTop: "1rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant='h5'>TaskGenie</Typography>
         </Box>
-        <Box sx={{display: 'flex', justifyContent:'space-around', alignItems:'center'}}>
-        <Stack  sx={{ marginTop: "1rem" }} direction='row'>
-          <GitHubIcon sx={{ marginRight: '0.5rem' }}/>
-          <InstagramIcon sx={{ marginRight: '0.5rem' }}/>
-          <TwitterIcon/>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          <Stack
+            sx={{ marginTop: "1rem" }}
+            direction='row'
+          >
+            <GitHubIcon sx={{ marginRight: "0.5rem" }} />
+            <InstagramIcon sx={{ marginRight: "0.5rem" }} />
+            <TwitterIcon />
           </Stack>
         </Box>
       </Box>
