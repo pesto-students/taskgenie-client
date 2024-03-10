@@ -5,6 +5,7 @@ import { IconButton } from "@mui/material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import FilterDialog from "components/molecules/FilterDialog/index.jsx";
 import { useGetTasksQuery } from "/src/store/apiSlice.jsx";
+import PlaceAutocomplete from "components/molecules/PlaceAutocomplete";
 // Default filters
 const defaultFilters = {
   locationType: "all",
@@ -60,6 +61,14 @@ const BrowseTasks = () => {
   const handleSearchTextChange = (event) => {
     setSearchText(event.target.value);
   };
+  const handleCitySelect = ({ coordinates }) => {
+    if (coordinates) {
+      setUserLocation({
+        lat: coordinates[1],
+        lng: coordinates[0],
+      });
+    }
+  };
   return (
     <>
       {/* Filter Dialog */}
@@ -86,20 +95,21 @@ const BrowseTasks = () => {
         }}
       >
         {/* Filter Section */}
-        <Box>
+        <Box sx={{ flex: 1 }}>
           {/* Location */}
-          <TextField
-            label='Location'
-            aria-label='Location'
-            size='small'
+          <PlaceAutocomplete
+            size={"small"}
+            placeholder='City'
+            locationType='locality'
+            onSelectPlace={handleCitySelect}
           />
         </Box>
-        <Box>
+        <Box sx={{ flex: 1 }}>
           {/* Search field */}
           <TextField
             label='Search'
-            aria-label='Search'
             size='small'
+            aria-label='Search'
             value={searchText}
             onChange={handleSearchTextChange}
           />

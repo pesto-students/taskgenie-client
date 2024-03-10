@@ -59,10 +59,10 @@ const PlaceAutocomplete = ({
         loading={isPlacePredictionsLoading}
         onChange={(event, value) => handlePlaceSelect(value)}
         options={places}
+        {...props}
         renderInput={(params) => (
           <TextField
             required={required}
-            placeholder='Select place'
             error={error}
             helperText={helperText}
             {...props}
