@@ -36,7 +36,7 @@ function Button({
 
 Button.propTypes = {
   children: PropTypes.node,
-  variant: PropTypes.oneOf(["contained", "outlined"]),
+  variant: PropTypes.oneOf(["contained", "outlined", "text"]),
   loading: PropTypes.bool,
 };
 

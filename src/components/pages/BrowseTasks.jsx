@@ -1,79 +1,73 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Stack, TextField } from "../atoms/index.js";
 import TaskList from "components/organisms/TaskList/index.jsx";
 import { IconButton } from "@mui/material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import FilterDialog from "components/molecules/FilterDialog/index.jsx";
-
+import { useGetTasksQuery } from "/src/store/apiSlice.jsx";
+import PlaceAutocomplete from "components/molecules/PlaceAutocomplete";
 // Default filters
 const defaultFilters = {
   locationType: "all",
-  taskStatus: "all",
-  distance: 5,
+  taskStatus: "open",
+  distance: 50,
   priceRange: [100, 99000],
   sortBy: "date-desc",
 };
 const BrowseTasks = () => {
   const [filters, setFilters] = useState(defaultFilters);
-  const [tasks] = useState([
-    {
-      id: 1,
-      title: "Need social media marketer for a restaurant",
-      location: "Electronic City, Bangalore",
-      dateType: "on",
-      date: Date.now(),
-      postedBy: "Anuraja",
-      budget: 5000,
-      status: "open",
-    },
-    {
-      id: 2,
-      title: "Resume and cover letter",
-      location: "Remote",
-      dateType: "before",
-      date: "2024-02-22",
-      postedBy: "Manoj",
-      budget: 1000,
-      status: "open",
-    },
-    {
-      id: 3,
-      title: "Hi just need some parcels picked up",
-      location: "Whitefield, Bangalore",
-      dateType: "on",
-      date: "2024-02-01",
-      postedBy: "Deepak",
-      budget: 250,
-      status: "assigned",
-    },
-    {
-      id: 4,
-      title: "Help clean my car",
-      location: "Kodegehalli, Bangalore",
-      dateType: "on",
-      date: Date.now(),
-      budget: 500,
-      postedBy: "Chau",
-      status: "open",
-    },
-    {
-      id: 5,
-      title: "Need a driver for a day to drive us around the market",
-      location: "JP Nagar, Bangalore",
-      dateType: "on",
-      date: Date.now(),
-      postedBy: "Shivam",
-      budget: 1200,
-      status: "open",
-    },
-  ]);
+  const [searchText, setSearchText] = useState("");
+  const [userLocation, setUserLocation] = useState(null);
+  let { data: tasks = [] } = useGetTasksQuery({ ...filters, ...userLocation });
+
+  // Filter tasks based on search text
+  const filteredTasks = tasks.filter((task) =>
+    task.title.toLowerCase().includes(searchText.toLowerCase())
+  );
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  // fetch Geolocation
+  const fetchUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ lat: latitude, lng: longitude });
+        },
+        (error) => {
+          console.error("Error fetching user location:", error);
+        },
+        {
+          message:
+            "Taskgenie needs your location to show availabe tasks around you.",
+        }
+      );
+    }
+  };
+
+  useEffect(() => {
+    fetchUserLocation();
+  }, []);
   const handleClickDialogOpen = () => {
     setDialogOpen(true);
   };
-  const handleCloseFilterDialog = (selectedFilters) => {
-    setFilters(selectedFilters);
+  const handleCloseFilterDialog = (event) => {
+    const filters = event.filters;
+    if (filters) {
+      setFilters(event.filters);
+    }
     setDialogOpen(false);
+  };
+  const handleSearchTextChange = (event) => {
+    setSearchText(event.target.value);
+  };
+  const handleCitySelect = ({ coordinates }) => {
+    if (coordinates) {
+      setUserLocation({
+        lat: coordinates[1],
+        lng: coordinates[0],
+      });
+    }
   };
   return (
     <>
@@ -83,6 +77,7 @@ const BrowseTasks = () => {
         onClose={handleCloseFilterDialog}
         defaultFilters={filters}
       />
+      {/* Filters */}
       <Stack
         className='filter-section'
         component='section'
@@ -100,20 +95,23 @@ const BrowseTasks = () => {
         }}
       >
         {/* Filter Section */}
-        <Box>
+        <Box sx={{ flex: 1 }}>
           {/* Location */}
-          <TextField
-            label='Location'
-            aria-label='Location'
-            size='small'
+          <PlaceAutocomplete
+            size={"small"}
+            placeholder='City'
+            locationType='locality'
+            onSelectPlace={handleCitySelect}
           />
         </Box>
-        <Box>
+        <Box sx={{ flex: 1 }}>
           {/* Search field */}
           <TextField
             label='Search'
-            aria-label='Search'
             size='small'
+            aria-label='Search'
+            value={searchText}
+            onChange={handleSearchTextChange}
           />
         </Box>
         <Box>
@@ -126,12 +124,14 @@ const BrowseTasks = () => {
           </IconButton>
         </Box>
       </Stack>
+
+      {/* Task List */}
       <Box
         component='section'
         aria-label='Task List'
         sx={{ padding: "1rem", position: "relative" }}
       >
-        <TaskList tasks={tasks} />
+        <TaskList tasks={filteredTasks} />
       </Box>
     </>
   );
