@@ -30,6 +30,10 @@ const Home = () => {
     console.log("her");
     navigateTo(`/postTask?title=${encodeURIComponent(taskTitle)}`);
   };
+
+  const handleFindTask = () => {
+    navigateTo('/tasks');
+  }
   return (
     <>
       <Box
@@ -142,34 +146,51 @@ const Home = () => {
           gap={1}
         >
         <Typography variant='body1'>
-        Unleash your skills, whether you're a spreadsheet genius or a skilled carpenter, by discovering your next gig on our platform.
+          Unleash your skills, whether you're a spreadsheet genius or a skilled carpenter, by discovering your next gig on our platform.
         </Typography>
         </Stack>
         <Stack direction="row" alignItems="center" gap={1} marginTop='1rem'>
-        <Typography variant='body1'>
-          <DoneIcon />
-        </Typography>
-        <Typography variant='body1'>Enjoy free access to a plethora of job opportunities</Typography>
-      </Stack>
-      <Stack direction="row" alignItems="center" gap={1}>
-        <Typography variant='body1'>
-          <DoneIcon />
-        </Typography>
-        <Typography variant='body1'>No subscription or credit fees—just straightforward access</Typography>
-      </Stack>
-      <Stack direction="row" alignItems="center" gap={1}>
-        <Typography variant='body1'>
-          <DoneIcon />
-        </Typography>
-        <Typography variant='body1'>Earn additional income at your own pace</Typography>
-      </Stack>
-      <Stack direction="row" alignItems="center" gap={1}>
-        <Typography variant='body1'>
-          <DoneIcon />
-        </Typography>
-        <Typography variant='body1'>Expand your business and clientele with ease</Typography>
-      </Stack>
-      <TaskGenie/> 
+          <Typography variant='body1'>
+            <DoneIcon />
+          </Typography>
+          <Typography variant='body1'>
+            Enjoy free access to a plethora of job opportunities
+          </Typography>
+        </Stack>
+        <Stack direction="row" alignItems="center" gap={1}>
+          <Typography variant='body1'>
+            <DoneIcon />
+          </Typography>
+          <Typography variant='body1'>No subscription or credit fees—just straightforward access</Typography>
+        </Stack>
+        <Stack direction="row" alignItems="center" gap={1}>
+          <Typography variant='body1'>
+            <DoneIcon />
+          </Typography>
+          <Typography variant='body1'>Earn additional income at your own pace</Typography>
+        </Stack>
+        <Stack direction="row" alignItems="center" gap={1}>
+          <Typography variant='body1'>
+            <DoneIcon />
+          </Typography>
+          <Typography variant='body1'>Expand your business and clientele with ease</Typography>
+        </Stack>
+        <TaskGenie/>
+      
+      
+          <Stack
+          sx={{ marginTop: "1rem" }}
+          direction='column'
+          gap={1}
+        >
+         <Button
+            variant='outlined'
+            sx={{ backgroundColor: 'white' }}
+            onClick={handleFindTask}
+          >
+            Earn money as Task Genie
+          </Button>
+        </Stack>
       </Box>
       
     </>
