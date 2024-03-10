@@ -14,6 +14,7 @@ import HouseCleaning from 'assets/cleaning-service.svg?react';
 import Shopping from 'assets/Eco-shopping.svg?react';
 import OpenSource from 'assets/Open-source.svg?react';
 import Electrician from 'assets/Electrician.svg?react';
+import TaskGenie from 'assets/Taskgenie.svg?react';
 
 const sectionPadding = "1.5rem 1rem";
 
@@ -168,8 +169,9 @@ const Home = () => {
         </Typography>
         <Typography variant='body1'>Expand your business and clientele with ease</Typography>
       </Stack>
+      <TaskGenie/> 
       </Box>
-      <OpenSource/>
+      
     </>
   );
 };
