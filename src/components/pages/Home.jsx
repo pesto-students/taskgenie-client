@@ -7,14 +7,16 @@ import {
   Typography,
   Stack,
   Grid,
+  Card,
 } from "components/atoms";
 import { useNavigate } from "react-router-dom";
-import DoneIcon from '@mui/icons-material/Done';
-import HouseCleaning from 'assets/cleaning-service.svg?react';
-import Shopping from 'assets/Eco-shopping.svg?react';
-import OpenSource from 'assets/Open-source.svg?react';
-import Electrician from 'assets/Electrician.svg?react';
-import TaskGenie from 'assets/Taskgenie.svg?react';
+import DoneIcon from "@mui/icons-material/Done";
+import HouseCleaning from "assets/cleaning-service.svg?react";
+import Shopping from "assets/Eco-shopping.svg?react";
+import OpenSource from "assets/Open-source.svg?react";
+import Electrician from "assets/Electrician.svg?react";
+import TaskGenie from "assets/Taskgenie.svg?react";
+import HomeCarousel from "../molecules/HomeCarousel";
 
 const sectionPadding = "1.5rem 1rem";
 
@@ -32,8 +34,8 @@ const Home = () => {
   };
 
   const handleFindTask = () => {
-    navigateTo('/tasks');
-  }
+    navigateTo("/tasks");
+  };
   return (
     <>
       <Box
@@ -92,29 +94,39 @@ const Home = () => {
               item
               xs={6}
             >
-              <div><HouseCleaning/></div>
+              <div>
+                <HouseCleaning />
+              </div>
             </Grid>
             <Grid
               item
               xs={6}
             >
-              <div><OpenSource/></div>
+              <div>
+                <OpenSource />
+              </div>
             </Grid>
             <Grid
               item
               xs={6}
             >
-              <div><Shopping/></div>
+              <div>
+                <Shopping />
+              </div>
             </Grid>
             <Grid
               item
               xs={6}
             >
-              <div><Electrician/></div>
+              <div>
+                <Electrician />
+              </div>
             </Grid>
           </Grid>
         </Box>
       </Box>
+
+      {/* Timeline */}
       <Box
         component='section'
         sx={{
@@ -123,33 +135,42 @@ const Home = () => {
         }}
       >
         <Typography variant='h6'>Find genie in 3 easy Steps</Typography>
-        <Stack direction="column">
+        <Stack direction='column'>
           <Typography variant='body1'>Step 1</Typography>
           <Typography variant='body1'>Step 2</Typography>
           <Typography variant='body1'>Step 3</Typography>
         </Stack>
       </Box>
+
+      {/* Earn Money */}
       <Box
         component='section'
         sx={{
           backgroundColor: theme.palette.primary.main,
-          color: 'white',
+          color: "white",
           padding: sectionPadding,
         }}
       >
         <Typography variant='h5'>
-          Become a TaskGenie,<Typography variant='h5'>And Earn with flexibility.</Typography>
+          Become a TaskGenie,
+          <Typography variant='h5'>And Earn with flexibility.</Typography>
         </Typography>
         <Stack
           sx={{ marginTop: "1rem" }}
           direction='column'
           gap={1}
         >
-        <Typography variant='body1'>
-          Unleash your skills, whether you're a spreadsheet genius or a skilled carpenter, by discovering your next gig on our platform.
-        </Typography>
+          <Typography variant='body1'>
+            Unleash your skills, whether you're a spreadsheet genius or a
+            skilled carpenter, by discovering your next gig on our platform.
+          </Typography>
         </Stack>
-        <Stack direction="row" alignItems="center" gap={1} marginTop='1rem'>
+        <Stack
+          direction='row'
+          alignItems='center'
+          gap={1}
+          marginTop='1rem'
+        >
           <Typography variant='body1'>
             <DoneIcon />
           </Typography>
@@ -157,42 +178,82 @@ const Home = () => {
             Enjoy free access to a plethora of job opportunities
           </Typography>
         </Stack>
-        <Stack direction="row" alignItems="center" gap={1}>
+        <Stack
+          direction='row'
+          alignItems='center'
+          gap={1}
+        >
           <Typography variant='body1'>
             <DoneIcon />
           </Typography>
-          <Typography variant='body1'>No subscription or credit fees—just straightforward access</Typography>
+          <Typography variant='body1'>
+            No subscription or credit fees—just straightforward access
+          </Typography>
         </Stack>
-        <Stack direction="row" alignItems="center" gap={1}>
+        <Stack
+          direction='row'
+          alignItems='center'
+          gap={1}
+        >
           <Typography variant='body1'>
             <DoneIcon />
           </Typography>
-          <Typography variant='body1'>Earn additional income at your own pace</Typography>
+          <Typography variant='body1'>
+            Earn additional income at your own pace
+          </Typography>
         </Stack>
-        <Stack direction="row" alignItems="center" gap={1}>
+        <Stack
+          direction='row'
+          alignItems='center'
+          gap={1}
+        >
           <Typography variant='body1'>
             <DoneIcon />
           </Typography>
-          <Typography variant='body1'>Expand your business and clientele with ease</Typography>
+          <Typography variant='body1'>
+            Expand your business and clientele with ease
+          </Typography>
         </Stack>
-        <TaskGenie/>
-      
-      
-          <Stack
+        <TaskGenie />
+
+        <Stack
           sx={{ marginTop: "1rem" }}
           direction='column'
           gap={1}
         >
-         <Button
+          <Button
             variant='outlined'
-            sx={{ backgroundColor: 'white' }}
+            sx={{ backgroundColor: "white" }}
             onClick={handleFindTask}
           >
             Earn money as Task Genie
           </Button>
         </Stack>
       </Box>
-      
+
+      {/* Testimonials */}
+      <Box
+        component='section'
+        className='testimonials-section'
+        sx={{
+          padding: sectionPadding,
+          // height: "4rem",
+        }}
+      >
+        <Box>
+        <Typography variant='h5'>Testimonials</Typography>
+        </Box>
+        <Box>
+        <Stack
+          sx={{ marginTop: "1rem" }}
+          direction='column'
+          gap={1}
+        >
+        <HomeCarousel />
+        </Stack>
+        </Box>
+        
+      </Box>
     </>
   );
 };
