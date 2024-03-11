@@ -44,9 +44,14 @@ export const apiSlice = createApi({
         };
       },
     }),
-    getTaskDetails: builder.query({
+    getMyTaskDetails: builder.query({
       query: (taskId) => ({
         url: `/my-tasks/${taskId}`,
+      }),
+    }),
+    getTaskDetails: builder.query({
+      query: (taskId) => ({
+        url: `/tasks/${taskId}`,
       }),
     }),
     /**
@@ -86,6 +91,20 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+    postQuestion: builder.mutation({
+      query: ({ taskId, body }) => ({
+        url: `/task/${taskId}/questions`,
+        method: "POST",
+        body,
+      }),
+    }),
+    replyToQuestion: builder.mutation({
+      query: ({ taskId, questionId, body }) => ({
+        url: `/tasks/${taskId}/questions/${questionId}`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -93,8 +112,10 @@ export const {
   useSignupMutation,
   useSigninMutation,
   useGetMyTasksQuery,
+  useGetMyTaskDetailsQuery,
   useGetTaskDetailsQuery,
   useGetTasksQuery,
+  usePostQuestionMutation,
   useSetupProfileMutation,
   useGetProfileStatusQuery,
   useUpdateUserProfileMutation,

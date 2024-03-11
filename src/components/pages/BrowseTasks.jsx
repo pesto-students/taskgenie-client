@@ -131,7 +131,10 @@ const BrowseTasks = () => {
         aria-label='Task List'
         sx={{ padding: "1rem", position: "relative" }}
       >
-        <TaskList tasks={filteredTasks} />
+        <TaskList
+          tasks={filteredTasks}
+          type='tasks'
+        />
       </Box>
     </>
   );
