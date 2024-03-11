@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { InputAdornment } from "@mui/material/";
-import Autocomplete from "@mui/material/Autocomplete";
 import PlaceAutocomplete from "components/molecules/PlaceAutocomplete";
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import {
   Box,
   Typography,
@@ -16,7 +14,7 @@ import {
   TextField,
   ToggleButtonGroup,
 } from "components/atoms";
-// import { validateSetupProfile } from "../validation/validate";
+
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
@@ -30,7 +28,9 @@ import { logout, updateProfileStatus } from "../../store/authSlice.jsx";
 const SetUpProfile = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const isSetupProfileComplete = useSelector((state) => state.auth.isSetupProfileComplete);
+  const isSetupProfileComplete = useSelector(
+    (state) => state.auth.isSetupProfileComplete
+  );
   const userId = useSelector((state) => state.auth.userId);
   // const { data: isSetupProfileComplete, isLoading = true } = useGetProfileStatusQuery(userId);
   const navigate = useNavigate();
@@ -69,16 +69,15 @@ const SetUpProfile = () => {
     dispatch(logout());
     navigate("/");
   };
-  
+
   useEffect(() => {
     console.log(isSetupProfileComplete);
     if (isSetupProfileComplete) {
       navigate("/");
     }
   }, [isSetupProfileComplete, navigate]);
-  
 
-  const onSubmit = async ( formData ) => {
+  const onSubmit = async (formData) => {
     const combinedData = {
       ...formData,
       city,
@@ -102,8 +101,8 @@ const SetUpProfile = () => {
     //     variant: "success",
     //     anchorOrigin: notificationPosition,
     //   });
-        dispatch(updateProfileStatus());
-        navigate("/");
+    dispatch(updateProfileStatus());
+    navigate("/");
   };
 
   // if(isLoading){
@@ -124,14 +123,15 @@ const SetUpProfile = () => {
         </Box>
         <Box component={"section"}>
           <Card sx={{ padding: "2rem 1rem", position: "relative" }}>
-          <CloseOutlinedIcon 
-            sx={{ 
-                position: 'absolute', 
-                top: '5px', 
-                right: '5px', 
-                cursor: 'pointer' }}
-            onClick={handleClose} 
-          />
+            <CloseOutlinedIcon
+              sx={{
+                position: "absolute",
+                top: "5px",
+                right: "5px",
+                cursor: "pointer",
+              }}
+              onClick={handleClose}
+            />
             <Box component='header'>
               <Typography variant='h5'>Setup your account</Typography>
             </Box>

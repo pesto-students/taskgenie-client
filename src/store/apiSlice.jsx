@@ -65,6 +65,10 @@ export const apiSlice = createApi({
         return { url };
       },
     }),
+
+    /**
+     * User Profile
+     */
     getProfileStatus: builder.query({
       query: (id) => `/user/${id}/profileStatus`,
     }),
@@ -73,7 +77,7 @@ export const apiSlice = createApi({
         url: `/user/:id/profileStatus`,
         method: "PATCH",
         body: data,
-      })
+      }),
     }),
     setupProfile: builder.mutation({
       query: (data, id) => ({
@@ -87,9 +91,12 @@ export const apiSlice = createApi({
 
 export const {
   useSignupMutation,
-  useSigninMutation, useSetupProfileMutation, useGetProfileStatusQuery, useUpdateUserProfileMutation,
+  useSigninMutation,
   useGetMyTasksQuery,
   useGetTaskDetailsQuery,
   useGetTasksQuery,
+  useSetupProfileMutation,
+  useGetProfileStatusQuery,
+  useUpdateUserProfileMutation,
 } = apiSlice;
 export default apiSlice;

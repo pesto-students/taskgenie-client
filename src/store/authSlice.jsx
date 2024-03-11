@@ -13,7 +13,8 @@ export const authSlice = createSlice({
     refreshToken: localStorage.getItem("refreshToken") || null,
     isAuthenticated: isAccessTokenExists(), // Set isAuthenticated based on accessToken presence
     userId: localStorage.getItem("userId") || null,
-    isSetupProfileComplete: localStorage.getItem('isSetupProfileComplete') || false
+    isSetupProfileComplete:
+      localStorage.getItem("isSetupProfileComplete") || false,
   },
   reducers: {
     setTokens: (state, action) => {
@@ -36,8 +37,8 @@ export const authSlice = createSlice({
     },
     updateProfileStatus: (state) => {
       state.isSetupProfileComplete = true;
-      localStorage.setItem('isSetupProfileComplete', true);
-    }
+      localStorage.setItem("isSetupProfileComplete", true);
+    },
   },
 });
 
