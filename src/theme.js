@@ -1,5 +1,5 @@
 /**
- * Material atoms Theming
+ * Material UI Theming
  */
 
 import { createTheme } from "@mui/material";

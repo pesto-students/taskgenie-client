@@ -43,3 +43,12 @@ export const TaskStep2Schema = Joi.object({
   budget: Joi.number().integer().min(100).max(99000).optional(),
   imageUrls: Joi.array().max(3).items(Joi.string()).optional(),
 });
+
+export const SetupProfileSchema = Joi.object({
+  firstName: Joi.string().max(20).required(),
+  lastName: Joi.string().max(20).required(),
+  city: Joi.object({
+      label: Joi.string().required(),
+  }).required(),
+  choice: Joi.string().valid("post-task", "find-task").required(),
+});

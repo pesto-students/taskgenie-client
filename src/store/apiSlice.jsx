@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
@@ -69,6 +70,27 @@ export const apiSlice = createApi({
         return { url };
       },
     }),
+
+    /**
+     * User Profile
+     */
+    getProfileStatus: builder.query({
+      query: (id) => `/user/${id}/profileStatus`,
+    }),
+    updateUserProfile: builder.mutation({
+      query: (data) => ({
+        url: `/user/:id/profileStatus`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+    setupProfile: builder.mutation({
+      query: (data, id) => ({
+        url: `/user/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
     postQuestion: builder.mutation({
       query: ({ taskId, body }) => ({
         url: `/task/${taskId}/questions`,
@@ -94,5 +116,8 @@ export const {
   useGetTaskDetailsQuery,
   useGetTasksQuery,
   usePostQuestionMutation,
+  useSetupProfileMutation,
+  useGetProfileStatusQuery,
+  useUpdateUserProfileMutation,
 } = apiSlice;
 export default apiSlice;

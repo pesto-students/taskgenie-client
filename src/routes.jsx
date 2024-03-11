@@ -5,6 +5,8 @@ import Home from "components/pages/Home.jsx";
 import MyTasks from "components/pages/MyTasks.jsx";
 import SignUp from "components/pages/SignUp.jsx";
 import SignIn from "components/pages/SignIn.jsx";
+import SetupProfile from "components/pages/SetupProfile";
+import MemberProfile from "components/pages/SetupProfile";
 import TaskDetails from "components/pages/TaskDetails.jsx";
 import MyTaskDetails from "components/pages/MyTaskDetails";
 import PostTask from "components/pages/PostTask.jsx";
@@ -52,6 +54,16 @@ const routes = [
     path: "/signin",
     element: <SignIn />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: '/setup-profile',
+    element: <SetupProfile />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/member-profile',
+    element: <MemberProfile />,
+    errorElement: <ErrorPage />
   },
   {
     path: "/error",
