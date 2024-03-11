@@ -91,6 +91,9 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+    /**
+     * Questions
+     */
     postQuestion: builder.mutation({
       query: ({ taskId, body }) => ({
         url: `/task/${taskId}/questions`,
@@ -104,6 +107,19 @@ export const apiSlice = createApi({
         method: "POST",
         body,
       }),
+    }),
+    /**
+     * Quotes
+     */
+    addQuote: builder.mutation({
+      query: ({ taskId, body }) => {
+        console.log(body);
+        return {
+          url: `/tasks/${taskId}/quotes`,
+          method: "POST",
+          body,
+        };
+      },
     }),
   }),
 });
@@ -119,5 +135,6 @@ export const {
   useSetupProfileMutation,
   useGetProfileStatusQuery,
   useUpdateUserProfileMutation,
+  useAddQuoteMutation,
 } = apiSlice;
 export default apiSlice;

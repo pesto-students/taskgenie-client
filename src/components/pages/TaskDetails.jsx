@@ -14,20 +14,21 @@ import {
   TextField,
   Button,
 } from "components/atoms";
+import TaskQuoteActionCard from "components/organisms/TaskQuoteActionCard/TaskQuoteActionCard";
 import TaskDescriptionCard from "components/organisms/TaskDescriptionCard";
 import TaskAttributesCard from "components/organisms/TaskAttributesCard";
-import MakeQuoteModal from "components/molecules/MakeQuoteModal/MakeQuoteModal";
-
 import { useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
 const TaskDetails = () => {
   const { taskId } = useParams();
   const navigate = useNavigate();
   const theme = useTheme();
-  const [dialogOpen, setDialogOpen] = useState(false);
+
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const userId = useSelector((state) => state.auth.userId);
   const { data, isLoading, isError, refetch } = useGetTaskDetailsQuery(taskId);
   const [postQuestion, { postQuestionLoading }] = usePostQuestionMutation();
+
   if (isError) {
     navigate("/error");
   }
@@ -46,15 +47,10 @@ const TaskDetails = () => {
     description,
     budget,
     questions,
+    quotes,
+    acceptedQuote,
   } = data;
-  const handleSubmitQuote = (e) => {
-    console.log("asdfs,e", e);
-    setDialogOpen(false);
-  };
-  const handleDialogOpen = () => {
-    console.log("meow");
-    setDialogOpen(true);
-  };
+
   const handleSubmitQuestion = async (e) => {
     e.preventDefault();
     const questionInput = e.target.elements["question-textfield"];
@@ -80,11 +76,6 @@ const TaskDetails = () => {
   };
   return (
     <>
-      <MakeQuoteModal
-        open={dialogOpen}
-        onDialogClose={handleSubmitQuote}
-        budget={budget}
-      />
       <Stack
         sx={{ padding: "1rem 1rem" }}
         gap={1.5}
@@ -98,9 +89,14 @@ const TaskDetails = () => {
           locationType={locationType}
           locationName={locationName}
           budget={budget}
-          // Todo: Not task owner
-          canMakeOffer={isAuthenticated}
-          onToggleDialog={handleDialogOpen}
+        />
+        {/* Task Quote Action */}
+        <TaskQuoteActionCard
+          taskId={taskId}
+          userId={userId}
+          quotes={quotes}
+          acceptedQuote={acceptedQuote}
+          budget={budget}
         />
         {/* Task Description */}
         <TaskDescriptionCard description={description} />

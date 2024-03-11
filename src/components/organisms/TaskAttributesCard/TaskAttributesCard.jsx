@@ -27,6 +27,8 @@ const TaskAttributesCard = ({
   postedBy,
   canMakeOffer = false,
   onToggleDialog,
+  loading = false,
+  hasQuoted = false,
 }) => {
   const { palette } = useTheme();
   const { textLight } = palette;
@@ -79,46 +81,52 @@ const TaskAttributesCard = ({
           </Box>
         </Box>
         <Divider />
-      </CardContent>
-      {/* Budget */}
-      <Stack
-        direction='row'
-        gap={3}
-        justifyContent='center'
-        sx={{ alignItems: "center" }}
-      >
-        <Box sx={{ position: "absolute", left: 40 }}>
-          <Typography sx={{ color: textLight.main }}>Budget</Typography>
-        </Box>
-        <Box
-          sx={{
-            margi: "0 auto",
-            alignSelf: "center",
-          }}
+        {/* Budget */}
+        <Stack
+          direction='row'
+          gap={3}
+          justifyContent='center'
+          sx={{ alignItems: "center" }}
         >
-          <Typography
-            variant='h4'
+          <Box sx={{ position: "absolute", left: 40 }}>
+            <Typography sx={{ color: textLight.main }}>Budget</Typography>
+          </Box>
+          <Box
             sx={{
-              fontWeight: "bold",
+              margi: "0 auto",
+              alignSelf: "center",
             }}
           >
-            {formatAmount(budget)}
-          </Typography>
-        </Box>
-      </Stack>
-      {canMakeOffer && (
-        <CardActions sx={{ padding: "1rem" }}>
-          <Button
-            sx={{ margin: "0 auto" }}
-            size='small'
-            onClick={() => {
-              onToggleDialog();
+            <Typography
+              variant='h4'
+              sx={{
+                fontWeight: "bold",
+              }}
+            >
+              {formatAmount(budget)}
+            </Typography>
+          </Box>
+        </Stack>
+        {hasQuoted && (
+          <Box
+            sx={{
+              backgroundColor: palette.primary.light,
+              borderRadius: "12px",
+              padding: "1.5rem 1rem",
+              marginTop: "1rem",
             }}
           >
-            Make a Quote
-          </Button>
-        </CardActions>
-      )}
+            <Typography
+              variant='caption'
+              sx={{ color: "white" }}
+            >
+              You have already Quoted
+            </Typography>
+          </Box>
+        )}
+
+    
+      </CardContent>
     </Card>
   );
 };
