@@ -2,6 +2,8 @@ import {
   Card,
   Box,
   Chip,
+  CardActions,
+  Button,
   CardContent,
   Typography,
   Stack,
@@ -23,6 +25,8 @@ const TaskAttributesCard = ({
   dateType,
   date,
   postedBy,
+  canMakeOffer = false,
+  onToggleDialog,
 }) => {
   const { palette } = useTheme();
   const { textLight } = palette;
@@ -74,25 +78,47 @@ const TaskAttributesCard = ({
             />
           </Box>
         </Box>
-        <Divider sx={{ margin: "1rem 0" }} />
-        {/* Budget */}
-        <Stack
-          direction='row'
-          gap={3}
-        >
-          <Box>
-            <Typography sx={{ color: textLight.main }}>Budget</Typography>
-          </Box>
-          <Box>
-            <Typography
-              variant='h4'
-              sx={{ fontWeight: "bold" }}
-            >
-              {formatAmount(budget)}
-            </Typography>
-          </Box>
-        </Stack>
+        <Divider />
       </CardContent>
+      {/* Budget */}
+      <Stack
+        direction='row'
+        gap={3}
+        justifyContent='center'
+        sx={{ alignItems: "center" }}
+      >
+        <Box sx={{ position: "absolute", left: 40 }}>
+          <Typography sx={{ color: textLight.main }}>Budget</Typography>
+        </Box>
+        <Box
+          sx={{
+            margi: "0 auto",
+            alignSelf: "center",
+          }}
+        >
+          <Typography
+            variant='h4'
+            sx={{
+              fontWeight: "bold",
+            }}
+          >
+            {formatAmount(budget)}
+          </Typography>
+        </Box>
+      </Stack>
+      {canMakeOffer && (
+        <CardActions sx={{ padding: "1rem" }}>
+          <Button
+            sx={{ margin: "0 auto" }}
+            size='small'
+            onClick={() => {
+              onToggleDialog();
+            }}
+          >
+            Make a Quote
+          </Button>
+        </CardActions>
+      )}
     </Card>
   );
 };
@@ -117,6 +143,7 @@ TaskAttributesCard.propTypes = {
   dateType: PropTypes.string,
   date: PropTypes.string,
   // postedBy: PropTypes.string,
+  canMakeOffer: PropTypes.bool,
 };
 
 export default TaskAttributesCard;

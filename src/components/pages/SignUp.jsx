@@ -109,7 +109,7 @@ const SignUp = () => {
                           {...field}
                           type={"email"}
                           placeholder='Enter Email'
-                          autoComplete={"username"}
+                          autoComplete={"email"}
                           fullWidth
                           InputProps={{
                             startAdornment: (

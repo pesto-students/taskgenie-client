@@ -18,19 +18,19 @@ export const validateStep1 = async (data) => {
 };
 
 export const validateSetupProfile = async (data) => {
-    let errors = {};
-    try{
-        await SetupProfileSchema.validateAsync(data);
-    } catch (error) {
-        error.details.forEach((detail) => {
-            const fieldName = detail.context.key;
-            errors[fieldName] = detail.message;
-        });
-    }
-    return {
-        isValid: Object.keys(errors.length) === 0,
-        errors,
-    };
+  let errors = {};
+  try {
+    await SetupProfileSchema.validateAsync(data);
+  } catch (error) {
+    error.details.forEach((detail) => {
+      const fieldName = detail.context.key;
+      errors[fieldName] = detail.message;
+    });
+  }
+  return {
+    isValid: Object.keys(errors.length) === 0,
+    errors,
+  };
 };
 export const validateTask = async (schema, data) => {
   let errors = {};
@@ -45,6 +45,24 @@ export const validateTask = async (schema, data) => {
   }
   return {
     isValid: Object.keys(errors).length === 0, // Check if errors object is empty
+    errors,
+  };
+};
+
+export const validateQuote = async (schema, data) => {
+  let errors = {};
+  try {
+    await schema.validateAsync(data);
+  } catch (error) {
+    if (error.details) {
+      error.details.forEach((detail) => {
+        const fieldName = detail.context.key;
+        errors[fieldName] = detail.message;
+      });
+    }
+  }
+  return {
+    isValid: Object.keys(errors).length === 0,
     errors,
   };
 };

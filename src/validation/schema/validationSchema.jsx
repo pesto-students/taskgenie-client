@@ -1,5 +1,7 @@
 import Joi from "joi";
-
+/**
+ * Post Task Schema
+ */
 export const TaskStep1Schema = Joi.object({
   title: Joi.string().max(70).required(),
   locationType: Joi.string().valid("in-person", "remote").required(),
@@ -43,12 +45,21 @@ export const TaskStep2Schema = Joi.object({
   budget: Joi.number().integer().min(100).max(99000).optional(),
   imageUrls: Joi.array().max(3).items(Joi.string()).optional(),
 });
-
+/**
+ * Setup Profile Schema
+ */
 export const SetupProfileSchema = Joi.object({
   firstName: Joi.string().max(20).required(),
   lastName: Joi.string().max(20).required(),
   city: Joi.object({
-      label: Joi.string().required(),
+    label: Joi.string().required(),
   }).required(),
   choice: Joi.string().valid("post-task", "find-task").required(),
+});
+/**
+ * Quote Schema
+ */
+export const QuoteSchema = Joi.object({
+  price: Joi.number().integer().min(100).max(99000).required(),
+  message: Joi.string().max(200).required(),
 });

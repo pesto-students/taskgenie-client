@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import {
   useGetTaskDetailsQuery,
   usePostQuestionMutation,
@@ -15,12 +16,15 @@ import {
 } from "components/atoms";
 import TaskDescriptionCard from "components/organisms/TaskDescriptionCard";
 import TaskAttributesCard from "components/organisms/TaskAttributesCard";
+import MakeQuoteModal from "components/molecules/MakeQuoteModal/MakeQuoteModal";
+
 import { useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
 const TaskDetails = () => {
   const { taskId } = useParams();
   const navigate = useNavigate();
   const theme = useTheme();
+  const [dialogOpen, setDialogOpen] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const { data, isLoading, isError, refetch } = useGetTaskDetailsQuery(taskId);
   const [postQuestion, { postQuestionLoading }] = usePostQuestionMutation();
@@ -43,7 +47,14 @@ const TaskDetails = () => {
     budget,
     questions,
   } = data;
-
+  const handleSubmitQuote = (e) => {
+    console.log("asdfs,e", e);
+    setDialogOpen(false);
+  };
+  const handleDialogOpen = () => {
+    console.log("meow");
+    setDialogOpen(true);
+  };
   const handleSubmitQuestion = async (e) => {
     e.preventDefault();
     const questionInput = e.target.elements["question-textfield"];
@@ -69,6 +80,11 @@ const TaskDetails = () => {
   };
   return (
     <>
+      <MakeQuoteModal
+        open={dialogOpen}
+        onDialogClose={handleSubmitQuote}
+        budget={budget}
+      />
       <Stack
         sx={{ padding: "1rem 1rem" }}
         gap={1.5}
@@ -82,6 +98,9 @@ const TaskDetails = () => {
           locationType={locationType}
           locationName={locationName}
           budget={budget}
+          // Todo: Not task owner
+          canMakeOffer={isAuthenticated}
+          onToggleDialog={handleDialogOpen}
         />
         {/* Task Description */}
         <TaskDescriptionCard description={description} />
@@ -94,7 +113,7 @@ const TaskDetails = () => {
               Need more details? Post here
             </Typography>
             {/* Questions */}
-            <Box sx={{ padding: "1.5rem 0.5rem" }}>
+            <Box sx={{ padding: "1.5rem 0" }}>
               {questions.map((comment) => (
                 <CommentItem
                   key={comment.id}
