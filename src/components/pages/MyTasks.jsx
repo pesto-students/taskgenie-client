@@ -70,8 +70,8 @@ const MyTasks = () => {
         sx={{ padding: "1rem", position: "relative" }}
       >
         <TaskList
+          type={"mytasks"}
           tasks={tasks}
-          isLoading={isLoading}
         />
       </Box>
     </>

@@ -3,7 +3,8 @@ import { Avatar, Divider } from "@mui/material";
 import { Box, Stack, Typography, Button, TextField } from "components/atoms";
 import { useTheme } from "@mui/material";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-const CommentAccordion = ({ comment, canReply = false }) => {
+
+const QuestionItem = ({ comment, canReply = false }) => {
   const theme = useTheme();
   const [showReplyTextField, setshowReplyTextField] = useState(false);
   const { name, userId, reply, message } = comment;
@@ -115,4 +116,4 @@ const CommentAccordion = ({ comment, canReply = false }) => {
   );
 };
 
-export default CommentAccordion;
+export default QuestionItem;

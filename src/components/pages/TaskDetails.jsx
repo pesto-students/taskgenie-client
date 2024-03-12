@@ -4,7 +4,6 @@ import {
   useGetTaskDetailsQuery,
   usePostQuestionMutation,
 } from "/src/store/apiSlice";
-import CommentItem from "components/molecules/CommentItem";
 import {
   Stack,
   Card,
@@ -19,6 +18,7 @@ import TaskDescriptionCard from "components/organisms/TaskDescriptionCard";
 import TaskAttributesCard from "components/organisms/TaskAttributesCard";
 import { useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
+import TaskQuotesAndQuestions from "../organisms/TaskQuotesAndQuestions/TaskQuotesAndQuestions";
 const TaskDetails = () => {
   const { taskId } = useParams();
   const navigate = useNavigate();
@@ -101,43 +101,12 @@ const TaskDetails = () => {
         {/* Task Description */}
         <TaskDescriptionCard description={description} />
         {/* Task Quotes and Comments */}
-        <Card>
-          <CardContent>
-            <Typography
-              sx={{ color: theme.palette.textLight.main, fontSize: "0.8rem" }}
-            >
-              Need more details? Post here
-            </Typography>
-            {/* Questions */}
-            <Box sx={{ padding: "1.5rem 0" }}>
-              {questions.map((comment) => (
-                <CommentItem
-                  key={comment.id}
-                  comment={comment}
-                />
-              ))}
-            </Box>
-            {/* Ask Question */}
-            <Box sx={{ padding: "1rem", borderRadius: "12px" }}>
-              <form onSubmit={handleSubmitQuestion}>
-                <TextField
-                  name='question-textfield'
-                  aria-label='question'
-                  fullWidth
-                  size={"small"}
-                  required={true}
-                />
-                <Button
-                  size='small'
-                  variant='text'
-                  type='submit'
-                >
-                  Ask Question
-                </Button>
-              </form>
-            </Box>
-          </CardContent>
-        </Card>
+        <TaskQuotesAndQuestions
+          quotes={quotes}
+          questions={questions}
+          currentUser={userId}
+          ownderId={postedBy}
+        />
       </Stack>
     </>
   );

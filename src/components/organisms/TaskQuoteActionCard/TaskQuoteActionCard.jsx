@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { CardContent, Divider, Typography } from "@mui/material";
 import { useTheme } from "@mui/material";
 import { formatAmount } from "/src/utils.jsx";
+import { useNavigate } from "react-router-dom";
 
 /**
  * TaskQuoteActionCard
@@ -25,6 +26,7 @@ function TaskQuoteActionCard({
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
   const [addQuote, { addQuoteLoading }] = useAddQuoteMutation();
+  const navigate = useNavigate();
   //   Variables
   const isAuthenticated = Boolean(userId);
   const hasQuotedAlready = quotes.some((quote) => quote.userId === userId);
@@ -36,7 +38,11 @@ function TaskQuoteActionCard({
   const showInfoBox = (isAssigned && !isGenie) || hasQuotedAlready;
   //   Functions
   const handleDialogOpen = () => {
-    setDialogOpen(true);
+    if (isAuthenticated) {
+      setDialogOpen(true);
+    } else {
+      navigate("/signin");
+    }
   };
   const handleSubmitQuote = async (formData) => {
     if (formData.message) {
@@ -129,6 +135,7 @@ function TaskQuoteActionCard({
               <Button
                 sx={{ margin: "0 auto" }}
                 onClick={handleDialogOpen}
+                loading={addQuoteLoading}
               >
                 Make a Quote
               </Button>
@@ -141,7 +148,7 @@ function TaskQuoteActionCard({
 }
 
 TaskQuoteActionCard.propTypes = {
-  taskId: PropTypes.strig,
+  taskId: PropTypes.string,
 };
 
 export default TaskQuoteActionCard;

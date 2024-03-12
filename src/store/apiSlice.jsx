@@ -91,6 +91,9 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+    getUserById: builder.query({
+      query: (userId) => `/user/${userId}/`,
+    }),
     /**
      * Questions
      */
@@ -135,6 +138,7 @@ export const {
   useSetupProfileMutation,
   useGetProfileStatusQuery,
   useUpdateUserProfileMutation,
+  useGetUserByIdQuery,
   useAddQuoteMutation,
 } = apiSlice;
 export default apiSlice;
