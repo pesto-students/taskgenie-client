@@ -5,6 +5,7 @@ const TabPanel = ({ value, index, children, ...props }) => {
     <Box
       role='tabpanel'
       hidden={value !== index}
+      sx={{ padding: "1rem 0" }}
       {...props}
     >
       {children}

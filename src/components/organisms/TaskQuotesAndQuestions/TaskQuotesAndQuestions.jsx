@@ -26,7 +26,7 @@ function TaskQuotesAndQuestions({
     setCurrentTab(newValue);
   };
   return (
-    <Card>
+    <Card sx={{ borderRadius: "12px" }}>
       <CardContent>
         <Box>
           <Tabs
@@ -61,6 +61,12 @@ function TaskQuotesAndQuestions({
             index={1}
           >
             {/* show questions here */}
+            {questions.map((question) => (
+              <QuestionItem
+                canReply={true}
+                question={question}
+              />
+            ))}
           </TabPanel>
         </Box>
       </CardContent>
