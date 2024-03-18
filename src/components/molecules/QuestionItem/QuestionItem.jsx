@@ -2,14 +2,36 @@ import { useState } from "react";
 import { Avatar, Divider } from "@mui/material";
 import { Box, Stack, Typography, Button, TextField } from "components/atoms";
 import { useTheme } from "@mui/material";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import { useReplyToQuestionMutation } from "/src/store/apiSlice";
+import { useParams } from "react-router-dom";
 
 const QuestionItem = ({ question, canReply = false }) => {
   const theme = useTheme();
+  const [replyToQuestion, { replyLoading, error }] =
+    useReplyToQuestionMutation();
   const [showReplyTextField, setshowReplyTextField] = useState(false);
+  const { taskId } = useParams();
   const { name, userId, reply, message } = question;
-  const handleSubmitReply = (event) => {
+  const handleSubmitReply = async (event) => {
     event.preventDefault();
+    try {
+      const formData = new FormData(event.target);
+      const reply = formData.get("reply");
+      console.log("taskId", taskId, question._id);
+      const response = await replyToQuestion({
+        taskId,
+        questionId: question._id,
+        message: reply,
+      });
+      // clear reply field
+      console.log("response", response);
+      if (response.error) {
+        console.error(response.error.data);
+      }
+      formData.delete("reply");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Box
@@ -77,6 +99,7 @@ const QuestionItem = ({ question, canReply = false }) => {
                 size='small'
                 required={true}
                 fullWidth
+                name='reply'
               />
               <Stack
                 direction='row'

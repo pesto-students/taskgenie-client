@@ -20,11 +20,22 @@ const LoadingCard = () => {
   );
 };
 const MyTaskDetails = () => {
+
+  //  Page Title
+  document.title = "My Tasks";
+  
   // Hooks
   const userId = useSelector((state) => state.auth.userId);
   const { taskId } = useParams();
   const navigate = useNavigate();
-  const { data, isLoading } = useGetTaskDetailsQuery(taskId);
+  const {
+    data = [],
+    isLoading,
+    isError,
+    error,
+  } = useGetTaskDetailsQuery(taskId);
+  console.log("meow");
+  console.log("isError", isError, "error", error);
   if (!taskId) {
     navigate("/error");
   }

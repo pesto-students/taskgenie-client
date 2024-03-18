@@ -105,10 +105,13 @@ export const apiSlice = createApi({
       }),
     }),
     replyToQuestion: builder.mutation({
-      query: ({ taskId, questionId, body }) => ({
-        url: `/tasks/${taskId}/questions/${questionId}`,
+      query: ({ taskId, questionId, userId, message }) => ({
+        url: `/task/${taskId}/questions/${questionId}`,
         method: "POST",
-        body,
+        body: {
+          userId,
+          message,
+        },
       }),
     }),
     /**
@@ -135,6 +138,7 @@ export const {
   useGetTaskDetailsQuery,
   useGetTasksQuery,
   usePostQuestionMutation,
+  useReplyToQuestionMutation,
   useSetupProfileMutation,
   useGetProfileStatusQuery,
   useUpdateUserProfileMutation,
