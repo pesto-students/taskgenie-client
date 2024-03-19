@@ -16,7 +16,7 @@ const PostTaskForm = () => {
     date: null,
     description: "",
     budget: "",
-    imageUrls: [],
+    images: [],
   });
 
   const handlePreviousStep = () => {

@@ -11,9 +11,10 @@ import {
 import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined";
 import { validateTask } from "../../../validation/validate";
 import { TaskStep2Schema } from "../../../validation/schema/validationSchema";
+import TaskImagePicker from "../TaskImagePicker/TaskImagePicker";
+import TaskImageList from "components/organisms/TaskImageList";
 const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
   const [errors, setErrors] = useState({});
-
   const handleDescriptionChange = (event) => {
     const inputValue = event.target.value;
     if (inputValue.length <= 500) {
@@ -56,7 +57,19 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
   const clearError = (field) => {
     setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
   };
+  const handleAddImage = (compressedImage) => {
+    setFormData(prevData => ({
+      ...prevData,
+      images: [...prevData.images, compressedImage]
+    }))
+  };
 
+  const handleRemoveImage = (imageToRemove) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      images: prevFormData.images.filter((image) => image !== imageToRemove),
+    }));
+  };
   return (
     <Box>
       <form onSubmit={handleSubmit}>
@@ -99,7 +112,15 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
             }}
           />
         </FormControl>
-        {/* Buttons */}
+        <FormControl>
+          {/* <TaskImagePicker /> */}
+          <TaskImageList
+            images={formData.images}
+            onAddImage={handleAddImage}
+            onRemoveImage={handleRemoveImage}
+          />
+        </FormControl>
+        {/* Form Actions */}
         <FormControl sx={{ marginTop: "2rem" }}>
           <Stack
             direction='row'
