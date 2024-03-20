@@ -19,6 +19,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { formatDate, formatAmount } from "/src/utils.jsx";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PropTypes from "prop-types";
@@ -47,7 +48,32 @@ const TaskMenu = ({ anchorEl, open, handleClose }) => {
     </Paper>
   );
 };
+const StyledCardContent = styled(CardContent)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
 
+  ".task-budget": {
+    left: 40,
+    position: "absolute",
+  },
+  ".show-more-button": {
+    float: "right",
+  },
+  [theme.breakpoints.up("sm")]: {
+    flexDirection: "row",
+    position: "relative",
+    ".attributes": {
+      flex: 1,
+    },
+    ".task-budget": {
+      position: "static",
+    },
+    ".show-more-button": {
+      position: "absolute",
+      right: 0,
+    },
+  },
+}));
 /**
  *
  * Task Attributes Card
@@ -86,12 +112,13 @@ const TaskAttributesCard = ({
     try {
       const response = await cancelTask(taskId);
       if (!response.error) {
-        navigate('/myTasks')
+        navigate("/myTasks");
       }
     } catch (error) {
       console.error(error);
     }
   };
+
   return (
     <>
       <TaskMenu
@@ -100,15 +127,15 @@ const TaskAttributesCard = ({
         handleClose={handleClose}
       />
       <Card>
-        <CardContent>
-          <Box>
+        <StyledCardContent>
+          <Box className='attributes'>
             <Box>
               <Chip
                 label={status}
                 size='small'
               />
               {isOwner && status !== "cancelled" && (
-                <span style={{ float: "right" }}>
+                <span className='show-more-button'>
                   <IconButton
                     sx={{ padding: 0 }}
                     onClick={handleClick}
@@ -156,7 +183,14 @@ const TaskAttributesCard = ({
               />
             </Box>
           </Box>
-          <Divider sx={{ marginTop: "1rem" }} />
+          <Divider
+            orientation='horizontal'
+            flexItem
+          />
+          <Divider
+            orientation='vertical'
+            flexItem
+          />
           {/* Budget */}
           <Stack
             direction='row'
@@ -164,7 +198,7 @@ const TaskAttributesCard = ({
             justifyContent='center'
             sx={{ alignItems: "center", padding: "1rem" }}
           >
-            <Box sx={{ position: "absolute", left: 40 }}>
+            <Box className='task-budget'>
               <Typography sx={{ color: textLight.main }}>Budget</Typography>
             </Box>
             <Box
@@ -183,7 +217,7 @@ const TaskAttributesCard = ({
               </Typography>
             </Box>
           </Stack>
-        </CardContent>
+        </StyledCardContent>
       </Card>
     </>
   );
