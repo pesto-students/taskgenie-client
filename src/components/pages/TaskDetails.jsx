@@ -56,7 +56,6 @@ const TaskDetails = () => {
     const questionInput = e.target.elements["question-textfield"];
     const question = questionInput.value;
     if (isAuthenticated && question.length > 0) {
-      console.log("post question", question);
       try {
         const response = await postQuestion({
           taskId,

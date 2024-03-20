@@ -32,7 +32,6 @@ const Home = () => {
   };
   const handlePostTask = () => {
     // Redirect to /postTask route and pass the taskTitle as a query parameter
-    console.log("her");
     navigateTo(`/postTask?title=${encodeURIComponent(taskTitle)}`);
   };
 

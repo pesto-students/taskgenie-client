@@ -19,7 +19,6 @@ function TaskQuoteActionCard({
   acceptedQuote,
   budget,
 }) {
-  console.log(quotes, userId);
   // State
   const [dialogOpen, setDialogOpen] = useState(false);
   // Hooks
@@ -46,15 +45,12 @@ function TaskQuoteActionCard({
   };
   const handleSubmitQuote = async (formData) => {
     if (formData.message) {
-      console.log(formData);
       const response = await addQuote({ taskId, body: formData });
       if (response.error) {
         enqueueSnackbar("Unable to Process! Please wait", { variant: "error" });
       } else {
-        console.log(response);
         enqueueSnackbar("Quote Submitted", { variant: "info" });
       }
-      console.log(response);
     }
     setDialogOpen(false);
   };

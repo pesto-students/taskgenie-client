@@ -34,8 +34,6 @@ const MyTaskDetails = () => {
     isError,
     error,
   } = useGetTaskDetailsQuery(taskId);
-  console.log("meow");
-  console.log("isError", isError, "error", error);
   if (!taskId) {
     navigate("/error");
   }

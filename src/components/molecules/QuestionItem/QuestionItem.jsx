@@ -17,14 +17,12 @@ const QuestionItem = ({ question, canReply = false }) => {
     try {
       const formData = new FormData(event.target);
       const reply = formData.get("reply");
-      console.log("taskId", taskId, question._id);
       const response = await replyToQuestion({
         taskId,
         questionId: question._id,
         message: reply,
       });
       // clear reply field
-      console.log("response", response);
       if (response.error) {
         console.error(response.error.data);
       }

@@ -19,7 +19,6 @@ function TaskQuotesAndQuestions({
 
   const handleReply = (commentId) => {
     // Implement reply functionality here
-    console.log("Replying to comment with ID:", commentId);
   };
 
   const handleTabChange = (_, newValue) => {

@@ -15,7 +15,6 @@ import Compressor from "compressorjs";
 const maxImageCount = 3;
 
 const TaskImageList = ({ images = [], onAddImage, onRemoveImage }) => {
-  console.log(images);
   const [selectedImage, setSelectedImage] = useState(null);
   const handleImageAdd = async (event) => {
     try {

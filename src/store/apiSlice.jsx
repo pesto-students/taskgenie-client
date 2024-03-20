@@ -54,6 +54,13 @@ export const apiSlice = createApi({
         url: `/tasks/${taskId}`,
       }),
     }),
+    postTask: builder.mutation({
+      query: (data) => ({
+        url: "/my-tasks/",
+        method: "POST",
+        body: data,
+      }),
+    }),
     /**
      * Browse Tasks Endpoints
      */
@@ -119,7 +126,6 @@ export const apiSlice = createApi({
      */
     addQuote: builder.mutation({
       query: ({ taskId, body }) => {
-        console.log(body);
         return {
           url: `/tasks/${taskId}/quotes`,
           method: "POST",
@@ -133,6 +139,7 @@ export const apiSlice = createApi({
 export const {
   useSignupMutation,
   useSigninMutation,
+  usePostTaskMutation,
   useGetMyTasksQuery,
   useGetMyTaskDetailsQuery,
   useGetTaskDetailsQuery,

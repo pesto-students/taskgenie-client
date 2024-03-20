@@ -16,7 +16,10 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleButton from "../molecules/GoogleButton/index.jsx";
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
-import { useSigninMutation, useGetProfileStatusQuery } from "../../store/apiSlice.jsx";
+import {
+  useSigninMutation,
+  useGetProfileStatusQuery,
+} from "../../store/apiSlice.jsx";
 import { useDispatch } from "react-redux";
 import { setTokens } from "../../store/authSlice.jsx";
 import { useSelector } from "react-redux";
@@ -29,7 +32,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [signin, { isLoading }] = useSigninMutation();
   const { enqueueSnackbar } = useSnackbar();
-  const { data: isSetupProfileComplete } = useGetProfileStatusQuery({userId});
+  const { data: isSetupProfileComplete } = useGetProfileStatusQuery({ userId });
   const notificationPosition = { vertical: "top", horizontal: "center" };
   const {
     control,
@@ -64,24 +67,15 @@ const SignIn = () => {
         anchorOrigin: notificationPosition,
       });
     }
-    // if (profileStatus && !profileStatus.isSetupProfileComplete) {
-    //   console.log("isSetupProfileComplete: ", profileStatus.isSetupProfileComplete);
-    //   navigate("/setup-profile");
-    // } else {
-    //   navigate("/");
-    // }
   };
 
   useEffect(() => {
     if (isAuthenticated && isSetupProfileComplete) {
       navigate("/");
-    }
-    else if ( isAuthenticated && !isSetupProfileComplete ) {
+    } else if (isAuthenticated && !isSetupProfileComplete) {
       navigate("/setup-profile");
-    } 
-  },
-  [isAuthenticated, isSetupProfileComplete, navigate]);
-
+    }
+  }, [isAuthenticated, isSetupProfileComplete, navigate]);
 
   return (
     <>
