@@ -95,9 +95,9 @@ const MyTasks = () => {
   );
   return (
     <>
+      <FilterSection />
       {tasks.length > 0 ? (
         <Box>
-          <FilterSection />
           {/* TaskList */}
           <Box
             component='section'

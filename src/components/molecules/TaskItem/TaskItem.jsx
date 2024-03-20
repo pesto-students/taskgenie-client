@@ -21,7 +21,14 @@ const TaskItem = ({ task }) => {
   const avatarColor = theme ? theme.palette.primary?.light : "purple";
   return (
     <>
-      <Card>
+      <Card
+        sx={{
+          transition: "box-shadow 0.3s", // Add transition for box-shadow
+          "&:hover": {
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)", // Apply shadow on hover
+          },
+        }}
+      >
         <CardContent>
           <Stack
             direction='row'
@@ -102,7 +109,9 @@ const TaskItem = ({ task }) => {
               variant='h6'
               component='span'
               sx={{ flexGrow: 1 }}
-            >{`₹${task.budget}`}</Typography>
+            >
+              ₹{task.budget}
+            </Typography>
             {/* Posted Avatar */}
             {task.postedBy && (
               <Avatar

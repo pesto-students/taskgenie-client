@@ -1,8 +1,15 @@
 import PropTypes from "prop-types";
 import { Link } from "@mui/material";
 
-const NavLink = ({ title }) => {
-  return <Link sx={{ textDecoration: "none" }}>{title}</Link>;
+const NavLink = ({ children, ...props }) => {
+  return (
+    <Link
+      sx={{ cursor: "pointer", textDecoration: "none" }}
+      {...props}
+    >
+      {children}
+    </Link>
+  );
 };
 
 NavLink.propTypes = {
