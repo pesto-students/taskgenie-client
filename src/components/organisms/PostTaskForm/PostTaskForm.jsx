@@ -3,7 +3,7 @@ import { Box, Stepper, Card } from "components/atoms";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import { useLocation } from "react-router-dom";
-import { usePostTaskMutation } from "store/apiSlice";
+
 const PostTaskForm = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -19,11 +19,12 @@ const PostTaskForm = () => {
     budget: "",
     images: [],
   });
-  const [postTask, { loading, error }] = usePostTaskMutation();
+  
   const handlePreviousStep = () => {
     if (step == 1) setStep(step - 1);
   };
-  const handleSubmitData = () => {
+  const handleSubmitData = async () => {
+    console.log("submit formData", formData);
   };
   const handleNextStep = () => {
     setStep(step + 1);
@@ -54,7 +55,6 @@ const PostTaskForm = () => {
           )}
           {step === 1 && (
             <Step2
-              onSubmit={handleSubmitData}
               onPrevious={handlePreviousStep}
               setFormData={handleFormDataChange}
               formData={formData}

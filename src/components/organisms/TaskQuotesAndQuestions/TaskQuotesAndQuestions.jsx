@@ -62,6 +62,7 @@ function TaskQuotesAndQuestions({
             {/* show questions here */}
             {questions.map((question) => (
               <QuestionItem
+                key={question._id}
                 canReply={true}
                 question={question}
               />

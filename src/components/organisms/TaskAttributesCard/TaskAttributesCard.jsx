@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Card,
   Box,
@@ -10,10 +11,49 @@ import TaskDetailAttribute from "components/molecules/TaskDetailAttribute";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
-import { useTheme, Divider } from "@mui/material";
+import {
+  useTheme,
+  Divider,
+  IconButton,
+  Paper,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import { formatDate, formatAmount } from "/src/utils.jsx";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PropTypes from "prop-types";
+import { useCancelTaskMutation } from "store/apiSlice";
+import { useNavigate } from "react-router-dom";
+
+/**
+ * Action Menu
+ */
+const TaskMenu = ({ anchorEl, open, handleClose }) => {
+  return (
+    <Paper>
+      <Menu
+        id='basic-menu'
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={handleClose}>
+          <Typography variant='caption'>Cancel Task</Typography>
+        </MenuItem>
+      </Menu>
+    </Paper>
+  );
+};
+
+/**
+ *
+ * Task Attributes Card
+ */
 const TaskAttributesCard = ({
+  taskId,
   title,
   status,
   budget,
@@ -21,11 +61,44 @@ const TaskAttributesCard = ({
   locationName,
   dateType,
   date,
+  isOwner = false,
 }) => {
+  /**
+   * Hooks
+   */
   const { palette } = useTheme();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [cancelTask, { loading, error }] = useCancelTaskMutation();
+  const navigate = useNavigate();
+  /**
+   * Variables
+   */
+  const menuOpen = Boolean(anchorEl);
   const { textLight } = palette;
+  /**
+   * Functions
+   */
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = async () => {
+    setAnchorEl(null);
+    try {
+      const response = await cancelTask(taskId);
+      if (!response.error) {
+        navigate('/myTasks')
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <>
+      <TaskMenu
+        anchorEl={anchorEl}
+        open={menuOpen}
+        handleClose={handleClose}
+      />
       <Card>
         <CardContent>
           <Box>
@@ -34,6 +107,16 @@ const TaskAttributesCard = ({
                 label={status}
                 size='small'
               />
+              {isOwner && status !== "cancelled" && (
+                <span style={{ float: "right" }}>
+                  <IconButton
+                    sx={{ padding: 0 }}
+                    onClick={handleClick}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                </span>
+              )}
             </Box>
             {/* Title */}
             <Typography
@@ -73,13 +156,13 @@ const TaskAttributesCard = ({
               />
             </Box>
           </Box>
-          <Divider />
+          <Divider sx={{ marginTop: "1rem" }} />
           {/* Budget */}
           <Stack
             direction='row'
             gap={3}
             justifyContent='center'
-            sx={{ alignItems: "center" }}
+            sx={{ alignItems: "center", padding: "1rem" }}
           >
             <Box sx={{ position: "absolute", left: 40 }}>
               <Typography sx={{ color: textLight.main }}>Budget</Typography>
@@ -118,6 +201,7 @@ TaskAttributesCard.defaultProps = {
 };
 // Prop validation
 TaskAttributesCard.propTypes = {
+  taskId: PropTypes.string,
   title: PropTypes.string,
   status: PropTypes.string,
   budget: PropTypes.number,
@@ -127,6 +211,7 @@ TaskAttributesCard.propTypes = {
   date: PropTypes.string,
   // postedBy: PropTypes.string,
   canMakeOffer: PropTypes.bool,
+  isOwner: PropTypes.bool,
 };
 
 export default TaskAttributesCard;

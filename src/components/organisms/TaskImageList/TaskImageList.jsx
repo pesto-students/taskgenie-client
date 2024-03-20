@@ -21,6 +21,7 @@ const TaskImageList = ({ images = [], onAddImage, onRemoveImage }) => {
       const file = event.target.files[0];
       const compressedImage = await compressImage(file);
       if (compressedImage) {
+        console.log("compress iamge", compressedImage);
         const imageUrl = URL.createObjectURL(compressedImage);
         onAddImage(imageUrl);
       }

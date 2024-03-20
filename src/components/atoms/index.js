@@ -1,3 +1,5 @@
+import { ImageListItem } from "@mui/material";
+
 export { Accordion } from "./Accordion";
 export { AccordionDetails } from "./AccordionDetails";
 export { AccordionSummary } from "./AccordionSummary";
@@ -12,6 +14,7 @@ export { DatePicker } from "./DatePicker";
 export { FormControl } from "./FormControl";
 export { Grid } from "./Grid";
 export { InputLabel } from "./InputLabel";
+export { ImageListItem } from "./ImageListItem";
 export { Link } from "./Link";
 export { Slider } from "./Slider";
 export { Stack } from "./Stack";

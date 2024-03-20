@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSnackbar } from "notistack";
 import PropTypes from "prop-types";
 import {
   Box,
@@ -11,9 +12,13 @@ import {
 import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined";
 import { validateTask } from "../../../validation/validate";
 import { TaskStep2Schema } from "../../../validation/schema/validationSchema";
-import TaskImagePicker from "../TaskImagePicker/TaskImagePicker";
 import TaskImageList from "components/organisms/TaskImageList";
+import { usePostTaskMutation } from "store/apiSlice";
+import { useNavigate } from "react-router-dom";
 const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const [postTask, { loading, error }] = usePostTaskMutation();
   const [errors, setErrors] = useState({});
   const handleDescriptionChange = (event) => {
     const inputValue = event.target.value;
@@ -48,7 +53,21 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
     });
     if (isValid) {
       // If validation succeeds, call onSubmit function to transition to Step
-      onSubmit();
+      console.log("submit task", formData);
+      const response = await postTask(formData);
+      if (response.error) {
+        console.log(response.error);
+        enqueueSnackbar("Unable to post task", {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "center" },
+        });
+      } else {
+        // Navigate to task
+        console.log("respnse is", response);
+        const taskId = response.data._id;
+        console.log("taskdi is", taskId);
+        navigate(`/myTasks/${taskId}`);
+      }
     } else {
       setErrors(errors);
     }
@@ -58,10 +77,10 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
     setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
   };
   const handleAddImage = (compressedImage) => {
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
-      images: [...prevData.images, compressedImage]
-    }))
+      images: [...prevData.images, compressedImage],
+    }));
   };
 
   const handleRemoveImage = (imageToRemove) => {
@@ -137,6 +156,7 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
               variant='contained'
               sx={{ flex: 1 }}
               type='submit'
+              loading={loading}
             >
               Get Quotes
             </Button>

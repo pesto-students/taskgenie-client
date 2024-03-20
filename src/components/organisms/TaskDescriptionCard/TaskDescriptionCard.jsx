@@ -9,11 +9,13 @@ import {
   CardContent,
   Box,
   Typography,
+  ImageListItem,
 } from "components/atoms";
+import ImageList from "@mui/material/ImageList";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessOutlinedIcon from "@mui/icons-material/ExpandLessOutlined";
 import { useTheme } from "@mui/material";
-const TaskDescriptionCard = ({ description = "" }) => {
+const TaskDescriptionCard = ({ description = "", images = [] }) => {
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const theme = useTheme();
   return (
@@ -63,6 +65,18 @@ const TaskDescriptionCard = ({ description = "" }) => {
             </Box>
           )}
         </Box>
+        {images.length > 0 && (
+          <Box>
+            <ImageList>
+              {images.map((image) => (
+                <ImageListItem
+                  key={image}
+                  src={image}
+                />
+              ))}
+            </ImageList>
+          </Box>
+        )}
       </CardContent>
     </Card>
   );

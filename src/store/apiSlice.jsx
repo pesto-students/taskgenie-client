@@ -61,6 +61,12 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+    cancelTask: builder.mutation({
+      query: (taskId) => ({
+        url: `my-tasks/${taskId}`,
+        method: "DELETE",
+      }),
+    }),
     /**
      * Browse Tasks Endpoints
      */
@@ -142,6 +148,7 @@ export const {
   usePostTaskMutation,
   useGetMyTasksQuery,
   useGetMyTaskDetailsQuery,
+  useCancelTaskMutation,
   useGetTaskDetailsQuery,
   useGetTasksQuery,
   usePostQuestionMutation,

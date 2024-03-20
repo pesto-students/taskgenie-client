@@ -42,8 +42,8 @@ const MyTasks = () => {
           <NoTasks />
         </Box>
         <Typography variant='h5'>No Tasks</Typography>
-        <Typography variant='caption'>1
-          Post a Task and find the gen1ie to do it.
+        <Typography variant='caption'>
+          Post a Task and find the genie to do it.
         </Typography>
       </Stack>
       <Link href='/postTask'>

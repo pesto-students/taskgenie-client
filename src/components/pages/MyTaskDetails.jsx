@@ -4,7 +4,6 @@ import { Stack, Card, CardContent } from "components/atoms";
 import TaskDescriptionCard from "components/organisms/TaskDescriptionCard";
 import TaskAttributesCard from "components/organisms/TaskAttributesCard";
 import { useSelector } from "react-redux";
-import TaskQuoteActionCard from "components/organisms/TaskQuoteActionCard";
 import { Skeleton } from "@mui/material";
 import TaskQuotesAndQuestions from "../organisms/TaskQuotesAndQuestions/TaskQuotesAndQuestions";
 // Todo: Move to components/molecules
@@ -20,10 +19,9 @@ const LoadingCard = () => {
   );
 };
 const MyTaskDetails = () => {
-
   //  Page Title
   document.title = "My Tasks";
-  
+
   // Hooks
   const userId = useSelector((state) => state.auth.userId);
   const { taskId } = useParams();
@@ -56,6 +54,7 @@ const MyTaskDetails = () => {
           component='article'
         >
           <TaskAttributesCard
+            taskId={taskId}
             title={data?.title}
             status={data?.status}
             dateType={data?.dateType}
@@ -64,16 +63,13 @@ const MyTaskDetails = () => {
             locationName={data?.locationName}
             budget={data?.budget}
             loading={isLoading}
-          />
-          <TaskQuoteActionCard
-            taskId={taskId}
-            userId={userId}
-            quotes={data?.quotes}
-            acceptedQuote={data.acceptedQuote}
-            budget={data.budget}
+            isOwner={true}
           />
           {/* Task Description */}
-          <TaskDescriptionCard description={data.description} />
+          <TaskDescriptionCard
+            description={data.description}
+            images={data.images}
+          />
           {/* Task Quotes and Comments */}
           <TaskQuotesAndQuestions
             quotes={data.quotes}
