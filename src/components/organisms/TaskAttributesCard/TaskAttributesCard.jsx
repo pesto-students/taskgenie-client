@@ -19,6 +19,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
+import TaskStatusChip from "components/molecules/TaskStatusChip/TaskStatusChip";
 import { styled } from "@mui/material/styles";
 import { formatDate, formatAmount } from "/src/utils.jsx";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -130,10 +131,7 @@ const TaskAttributesCard = ({
         <StyledCardContent>
           <Box className='attributes'>
             <Box>
-              <Chip
-                label={status}
-                size='small'
-              />
+              <TaskStatusChip status={status} />
               {isOwner && status !== "cancelled" && (
                 <span className='show-more-button'>
                   <IconButton

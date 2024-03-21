@@ -15,6 +15,7 @@ import { TaskStep2Schema } from "../../../validation/schema/validationSchema";
 import TaskImageList from "components/organisms/TaskImageList";
 import { usePostTaskMutation } from "store/apiSlice";
 import { useNavigate } from "react-router-dom";
+import { uploadImages } from "../../../utils";
 const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -44,36 +45,44 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { description, budget } = formData;
+    try {
+      const { description, budget } = formData;
 
-    const { isValid, errors } = await validateTask(TaskStep2Schema, {
-      description,
-      budget,
-      imageUrls: [],
-    });
-    if (isValid) {
-      const imageBlobs = formData.images.map((image) => image.blob);
-      const taskData = {
-        ...formData,
-        images: imageBlobs,
-      };
-      console.log("taskdata", taskData);
-      const response = await postTask(taskData);
-      if (response.error) {
-        console.log(response.error);
-        enqueueSnackbar("Unable to post task", {
-          variant: "error",
-          anchorOrigin: { vertical: "top", horizontal: "center" },
-        });
+      const { isValid, errors } = await validateTask(TaskStep2Schema, {
+        description,
+        budget,
+        imageUrls: [],
+      });
+      if (isValid) {
+        const images = formData.images.map((image) => image.file);
+        const imageUrls = await uploadImages(images);
+        const taskData = {
+          ...formData,
+          images: imageUrls,
+        };
+        // upload images to s3
+        const response = await postTask(taskData);
+
+        if (response.error) {
+          console.log(response.error);
+          enqueueSnackbar("Unable to post task", {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "center" },
+          });
+        } else {
+          // Navigate to task
+          const taskId = response.data._id;
+          navigate(`/myTasks/${taskId}`);
+        }
       } else {
-        // Navigate to task
-        console.log("respnse is", response);
-        const taskId = response.data._id;
-        console.log("taskdi is", taskId);
-        // navigate(`/myTasks/${taskId}`);
+        setErrors(errors);
       }
-    } else {
-      setErrors(errors);
+    } catch (error) {
+      console.log("Unable to create task");
+      enqueueSnackbar("Unable to post Task", {
+        variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "center" },
+      });
     }
   };
 
@@ -138,6 +147,7 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
         <FormControl>
           {/* <TaskImagePicker /> */}
           <TaskImageList
+            onAddImage={handleAddImage}
             images={formData.images}
             onAddImage={handleAddImage}
             onRemoveImage={handleRemoveImage}

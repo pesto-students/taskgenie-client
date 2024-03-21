@@ -13,7 +13,7 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import { useTheme } from "@mui/material/styles";
 import { formatDate } from "../../../utils.jsx";
-
+import TaskStatusChip from "components/molecules/TaskStatusChip";
 // TaskItem component
 const TaskItem = ({ task }) => {
   const theme = useTheme();
@@ -44,13 +44,7 @@ const TaskItem = ({ task }) => {
             </Typography>
             <Box>
               {/* Task Status */}
-              {task.status && (
-                <Chip
-                  label={task.status}
-                  sx={{ textTransform: "capitalize", flexGrow: 0 }}
-                  size='small'
-                />
-              )}
+              {task.status && <TaskStatusChip status={task.status} />}
             </Box>
           </Stack>
           <Box sx={{ paddingTop: "0.7rem" }}>
