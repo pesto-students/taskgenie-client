@@ -24,7 +24,7 @@ import { styled } from "@mui/material/styles";
 import { formatDate, formatAmount } from "/src/utils.jsx";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PropTypes from "prop-types";
-import { useCancelTaskMutation } from "store/apiSlice";
+import { useCancelTaskMutation, useGetUserNameByIdQuery } from "store/apiSlice";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -43,7 +43,12 @@ const TaskMenu = ({ anchorEl, open, handleClose }) => {
         }}
       >
         <MenuItem onClick={handleClose}>
-          <Typography variant='caption'>Cancel Task</Typography>
+          <Typography
+            id='cancel-task'
+            variant='caption'
+          >
+            Cancel Task
+          </Typography>
         </MenuItem>
       </Menu>
     </Paper>
@@ -82,6 +87,7 @@ const StyledCardContent = styled(CardContent)(({ theme }) => ({
 const TaskAttributesCard = ({
   taskId,
   title,
+  userId,
   status,
   budget,
   locationType,
@@ -97,6 +103,7 @@ const TaskAttributesCard = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [cancelTask, { loading, error }] = useCancelTaskMutation();
   const navigate = useNavigate();
+  const { data } = useGetUserNameByIdQuery(userId);
   /**
    * Variables
    */
@@ -108,16 +115,17 @@ const TaskAttributesCard = ({
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = async () => {
+  const handleClose = async (d) => {
     setAnchorEl(null);
-    try {
-      const response = await cancelTask(taskId);
-      if (!response.error) {
-        navigate("/myTasks");
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    console.log("handleclose", d.target);
+    // try {
+    //   const response = await cancelTask(taskId);
+    //   if (!response.error) {
+    //     navigate("/myTasks");
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   return (
@@ -155,7 +163,7 @@ const TaskAttributesCard = ({
               <TaskDetailAttribute
                 label={"Task Owner"}
                 icon={<Person2OutlinedIcon sx={{ fontSize: "1.2rem" }} />}
-                value={"Ravi Rathore"}
+                value={data?.name}
               />
               {/* Location */}
               <TaskDetailAttribute

@@ -5,7 +5,7 @@ import TaskDescriptionCard from "components/organisms/TaskDescriptionCard";
 import TaskAttributesCard from "components/organisms/TaskAttributesCard";
 import { useSelector } from "react-redux";
 import { Skeleton } from "@mui/material";
-import TaskQuotesAndQuestions from "../organisms/TaskQuotesAndQuestions/TaskQuotesAndQuestions";
+import MyTaskQuotesAndQuestions from "components/organisms/MyTaskQuotesAndQuestions";
 // Todo: Move to components/molecules
 const LoadingCard = () => {
   return (
@@ -64,6 +64,7 @@ const MyTaskDetails = () => {
             budget={data?.budget}
             loading={isLoading}
             isOwner={true}
+            userId={userId}
           />
           {/* Task Description */}
           <TaskDescriptionCard
@@ -71,7 +72,7 @@ const MyTaskDetails = () => {
             images={data.images}
           />
           {/* Task Quotes and Comments */}
-          <TaskQuotesAndQuestions
+          <MyTaskQuotesAndQuestions
             quotes={data.quotes}
             questions={data.questions}
             currentUser={userId}

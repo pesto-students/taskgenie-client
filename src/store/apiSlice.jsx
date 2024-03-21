@@ -56,7 +56,6 @@ export const apiSlice = createApi({
     }),
     postTask: builder.mutation({
       query: (data) => {
-        console.log("Posting data", data);
         return {
           url: "/my-tasks/",
           method: "POST",
@@ -110,6 +109,9 @@ export const apiSlice = createApi({
     getUserById: builder.query({
       query: (userId) => `/user/${userId}/`,
     }),
+    getUserNameById: builder.query({
+      query: (userId) => `/user/${userId}/name`,
+    }),
     /**
      * Questions
      */
@@ -160,6 +162,7 @@ export const {
   useGetProfileStatusQuery,
   useUpdateUserProfileMutation,
   useGetUserByIdQuery,
+  useGetUserNameByIdQuery,
   useAddQuoteMutation,
 } = apiSlice;
 export default apiSlice;

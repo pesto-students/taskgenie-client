@@ -13,10 +13,12 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import { useTheme } from "@mui/material/styles";
 import { formatDate } from "../../../utils.jsx";
+import { useGetUserNameByIdQuery } from "store/apiSlice";
 import TaskStatusChip from "components/molecules/TaskStatusChip";
 // TaskItem component
 const TaskItem = ({ task }) => {
   const theme = useTheme();
+  const { data } = useGetUserNameByIdQuery(task.postedBy);
   const iconColor = theme ? theme.palette.textLight?.main : "black";
   const avatarColor = theme ? theme.palette.primary?.light : "purple";
   return (
@@ -115,7 +117,7 @@ const TaskItem = ({ task }) => {
                   height: "30px",
                 }}
               >
-                {task.postedBy?.charAt(0)}
+                {data.name.charAt(0)}
               </Avatar>
             )}
           </Stack>
