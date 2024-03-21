@@ -12,6 +12,7 @@ import {
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Compressor from "compressorjs";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 const maxImageCount = 3;
 
 const TaskImageList = ({ images = [], onAddImage, onRemoveImage }) => {
@@ -21,14 +22,42 @@ const TaskImageList = ({ images = [], onAddImage, onRemoveImage }) => {
       const file = event.target.files[0];
       const compressedImage = await compressImage(file);
       if (compressedImage) {
-        console.log("compress iamge", compressedImage);
-        const imageUrl = URL.createObjectURL(compressedImage);
-        onAddImage(imageUrl);
+        uploadImageToS3(compressedImage);
       }
     } catch (error) {
       console.error("Error compressing image:", error);
     }
   };
+
+  const uploadImageToS3 = async (file) => {
+    try {
+      const s3Client = new S3Client({
+        region: import.meta.env.VITE_AWS_REGION,
+        credentials: {
+          accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
+          secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
+        },
+      });
+
+      const params = {
+        Bucket: import.meta.env.VITE_S3_BUCKET_NAME,
+        Key: file.name,
+        Body: file,
+        ACL: "public-read",
+      };
+
+      const command = new PutObjectCommand(params);
+      const response = await s3Client.send(command);
+      const imageUrl = `https://${params.Bucket}.s3.amazonaws.com/${params.Key}`;
+      if (response.httpStatusCode == 200) {
+        console.log("got response", imageUrl);
+        onAddImage(imageUrl);
+      }
+    } catch (error) {
+      console.error("Error uploading image to S3:", error);
+    }
+  };
+
   const handleImageRemove = (image) => {
     onRemoveImage(image);
   };

@@ -19,28 +19,32 @@ const PostTaskForm = () => {
     budget: "",
     images: [],
   });
-  
+
   const handlePreviousStep = () => {
-    if (step == 1) setStep(step - 1);
+    if (step > 0) setStep(step - 1); // Check if step is greater than 0 before decrementing
   };
+
   const handleSubmitData = async () => {
     console.log("submit formData", formData);
   };
+
   const handleNextStep = () => {
     setStep(step + 1);
   };
+
   const handleFormDataChange = (data) => {
     setFormData(data);
   };
+
   return (
     <Box>
       <Box
         sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
       >
-        {/* Stepper */}
+        {/* Pass currentStep as step */}
         <Stepper
           steps={2}
-          currentStep={0}
+          currentStep={step} // Pass the current step state
         />
       </Box>
       <Box sx={{ paddingTop: "2rem" }}>

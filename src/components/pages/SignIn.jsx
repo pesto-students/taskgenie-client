@@ -10,6 +10,7 @@ import {
   Typography,
   Container,
   Button,
+  Link,
 } from "../atoms/index.js";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -80,7 +81,7 @@ const SignIn = () => {
   return (
     <>
       `{" "}
-      <Container>
+      <Container maxWidth='sm'>
         <Box sx={{ padding: "2rem 0" }}>
           <Typography
             variant='h5'
@@ -174,7 +175,10 @@ const SignIn = () => {
                     </Button>
                   </FormControl>
                   <Typography>Or</Typography>
-                  <GoogleButton type='signin'></GoogleButton>
+                  <Typography>
+                    Don't have an account? <Link href='/signup'>Sign Up</Link>
+                  </Typography>
+                  {/* <GoogleButton type='signin'></GoogleButton> */}
                 </Stack>
               </form>
             </Box>

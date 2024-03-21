@@ -13,10 +13,14 @@ import {
   Card,
   FormControl,
   TextField,
+  Link,
 } from "../atoms/index.js";
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
-import { useSignupMutation, useGetProfileStatusQuery } from "../../store/apiSlice.jsx";
+import {
+  useSignupMutation,
+  useGetProfileStatusQuery,
+} from "../../store/apiSlice.jsx";
 import { useDispatch } from "react-redux";
 import { setTokens } from "../../store/authSlice.jsx";
 import { useSelector } from "react-redux";
@@ -62,12 +66,15 @@ const SignUp = () => {
         anchorOrigin: notificationPosition,
       });
     }
-      navigate("/setup-profile");
+    navigate("/setup-profile");
   };
 
-  
   useEffect(() => {
-    if (isAuthenticated && profileStatus && profileStatus.isSetupProfileComplete) {
+    if (
+      isAuthenticated &&
+      profileStatus &&
+      profileStatus.isSetupProfileComplete
+    ) {
       // Navigate to home
       navigate("/");
     }
@@ -75,7 +82,7 @@ const SignUp = () => {
 
   return (
     <>
-      <Container>
+      <Container maxWidth='sm'>
         <Box sx={{ padding: "2rem 0" }}>
           {/* Header */}
           <Typography
@@ -170,7 +177,10 @@ const SignUp = () => {
                     </Button>
                   </FormControl>
                   <Typography>Or</Typography>
-                  <GoogleButton type='signup' />
+                  <Typography>
+                    Already have an Account? <Link href='/signin'>Sign In</Link>
+                  </Typography>
+                  {/* <GoogleButton type='signup' /> */}
                 </Stack>
               </form>
             </Box>

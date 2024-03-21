@@ -52,9 +52,13 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
       imageUrls: [],
     });
     if (isValid) {
-      // If validation succeeds, call onSubmit function to transition to Step
-      console.log("submit task", formData);
-      const response = await postTask(formData);
+      const imageBlobs = formData.images.map((image) => image.blob);
+      const taskData = {
+        ...formData,
+        images: imageBlobs,
+      };
+      console.log("taskdata", taskData);
+      const response = await postTask(taskData);
       if (response.error) {
         console.log(response.error);
         enqueueSnackbar("Unable to post task", {
@@ -66,7 +70,7 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
         console.log("respnse is", response);
         const taskId = response.data._id;
         console.log("taskdi is", taskId);
-        navigate(`/myTasks/${taskId}`);
+        // navigate(`/myTasks/${taskId}`);
       }
     } else {
       setErrors(errors);

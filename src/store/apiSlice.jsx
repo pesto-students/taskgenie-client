@@ -55,11 +55,14 @@ export const apiSlice = createApi({
       }),
     }),
     postTask: builder.mutation({
-      query: (data) => ({
-        url: "/my-tasks/",
-        method: "POST",
-        body: data,
-      }),
+      query: (data) => {
+        console.log("Posting data", data);
+        return {
+          url: "/my-tasks/",
+          method: "POST",
+          body: data,
+        };
+      },
     }),
     cancelTask: builder.mutation({
       query: (taskId) => ({
