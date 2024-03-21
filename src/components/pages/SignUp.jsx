@@ -1,8 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { InputAdornment } from "@mui/material/";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleButton from "../molecules/GoogleButton/index.jsx";
+import { IconButton } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import {
   Box,
   Typography,
@@ -26,6 +29,7 @@ import { setTokens } from "../../store/authSlice.jsx";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const SignUp = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const notificationPosition = { vertical: "top", horizontal: "center" };
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -141,7 +145,7 @@ const SignUp = () => {
                       render={({ field }) => (
                         <TextField
                           {...field}
-                          type={"password"}
+                          type={showPassword ? "text" : "password"} // Toggle between text and password
                           placeholder='Enter Password'
                           inputProps={{
                             maxLength: 32,
@@ -151,6 +155,20 @@ const SignUp = () => {
                             startAdornment: (
                               <InputAdornment position='start'>
                                 <LockOutlinedIcon />
+                              </InputAdornment>
+                            ),
+                            endAdornment: (
+                              <InputAdornment position='end'>
+                                <IconButton
+                                  onClick={() => setShowPassword(!showPassword)}
+                                  edge='end'
+                                >
+                                  {showPassword ? (
+                                    <VisibilityIcon />
+                                  ) : (
+                                    <VisibilityOffIcon />
+                                  )}
+                                </IconButton>
                               </InputAdornment>
                             ),
                           }}
