@@ -54,6 +54,22 @@ export const apiSlice = createApi({
         url: `/tasks/${taskId}`,
       }),
     }),
+    postTask: builder.mutation({
+      query: (data) => {
+        console.log("Posting data", data);
+        return {
+          url: "/my-tasks/",
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
+    cancelTask: builder.mutation({
+      query: (taskId) => ({
+        url: `my-tasks/${taskId}`,
+        method: "DELETE",
+      }),
+    }),
     /**
      * Browse Tasks Endpoints
      */
@@ -91,6 +107,12 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+    getUserById: builder.query({
+      query: (userId) => `/user/${userId}/`,
+    }),
+    /**
+     * Questions
+     */
     postQuestion: builder.mutation({
       query: ({ taskId, body }) => ({
         url: `/task/${taskId}/questions`,
@@ -99,11 +121,26 @@ export const apiSlice = createApi({
       }),
     }),
     replyToQuestion: builder.mutation({
-      query: ({ taskId, questionId, body }) => ({
-        url: `/tasks/${taskId}/questions/${questionId}`,
+      query: ({ taskId, questionId, userId, message }) => ({
+        url: `/task/${taskId}/questions/${questionId}`,
         method: "POST",
-        body,
+        body: {
+          userId,
+          message,
+        },
       }),
+    }),
+    /**
+     * Quotes
+     */
+    addQuote: builder.mutation({
+      query: ({ taskId, body }) => {
+        return {
+          url: `/tasks/${taskId}/quotes`,
+          method: "POST",
+          body,
+        };
+      },
     }),
   }),
 });
@@ -111,13 +148,18 @@ export const apiSlice = createApi({
 export const {
   useSignupMutation,
   useSigninMutation,
+  usePostTaskMutation,
   useGetMyTasksQuery,
   useGetMyTaskDetailsQuery,
+  useCancelTaskMutation,
   useGetTaskDetailsQuery,
   useGetTasksQuery,
   usePostQuestionMutation,
+  useReplyToQuestionMutation,
   useSetupProfileMutation,
   useGetProfileStatusQuery,
   useUpdateUserProfileMutation,
+  useGetUserByIdQuery,
+  useAddQuoteMutation,
 } = apiSlice;
 export default apiSlice;

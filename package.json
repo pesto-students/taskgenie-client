@@ -12,6 +12,7 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.537.0",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@heroicons/react": "^2.1.1",
@@ -19,7 +20,9 @@
     "@mui/material": "^5.15.4",
     "@mui/x-date-pickers": "^6.19.5",
     "@reduxjs/toolkit": "^2.2.1",
+    "aws-sdk": "^2.1581.0",
     "axios": "^1.6.7",
+    "compressorjs": "^1.2.1",
     "datepicker": "^0.0.0",
     "dayjs": "^1.11.10",
     "i": "^0.3.7",

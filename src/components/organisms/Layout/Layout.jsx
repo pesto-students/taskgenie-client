@@ -11,7 +11,7 @@ const Layout = () => {
         sx={{ padding: 0, height: "100%" }}
         component='section'
         className='page-wrapper'
-        maxWidth={"md"}
+        maxWidth={"sm"}
       >
         {/* Use outlet to display components in Layout */}
         <Outlet />

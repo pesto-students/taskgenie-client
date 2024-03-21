@@ -13,6 +13,7 @@ import {
   Link,
   Stack,
   Divider,
+  Container,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -97,35 +98,40 @@ const Navbar = ({ window }) => {
           position: "relative",
         }}
       >
-        <Toolbar>
-          <IconButton
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+        <Toolbar disableGutters>
+          <Container
+            sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+            maxWidth='md'
           >
-            <MenuIcon />
-          </IconButton>
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+            <IconButton
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: "none" } }}
+            >
+              <MenuIcon />
+            </IconButton>
+
             <Typography
               variant='h5'
-              sx={{ fontWeight: 700 }}
+              // sx={{ display: { xs: "none", sm: "block" }, fontWeight: 700 }}
             >
               TaskGenie
             </Typography>
-          </Box>
-          <Box sx={{ display: { xs: "none", sm: "block" }, ml: "16px" }}>
-            <Stack
-              direction={"row"}
-              gap={"1rem"}
-            >
-              {desktopNavItems.map(({ title, path }) => (
-                <NavLink
-                  key={title}
-                  title={title}
-                  path={path}
-                />
-              ))}
-            </Stack>
-          </Box>
+            <Box sx={{ display: { xs: "none", sm: "block" }, ml: "16px" }}>
+              <Stack
+                direction={"row"}
+                gap={"1rem"}
+              >
+                {desktopNavItems.map(({ title, path }) => (
+                  <NavLink
+                    key={title}
+                    href={path}
+                  >
+                    {title}
+                  </NavLink>
+                ))}
+              </Stack>
+            </Box>
+          </Container>
         </Toolbar>
       </AppBar>
       <nav>

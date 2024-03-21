@@ -137,6 +137,7 @@ const Step1 = ({ formData, setFormData, onSubmit }) => {
             {formData.locationType === "in-person" && (
               <PlaceAutocomplete
                 name='location'
+                placeholder='Enter the locality'
                 onSelectPlace={handleOnSelectPlace}
                 error={Boolean(errors?.location)}
                 helperText={errors?.location}

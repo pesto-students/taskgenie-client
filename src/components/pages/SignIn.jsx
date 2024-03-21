@@ -1,5 +1,5 @@
 import { InputAdornment } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Card,
@@ -10,13 +10,20 @@ import {
   Typography,
   Container,
   Button,
+  Link,
 } from "../atoms/index.js";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleButton from "../molecules/GoogleButton/index.jsx";
+import { IconButton } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
-import { useSigninMutation, useGetProfileStatusQuery } from "../../store/apiSlice.jsx";
+import {
+  useSigninMutation,
+  useGetProfileStatusQuery,
+} from "../../store/apiSlice.jsx";
 import { useDispatch } from "react-redux";
 import { setTokens } from "../../store/authSlice.jsx";
 import { useSelector } from "react-redux";
@@ -29,7 +36,9 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [signin, { isLoading }] = useSigninMutation();
   const { enqueueSnackbar } = useSnackbar();
-  const { data: isSetupProfileComplete } = useGetProfileStatusQuery({userId});
+  const { data: isSetupProfileComplete } = useGetProfileStatusQuery({ userId });
+  // State to manage password visibility
+  const [showPassword, setShowPassword] = useState(false);
   const notificationPosition = { vertical: "top", horizontal: "center" };
   const {
     control,
@@ -64,29 +73,20 @@ const SignIn = () => {
         anchorOrigin: notificationPosition,
       });
     }
-    // if (profileStatus && !profileStatus.isSetupProfileComplete) {
-    //   console.log("isSetupProfileComplete: ", profileStatus.isSetupProfileComplete);
-    //   navigate("/setup-profile");
-    // } else {
-    //   navigate("/");
-    // }
   };
 
   useEffect(() => {
     if (isAuthenticated && isSetupProfileComplete) {
       navigate("/");
-    }
-    else if ( isAuthenticated && !isSetupProfileComplete ) {
+    } else if (isAuthenticated && !isSetupProfileComplete) {
       navigate("/setup-profile");
-    } 
-  },
-  [isAuthenticated, isSetupProfileComplete, navigate]);
-
+    }
+  }, [isAuthenticated, isSetupProfileComplete, navigate]);
 
   return (
     <>
       `{" "}
-      <Container>
+      <Container maxWidth='sm'>
         <Box sx={{ padding: "2rem 0" }}>
           <Typography
             variant='h5'
@@ -144,7 +144,7 @@ const SignIn = () => {
                       render={({ field }) => (
                         <TextField
                           {...field}
-                          type={"password"}
+                          type={showPassword ? "text" : "password"} // Toggle between text and password
                           placeholder='Enter Password'
                           inputProps={{
                             maxLength: 32,
@@ -154,6 +154,20 @@ const SignIn = () => {
                             startAdornment: (
                               <InputAdornment position='start'>
                                 <LockOutlinedIcon />
+                              </InputAdornment>
+                            ),
+                            endAdornment: (
+                              <InputAdornment position='end'>
+                                <IconButton
+                                  onClick={() => setShowPassword(!showPassword)}
+                                  edge='end'
+                                >
+                                  {showPassword ? (
+                                    <VisibilityIcon />
+                                  ) : (
+                                    <VisibilityOffIcon />
+                                  )}
+                                </IconButton>
                               </InputAdornment>
                             ),
                           }}
@@ -180,7 +194,10 @@ const SignIn = () => {
                     </Button>
                   </FormControl>
                   <Typography>Or</Typography>
-                  <GoogleButton type='signin'></GoogleButton>
+                  <Typography>
+                    Don't have an account? <Link href='/signup'>Sign Up</Link>
+                  </Typography>
+                  {/* <GoogleButton type='signin'></GoogleButton> */}
                 </Stack>
               </form>
             </Box>
