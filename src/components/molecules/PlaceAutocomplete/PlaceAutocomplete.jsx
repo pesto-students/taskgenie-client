@@ -8,7 +8,7 @@ const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 
 const PlaceAutocomplete = ({
   onSelectPlace,
-  locationType = "sublocality",
+  locationType = ["sublocality", "locality"],
   required = false,
   error = false,
   helperText = "",
@@ -23,7 +23,7 @@ const PlaceAutocomplete = ({
   } = usePlacesService({
     apiKey: apiKey,
     options: {
-      types: [locationType],
+      types: locationType,
       componentRestrictions: { country: "in" },
     },
   });

@@ -101,7 +101,6 @@ const BrowseTasks = () => {
           <PlaceAutocomplete
             size={"small"}
             placeholder='City'
-            locationType='locality'
             onSelectPlace={handleCitySelect}
           />
         </Box>

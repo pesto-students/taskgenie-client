@@ -197,7 +197,7 @@ const SetUpProfile = () => {
                   <FormControl>
                     <InputLabel>City</InputLabel>
                     <PlaceAutocomplete
-                      locationType='locality'
+                      locationType={["locality"]}
                       onSelectPlace={handleOnSelectPlace}
                     />
                   </FormControl>
