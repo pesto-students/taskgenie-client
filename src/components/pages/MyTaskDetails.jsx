@@ -26,13 +26,8 @@ const MyTaskDetails = () => {
   const userId = useSelector((state) => state.auth.userId);
   const { taskId } = useParams();
   const navigate = useNavigate();
-  const {
-    data = [],
-    isLoading,
-    isError,
-    error,
-  } = useGetTaskDetailsQuery(taskId);
-  if (!taskId) {
+  const { data = [], isLoading, isError } = useGetTaskDetailsQuery(taskId);
+  if (!taskId || isError) {
     navigate("/error");
   }
   return (

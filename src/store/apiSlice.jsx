@@ -73,13 +73,16 @@ export const apiSlice = createApi({
      * Browse Tasks Endpoints
      */
     getTasks: builder.query({
-      query: ({ distance, locationType, taskStatus, lat, lng }) => {
+      query: ({ distance, locationType, priceRange, taskStatus, lat, lng }) => {
         let url = "/tasks?";
-        url += distance ? `distance=${distance}&` : "";
-        url += locationType ? `locationType=${locationType}&` : "";
-        url += taskStatus ? `status=${taskStatus}&` : "";
-        url += lng ? `lng=${lng}&` : "";
-        url += lat ? `lat=${lat}&` : "";
+        if (distance) url += `distance=${distance}&`;
+        if (locationType) url += `locationType=${locationType}&`;
+        if (taskStatus) url += `status=${taskStatus}&`;
+        if (lng) url += `lng=${lng}&`;
+        if (lat) url += `lat=${lat}&`;
+        if (priceRange)
+          url += `minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&`;
+
         // Remove the trailing '&' if it exists
         url = url.endsWith("&") ? url.slice(0, -1) : url;
         return { url };

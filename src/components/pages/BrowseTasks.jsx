@@ -8,7 +8,7 @@ import { useGetTasksQuery } from "/src/store/apiSlice.jsx";
 import PlaceAutocomplete from "components/molecules/PlaceAutocomplete";
 // Default filters
 const defaultFilters = {
-  locationType: "all",
+  locationType: "",
   taskStatus: "open",
   distance: 50,
   priceRange: [100, 99000],
@@ -53,6 +53,7 @@ const BrowseTasks = () => {
   };
   const handleCloseFilterDialog = (event) => {
     const filters = event.filters;
+    console.log("filters", filters);
     if (filters) {
       setFilters(event.filters);
     }

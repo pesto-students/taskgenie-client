@@ -117,7 +117,7 @@ const TaskItem = ({ task }) => {
                   height: "30px",
                 }}
               >
-                {data.name.charAt(0)}
+                {data?.name.charAt(0)}
               </Avatar>
             )}
           </Stack>

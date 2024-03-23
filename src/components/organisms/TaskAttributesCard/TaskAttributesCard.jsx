@@ -115,17 +115,18 @@ const TaskAttributesCard = ({
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = async (d) => {
+  const handleClose = async (event) => {
     setAnchorEl(null);
-    console.log("handleclose", d.target);
-    // try {
-    //   const response = await cancelTask(taskId);
-    //   if (!response.error) {
-    //     navigate("/myTasks");
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    if (event.target.id === "cancel-task") {
+      try {
+        const response = await cancelTask(taskId);
+        if (!response.error) {
+          navigate("/myTasks");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   return (
@@ -181,12 +182,13 @@ const TaskAttributesCard = ({
                     : "Flexible"
                 }
               />
-              {/* Assignee */}
-              <TaskDetailAttribute
-                label={"TaskGenie"}
-                icon={<Person2OutlinedIcon sx={{ fontSize: "1.2rem" }} />}
-                value={locationName}
-              />
+              {status === "assigned" && (
+                <TaskDetailAttribute
+                  label={"TaskGenie"}
+                  icon={<Person2OutlinedIcon sx={{ fontSize: "1.2rem" }} />}
+                  value={locationName}
+                />
+              )}
             </Box>
           </Box>
           <Divider
