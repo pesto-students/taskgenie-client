@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
-import { Box, Stack, TextField } from "../atoms/index.js";
+import { useState, useEffect, useRef } from "react";
+import { Stack, TextField } from "../atoms/index.js";
 import TaskList from "components/organisms/TaskList/index.jsx";
-import { IconButton } from "@mui/material";
+import { IconButton, Box } from "@mui/material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import FilterDialog from "components/molecules/FilterDialog/index.jsx";
 import { useGetTasksQuery } from "/src/store/apiSlice.jsx";
 import PlaceAutocomplete from "components/molecules/PlaceAutocomplete";
+import Map from "components/organisms/Map";
+import { useTheme } from "@emotion/react";
 // Default filters
 const defaultFilters = {
   locationType: "",
@@ -14,10 +16,17 @@ const defaultFilters = {
   priceRange: [100, 99000],
   sortBy: "date-desc",
 };
+const defaultLocation = {
+  lat: 26.9124,
+  lng: 75.7873,
+};
 const BrowseTasks = () => {
+  const theme = useTheme();
+  const mapContainerRef = useRef(null);
+  const [mapWidth, setMapWidth] = useState(0);
   const [filters, setFilters] = useState(defaultFilters);
   const [searchText, setSearchText] = useState("");
-  const [userLocation, setUserLocation] = useState(null);
+  const [userLocation, setUserLocation] = useState(defaultLocation);
   let { data: tasks = [] } = useGetTasksQuery({ ...filters, ...userLocation });
 
   // Filter tasks based on search text
@@ -48,12 +57,18 @@ const BrowseTasks = () => {
   useEffect(() => {
     fetchUserLocation();
   }, []);
+  useEffect(() => {
+    if (mapContainerRef.current) {
+      const width = mapContainerRef.current.clientWidth;
+      setMapWidth(width);
+    }
+  }, [mapContainerRef]);
+
   const handleClickDialogOpen = () => {
     setDialogOpen(true);
   };
   const handleCloseFilterDialog = (event) => {
     const filters = event.filters;
-    console.log("filters", filters);
     if (filters) {
       setFilters(event.filters);
     }
@@ -78,64 +93,104 @@ const BrowseTasks = () => {
         onClose={handleCloseFilterDialog}
         defaultFilters={filters}
       />
-      {/* Filters */}
+      {/* Filter Headers */}
       <Stack
-        className='filter-section'
-        component='section'
         direction='row'
-        spacing={1}
+        sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
+        justifyContent='center'
         alignItems='center'
-        aria-label='Filter Section'
-        sx={{
-          padding: "1rem",
-          zIndex: 2,
-          position: "sticky",
-          top: 56,
-          backgroundColor: "white",
-          borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
-        }}
       >
-        {/* Filter Section */}
-        <Box sx={{ flex: 1 }}>
-          {/* Location */}
-          <PlaceAutocomplete
-            size={"small"}
-            placeholder='City'
-            onSelectPlace={handleCitySelect}
-          />
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          {/* Search field */}
-          <TextField
-            label='Search'
-            size='small'
-            aria-label='Search'
-            value={searchText}
-            onChange={handleSearchTextChange}
-          />
-        </Box>
-        <Box>
-          {/* filter button */}
-          <IconButton
-            aria-label='filter-tasks'
-            onClick={handleClickDialogOpen}
-          >
-            <FilterAltOutlinedIcon />
-          </IconButton>
-        </Box>
+        {/* Filters */}
+        <Box sx={{ display: { xs: "none", md: "block" }, flex: 1 }}></Box>
+        <Stack
+          className='filter-section'
+          component='section'
+          direction='row'
+          spacing={0.5}
+          alignItems='center'
+          aria-label='Filter Section'
+          sx={{
+            padding: "1rem",
+            backgroundColor: "white",
+            [theme.breakpoints.up("sm")]: {
+              padding: "0.5rem",
+            },
+          }}
+        >
+          {/* Filter Section */}
+          <Box sx={{ flex: 1 }}>
+            {/* Location */}
+            <PlaceAutocomplete
+              size={"small"}
+              placeholder='City'
+              onSelectPlace={handleCitySelect}
+            />
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            {/* Search field */}
+            <TextField
+              label='Search'
+              size='small'
+              aria-label='Search'
+              value={searchText}
+              onChange={handleSearchTextChange}
+            />
+          </Box>
+          <Box>
+            {/* filter button */}
+            <IconButton
+              aria-label='filter-tasks'
+              onClick={handleClickDialogOpen}
+              sx={{ padding: 0 }}
+            >
+              <FilterAltOutlinedIcon />
+            </IconButton>
+          </Box>
+        </Stack>
       </Stack>
 
-      {/* Task List */}
-      <Box
-        component='section'
-        aria-label='Task List'
-        sx={{ padding: "1rem", position: "relative" }}
+      {/* Main Content: TaskList and Map */}
+      <Stack
+        direction='row'
+        justifyContent='center'
       >
-        <TaskList
-          tasks={filteredTasks}
-          type='tasks'
-        />
-      </Box>
+        {/* Task List */}
+        <Box
+          component='section'
+          aria-label='Task List'
+          sx={{
+            padding: "1rem",
+            overflowY: "auto",
+            maxHeight: "100vh",
+            minWidth: "40%",
+          }}
+        >
+          <TaskList
+            tasks={filteredTasks}
+            type='tasks'
+          />
+        </Box>
+
+        {/* Map */}
+        <Box
+          sx={{
+            height: "100%",
+            display: {
+              xs: "none",
+              md: "block",
+            },
+            flex: 1,
+          }}
+          ref={mapContainerRef}
+        >
+          <Map
+            tasks={filteredTasks}
+            center={userLocation}
+            width={mapWidth}
+            sx={{ width: "100%", backgroundColor: "blue" }}
+          />
+        </Box>
+      </Stack>
     </>
   );
 };

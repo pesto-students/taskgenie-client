@@ -12,7 +12,7 @@ import Avatar from "@mui/material/Avatar";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import { useTheme } from "@mui/material/styles";
-import { formatDate } from "../../../utils.jsx";
+import { formatAmount, formatDate } from "../../../utils.jsx";
 import { useGetUserNameByIdQuery } from "store/apiSlice";
 import TaskStatusChip from "components/molecules/TaskStatusChip";
 // TaskItem component
@@ -106,7 +106,7 @@ const TaskItem = ({ task }) => {
               component='span'
               sx={{ flexGrow: 1 }}
             >
-              ₹{task.budget}
+              {formatAmount(task.budget)}
             </Typography>
             {/* Posted Avatar */}
             {task.postedBy && (
