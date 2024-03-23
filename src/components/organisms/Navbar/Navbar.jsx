@@ -33,7 +33,7 @@ const mobileNavItems = [
 const desktopNavItems = [
   { title: "Post a Task", path: "/postTask" },
   { title: "My Tasks", path: "/mytasks" },
-  { title: "Browse Tasks", path: "/browse-tasks" },
+  { title: "Browse Tasks", path: "/tasks" },
 ];
 
 const Navbar = ({ window }) => {
