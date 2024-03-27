@@ -82,7 +82,7 @@ function UserProfile() {
       </Card>
 
       {/* Rating*/}
-      <Card sx={{ width: "80%", margin: "1rem auto", height: "10rem" }}>
+      <Card sx={{ width: "80%", margin: "1rem auto", padding:'1rem', height: "10rem" }}>
         <Tabs
           value={ratingsType}
           label={userTypes.label}

@@ -43,6 +43,11 @@ const routes = [
         element: <PostTask />,
         errorElement: <ErrorPage />,
       },
+      {
+        path: '/user-profile',
+        element: <UserProfile />,
+        errorElement: <ErrorPage />
+      },
     ],
   },
   {
@@ -58,11 +63,6 @@ const routes = [
   {
     path: '/setup-profile',
     element: <SetupProfile />,
-    errorElement: <ErrorPage />
-  },
-  {
-    path: '/user-profile',
-    element: <UserProfile />,
     errorElement: <ErrorPage />
   },
   {
