@@ -33,6 +33,7 @@ const TaskGenieSection = () => {
           [theme.breakpoints.up("sm")]: {
             flexDirection: "row",
             justifyContent: "space-between",
+            padding: "0 1rem",
           },
         }}
         alignItems='center'

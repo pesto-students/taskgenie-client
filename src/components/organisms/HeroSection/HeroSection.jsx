@@ -38,6 +38,8 @@ const HeroSection = () => {
           [theme.breakpoints.up("sm")]: {
             flexDirection: "row",
             justifyContent: "center",
+            paddingTop: "3rem",
+            paddingBottom: "3rem",
             "& .task-title-form": {
               flex: 1,
               flexDirection: "row",
