@@ -1,184 +1,32 @@
 import { useTheme } from "@mui/material";
-import { useState } from "react";
-import {
-  Box,
-  Container,
-  Button,
-  TextField,
-  Typography,
-  Stack,
-  Grid,
-  Card,
-} from "components/atoms";
-import { styled } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { Box, Container, Button, Typography, Stack } from "components/atoms";
+import Section from "components/molecules/Section";
 import DoneIcon from "@mui/icons-material/Done";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import HouseCleaning from "assets/cleaning-service.svg?react";
-import Shopping from "assets/WindowShopping.svg?react";
-import OpenSource from "assets/Open-source.svg?react";
-import Electrician from "assets/Electrician.svg?react";
 import EasySetupImage from "assets/Appinstallation.svg?react";
-import TaskGenie from "assets/Taskgenie.svg?react";
+import TaskGenieImage from "assets/Taskgenie.svg?react";
 import HomeCarousel from "../molecules/HomeCarousel";
-import ServiceItem from "components/molecules/ServiceItem";
 import TaskGenieStepper from "components/molecules/TaskGenieStepper/TaskGenieStepper";
-
+import HeroSection from "components/organisms/HeroSection/HeroSection";
+import { useNavigate } from "react-router-dom";
+import PopularServices from "components/organisms/PopularServices/PopularServices";
 const Home = () => {
   const theme = useTheme();
-  const [taskTitle, setTaskTitle] = useState("");
   const navigateTo = useNavigate();
-  const handleTitleChange = (event) => {
-    setTaskTitle(event.target.value);
-  };
-  const handlePostTask = () => {
-    // Redirect to /postTask route and pass the taskTitle as a query parameter
-    navigateTo(`/postTask?title=${encodeURIComponent(taskTitle)}`);
-  };
-
   const handleFindTask = () => {
     navigateTo("/tasks");
   };
-  const Section = styled(Box)(({ theme }) => {
-    return {
-      padding: "3.5rem 1rem",
-      [theme.breakpoints.up("md")]: {
-        padding: "3.5 1.5rem",
-      },
-    };
-  });
 
   return (
     <Container
       maxWidth='md'
       sx={{ padding: 0 }}
     >
-      <Section
-        className='hero-section'
-        component='section'
-        sx={{
-          backgroundColor: theme.palette.primary.main,
-          color: "white",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            "& .task-title-form": {
-              marginTop: "2rem",
-            },
-
-            "& .title-submit": {
-              marginTop: "0.7rem",
-            },
-            // lg screen
-            [theme.breakpoints.up("sm")]: {
-              flexDirection: "row",
-              justifyContent: "center",
-              "& .task-title-form": {
-                flex: 1,
-                flexDirection: "row",
-                margin: "0 0 0 15px!important",
-                maxWidth: "400px",
-              },
-            },
-          }}
-        >
-          <Box>
-            <Typography variant='h5'>
-              Find the right <Typography variant='h4'>taskGenie,</Typography> to
-              get work done
-            </Typography>
-          </Box>
-          <Stack
-            class='task-title-form'
-            direction='column'
-          >
-            <TextField
-              fullWidth
-              placeholder='What do you need help with'
-              sx={{
-                "& .MuiInputBase-root": {
-                  backgroundColor: "white",
-                },
-              }}
-              onChange={handleTitleChange}
-              value={taskTitle}
-            />
-            <Button
-              variant='contained'
-              sx={{ backgroundColor: theme.palette.primary.light }}
-              onClick={handlePostTask}
-              fullWidth
-              className='title-submit'
-            >
-              Post Task
-            </Button>
-          </Stack>
-        </Box>
-      </Section>
-
+      <HeroSection />
       {/* Popular Services */}
-      <Section
-        component='section'
-        className='popular-services-section'
-      >
-        <Box component='header'>
-          <Typography variant='h6'>Popular Services</Typography>
-        </Box>
-        <Box>
-          <Grid
-            container
-            spacing={1}
-            marginTop='1rem'
-          >
-            <Grid
-              item
-              xs={6}
-              md={3}
-            >
-              <ServiceItem
-                label={"House Cleaning"}
-                image={<HouseCleaning />}
-              ></ServiceItem>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              md={3}
-            >
-              <ServiceItem
-                label={"Personal Shopper"}
-                image={<Shopping />}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              md={3}
-            >
-              <ServiceItem
-                label={"Repairs"}
-                image={<Electrician />}
-              />
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              md={3}
-            >
-              <ServiceItem
-                label={"Website"}
-                image={<OpenSource />}
-              />
-            </Grid>
-          </Grid>
-        </Box>
-      </Section>
-
+      <PopularServices />
       {/* Timeline */}
       <Section
         component='section'
@@ -225,16 +73,12 @@ const Home = () => {
           Become a TaskGenie,
           <Typography variant='h5'>And Earn with flexibility.</Typography>
         </Typography>
-        <Stack
-          sx={{ marginTop: "1rem" }}
-          direction='column'
-          gap={1}
-        >
+        <Box sx={{ marginTop: "1rem" }}>
           <Typography variant='body1'>
             Unleash your skills, whether you're a spreadsheet genius or a
             skilled carpenter, by discovering your next gig on our platform.
           </Typography>
-        </Stack>
+        </Box>
         <Stack
           direction='row'
           alignItems='center'
@@ -284,8 +128,9 @@ const Home = () => {
             Expand your business and clientele with ease
           </Typography>
         </Stack>
-        <TaskGenie />
-
+        <Box>
+          <TaskGenieImage />
+        </Box>
         <Stack
           sx={{ marginTop: "1rem" }}
           direction='column'
