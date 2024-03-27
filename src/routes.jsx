@@ -28,10 +28,10 @@ const routes = [
       },
       {
         path: "tasks/:taskId",
-        element: <TaskDetails />,
+        element: <ProtectedRoutes element={<TaskDetails />} />,
       },
       {
-        path: "/mytasks",
+        path: "/myTasks",
         element: <ProtectedRoutes element={<MyTasks />} />,
       },
       {
@@ -39,8 +39,8 @@ const routes = [
         element: <ProtectedRoutes element={<MyTaskDetails />} />,
       },
       {
-        path: "/posttask",
-        element: <PostTask />,
+        path: "/postTask",
+        element: <ProtectedRoutes element={<PostTask />} />,
         errorElement: <ErrorPage />,
       },
       {
@@ -61,9 +61,9 @@ const routes = [
     errorElement: <ErrorPage />,
   },
   {
-    path: '/setup-profile',
+    path: "/setup-profile",
     element: <SetupProfile />,
-    errorElement: <ErrorPage />
+    errorElement: <ErrorPage />,
   },
   {
     path: "/error",

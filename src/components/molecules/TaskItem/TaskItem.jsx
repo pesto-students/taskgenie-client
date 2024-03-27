@@ -12,16 +12,25 @@ import Avatar from "@mui/material/Avatar";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import { useTheme } from "@mui/material/styles";
-import { formatDate } from "../../../utils.jsx";
-
+import { formatAmount, formatDate } from "../../../utils.jsx";
+import { useGetUserNameByIdQuery } from "store/apiSlice";
+import TaskStatusChip from "components/molecules/TaskStatusChip";
 // TaskItem component
 const TaskItem = ({ task }) => {
   const theme = useTheme();
+  const { data } = useGetUserNameByIdQuery(task.postedBy);
   const iconColor = theme ? theme.palette.textLight?.main : "black";
   const avatarColor = theme ? theme.palette.primary?.light : "purple";
   return (
     <>
-      <Card>
+      <Card
+        sx={{
+          transition: "box-shadow 0.3s", // Add transition for box-shadow
+          "&:hover": {
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)", // Apply shadow on hover
+          },
+        }}
+      >
         <CardContent>
           <Stack
             direction='row'
@@ -37,13 +46,7 @@ const TaskItem = ({ task }) => {
             </Typography>
             <Box>
               {/* Task Status */}
-              {task.status && (
-                <Chip
-                  label={task.status}
-                  sx={{ textTransform: "capitalize", flexGrow: 0 }}
-                  size='small'
-                />
-              )}
+              {task.status && <TaskStatusChip status={task.status} />}
             </Box>
           </Stack>
           <Box sx={{ paddingTop: "0.7rem" }}>
@@ -102,7 +105,9 @@ const TaskItem = ({ task }) => {
               variant='h6'
               component='span'
               sx={{ flexGrow: 1 }}
-            >{`₹${task.budget}`}</Typography>
+            >
+              {formatAmount(task.budget)}
+            </Typography>
             {/* Posted Avatar */}
             {task.postedBy && (
               <Avatar
@@ -112,7 +117,7 @@ const TaskItem = ({ task }) => {
                   height: "30px",
                 }}
               >
-                {task.postedBy?.charAt(0)}
+                {data?.name.charAt(0)}
               </Avatar>
             )}
           </Stack>

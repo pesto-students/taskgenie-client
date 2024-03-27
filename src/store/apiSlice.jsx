@@ -54,17 +54,35 @@ export const apiSlice = createApi({
         url: `/tasks/${taskId}`,
       }),
     }),
+    postTask: builder.mutation({
+      query: (data) => {
+        return {
+          url: "/my-tasks/",
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
+    cancelTask: builder.mutation({
+      query: (taskId) => ({
+        url: `my-tasks/${taskId}`,
+        method: "DELETE",
+      }),
+    }),
     /**
      * Browse Tasks Endpoints
      */
     getTasks: builder.query({
-      query: ({ distance, locationType, taskStatus, lat, lng }) => {
+      query: ({ distance, locationType, priceRange, taskStatus, lat, lng }) => {
         let url = "/tasks?";
-        url += distance ? `distance=${distance}&` : "";
-        url += locationType ? `locationType=${locationType}&` : "";
-        url += taskStatus ? `status=${taskStatus}&` : "";
-        url += lng ? `lng=${lng}&` : "";
-        url += lat ? `lat=${lat}&` : "";
+        if (distance) url += `distance=${distance}&`;
+        if (locationType) url += `locationType=${locationType}&`;
+        if (taskStatus) url += `status=${taskStatus}&`;
+        if (lng) url += `lng=${lng}&`;
+        if (lat) url += `lat=${lat}&`;
+        if (priceRange)
+          url += `minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}&`;
+
         // Remove the trailing '&' if it exists
         url = url.endsWith("&") ? url.slice(0, -1) : url;
         return { url };
@@ -91,6 +109,15 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+    getUserById: builder.query({
+      query: (userId) => `/user/${userId}/`,
+    }),
+    getUserNameById: builder.query({
+      query: (userId) => `/user/${userId}/name`,
+    }),
+    /**
+     * Questions
+     */
     postQuestion: builder.mutation({
       query: ({ taskId, body }) => ({
         url: `/task/${taskId}/questions`,
@@ -99,11 +126,26 @@ export const apiSlice = createApi({
       }),
     }),
     replyToQuestion: builder.mutation({
-      query: ({ taskId, questionId, body }) => ({
-        url: `/tasks/${taskId}/questions/${questionId}`,
+      query: ({ taskId, questionId, userId, message }) => ({
+        url: `/task/${taskId}/questions/${questionId}`,
         method: "POST",
-        body,
+        body: {
+          userId,
+          message,
+        },
       }),
+    }),
+    /**
+     * Quotes
+     */
+    addQuote: builder.mutation({
+      query: ({ taskId, body }) => {
+        return {
+          url: `/tasks/${taskId}/quotes`,
+          method: "POST",
+          body,
+        };
+      },
     }),
   }),
 });
@@ -111,13 +153,19 @@ export const apiSlice = createApi({
 export const {
   useSignupMutation,
   useSigninMutation,
+  usePostTaskMutation,
   useGetMyTasksQuery,
   useGetMyTaskDetailsQuery,
+  useCancelTaskMutation,
   useGetTaskDetailsQuery,
   useGetTasksQuery,
   usePostQuestionMutation,
+  useReplyToQuestionMutation,
   useSetupProfileMutation,
   useGetProfileStatusQuery,
   useUpdateUserProfileMutation,
+  useGetUserByIdQuery,
+  useGetUserNameByIdQuery,
+  useAddQuoteMutation,
 } = apiSlice;
 export default apiSlice;

@@ -7,7 +7,7 @@ const Box = ({ children, ...props }) => {
 
 // Define prop types for the Box component
 Box.propTypes = {
-  children: PropTypes.node.isRequired, // Require children to be valid React nodes
+  children: PropTypes.node, // Require children to be valid React nodes
 };
 
 export default Box;

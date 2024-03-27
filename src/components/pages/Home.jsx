@@ -2,6 +2,7 @@ import { useTheme } from "@mui/material";
 import { useState } from "react";
 import {
   Box,
+  Container,
   Button,
   TextField,
   Typography,
@@ -9,19 +10,20 @@ import {
   Grid,
   Card,
 } from "components/atoms";
+import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import DoneIcon from "@mui/icons-material/Done";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import HouseCleaning from "assets/cleaning-service.svg?react";
-import Shopping from "assets/Eco-shopping.svg?react";
+import Shopping from "assets/WindowShopping.svg?react";
 import OpenSource from "assets/Open-source.svg?react";
 import Electrician from "assets/Electrician.svg?react";
 import TaskGenie from "assets/Taskgenie.svg?react";
 import HomeCarousel from "../molecules/HomeCarousel";
-
-const sectionPadding = "1.5rem 1rem";
+import ServiceItem from "components/molecules/ServiceItem";
+import TaskGenieStepper from "components/molecules/TaskGenieStepper/TaskGenieStepper";
 
 const Home = () => {
   const theme = useTheme();
@@ -32,179 +34,167 @@ const Home = () => {
   };
   const handlePostTask = () => {
     // Redirect to /postTask route and pass the taskTitle as a query parameter
-    console.log("her");
     navigateTo(`/postTask?title=${encodeURIComponent(taskTitle)}`);
   };
 
   const handleFindTask = () => {
     navigateTo("/tasks");
   };
+  const Section = styled(Box)(({ theme }) => {
+    return {
+      padding: "3.5rem 1rem",
+      [theme.breakpoints.up("md")]: {
+        padding: "3.5 1.5rem",
+      },
+    };
+  });
+
   return (
-    <>
-      <Box
+    <Container
+      maxWidth='md'
+      sx={{ padding: 0 }}
+    >
+      <Section
         className='hero-section'
         component='section'
         sx={{
           backgroundColor: theme.palette.primary.main,
           color: "white",
-          padding: sectionPadding,
         }}
       >
-        <Box>
-          <Typography variant='h5'>
-            Find the right <Typography variant='h4'>taskGenie,</Typography> to
-            get work done
-          </Typography>
-        </Box>
-        <Stack
-          sx={{ marginTop: "1rem" }}
-          direction='column'
-          gap={1}
-        >
-          <TextField
-            placeholder='What do you need help with'
-            sx={{
-              "& .MuiInputBase-root": {
-                backgroundColor: "white",
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            "& .task-title-form": {
+              marginTop: "2rem",
+            },
+
+            "& .title-submit": {
+              marginTop: "0.7rem",
+            },
+            // lg screen
+            [theme.breakpoints.up("sm")]: {
+              flexDirection: "row",
+              justifyContent: "center",
+              "& .task-title-form": {
+                flex: 1,
+                flexDirection: "row",
+                margin: "0 0 0 15px!important",
+                maxWidth: "400px",
               },
-            }}
-            onChange={handleTitleChange}
-            value={taskTitle}
-          />
-          <Button
-            variant='contained'
-            sx={{ backgroundColor: theme.palette.primary.light }}
-            onClick={handlePostTask}
+            },
+          }}
+        >
+          <Box>
+            <Typography variant='h5'>
+              Find the right <Typography variant='h4'>taskGenie,</Typography> to
+              get work done
+            </Typography>
+          </Box>
+          <Stack
+            class='task-title-form'
+            direction='column'
           >
-            Post Task
-          </Button>
-        </Stack>
-      </Box>
+            <TextField
+              fullWidth
+              placeholder='What do you need help with'
+              sx={{
+                "& .MuiInputBase-root": {
+                  backgroundColor: "white",
+                },
+              }}
+              onChange={handleTitleChange}
+              value={taskTitle}
+            />
+            <Button
+              variant='contained'
+              sx={{ backgroundColor: theme.palette.primary.light }}
+              onClick={handlePostTask}
+              fullWidth
+              className='title-submit'
+            >
+              Post Task
+            </Button>
+          </Stack>
+        </Box>
+      </Section>
 
       {/* Popular Services */}
-      {/* TODO :  size of svgs */}
-      <Box
+      <Section
         component='section'
         className='popular-services-section'
-        sx={{ padding: sectionPadding }}
       >
         <Box component='header'>
           <Typography variant='h6'>Popular Services</Typography>
         </Box>
-        <Box sx={{ display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",}}>
+        <Box>
           <Grid
             container
-            spacing={2}
+            spacing={1}
             marginTop='1rem'
           >
             <Grid
               item
               xs={6}
+              md={3}
             >
-              <div
-                className={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Typography variant='subheading 1' sx={{ textAlign: 'center', mb: 2 }}>House Cleaning</Typography>
-                <Box>
-                  <HouseCleaning />
-                </Box>
-              </div>
+              <ServiceItem
+                label={"House Cleaning"}
+                image={<HouseCleaning />}
+              ></ServiceItem>
             </Grid>
             <Grid
               item
               xs={6}
+              md={3}
             >
-              <div
-                className={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  margin:'auto',
-                }}
-              >
-                <Typography variant='subheading 1' sx={{ textAlign: 'center', mb: 2 }}>
-                  Website Development
-                </Typography>
-                <Box>
-                  <OpenSource />
-                </Box>
-              </div>
+              <ServiceItem
+                label={"Personal Shopper"}
+                image={<Shopping />}
+              />
             </Grid>
             <Grid
               item
               xs={6}
+              md={3}
             >
-              <div
-                className={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Typography variant='subheading 1' sx={{ textAlign: 'center', mb: 2 }}>Shopping</Typography>
-                <Box>
-                  <Shopping />
-                </Box>
-              </div>
+              <ServiceItem
+                label={"Repairs"}
+                image={<Electrician />}
+              />
             </Grid>
             <Grid
               item
               xs={6}
+              md={3}
             >
-              <div
-                className={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Typography variant='subheading 1' sx={{ textAlign: 'center', mb: 2 }}>
-                  Electrical Repairs
-                </Typography>
-                <Box>
-                  <Electrician />
-                </Box>
-              </div>
-              
+              <ServiceItem
+                label={"Website"}
+                image={<OpenSource />}
+              />
             </Grid>
           </Grid>
         </Box>
-      </Box>
+      </Section>
 
       {/* Timeline */}
-      <Box
+      <Section
         component='section'
         sx={{
           backgroundColor: theme.palette.grey[200],
-          padding: sectionPadding,
         }}
       >
         <Typography variant='h6'>Find genie in 3 easy Steps</Typography>
-        <Stack direction='column'>
-          <Typography variant='subtitle'>Step 1</Typography>
-          <Typography variant='subtitle'>Step 2</Typography>
-          <Typography variant='subtitle'>Step 3</Typography>
-        </Stack>
-      </Box>
+        <TaskGenieStepper />
+      </Section>
 
       {/* Earn Money */}
-      <Box
+      <Section
         component='section'
         sx={{
           backgroundColor: theme.palette.primary.main,
           color: "white",
-          padding: sectionPadding,
         }}
       >
         <Typography variant='h5'>
@@ -285,16 +275,17 @@ const Home = () => {
             Earn money as Task Genie
           </Button>
         </Stack>
-      </Box>
+      </Section>
 
       {/* Testimonials */}
-      <Box
+      <Section
         component='section'
         className='testimonials-section'
-        sx={{
-          padding: sectionPadding,
-          // height: "4rem",
-        }}
+        sx={
+          {
+            // height: "4rem",
+          }
+        }
       >
         <Box>
           <Typography variant='h5'>Testimonials</Typography>
@@ -308,15 +299,14 @@ const Home = () => {
             <HomeCarousel />
           </Stack>
         </Box>
-      </Box>
+      </Section>
 
       {/* Footer */}
-      <Box
+      <Section
         component='footer'
         className='footer'
         sx={{
           backgroundColor: theme.palette.grey[200],
-          padding: sectionPadding,
         }}
       >
         <Box>
@@ -353,8 +343,8 @@ const Home = () => {
             <TwitterIcon />
           </Stack>
         </Box>
-      </Box>
-    </>
+      </Section>
+    </Container>
   );
 };
 

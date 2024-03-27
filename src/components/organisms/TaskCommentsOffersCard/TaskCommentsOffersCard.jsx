@@ -5,7 +5,6 @@ import CommentItem from "components/molecules/CommentItem";
 import { Typography } from "@mui/material";
 function TaskCommentsOffersCard({ comments }) {
   const [value, setValue] = React.useState("questions");
-  console.log(comments);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

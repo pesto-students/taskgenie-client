@@ -1,79 +1,131 @@
 import { useState } from "react";
-import { ImageList, ImageListItem, Button, Box } from "../UI";
-import { IconButton, ImageListItemBar } from "@mui/material";
+import { Button, Box, Stack } from "components/atoms";
+import {
+  IconButton,
+  ImageListItemBar,
+  ImageList,
+  ImageListItem,
+  Dialog,
+  DialogContent,
+  Typography,
+} from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import Compressor from "compressorjs";
+
 const maxImageCount = 3;
-// Configure AWS S3
-// TODO: move to redux api slice
-// const s3 = new AWS.S3({
-//   accessKeyId: "YOUR_ACCESS_KEY_ID",
-//   secretAccessKey: "YOUR_SECRET_ACCESS_KEY",
-//   region: "YOUR_AWS_REGION",
-// });
 
-const TaskImageList = () => {
-  const [images, setImages] = useState([]);
+const TaskImageList = ({ images = [], onAddImage, onRemoveImage }) => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const handleImageAdd = async (event) => {
+    try {
+      const file = event.target.files[0];
+      const compressedImage = await compressImage(file);
+      if (compressedImage) {
+        onAddImage({
+          url: URL.createObjectURL(compressedImage),
+          file: compressedImage,
+        });
+      }
+    } catch (error) {
+      console.error("Error compressing image:", error);
+    }
+  };
 
-  const handleAddImage = (acceptedFiles) => {
-    // Upload images to S3 and update state with image URLs
-    // TODO: move this to redux thunk
-    acceptedFiles.forEach((file) => {
-      const params = {
-        Bucket: "YOUR_S3_BUCKET_NAME",
-        Key: file.name,
-        Body: file,
-        ACL: "public-read",
-      };
+  const handleImageRemove = (image) => {
+    onRemoveImage(image);
+  };
+  const openImageDialog = (image) => {
+    setSelectedImage(image);
+  };
 
-      s3.upload(params, (err, data) => {
-        if (err) {
-        } else {
-          const imageUrl = data.Location;
-          setImages((prevImages) => [
-            ...prevImages,
-            { img: imageUrl, title: "image" },
-          ]);
-        }
+  const closeImageDialog = () => {
+    setSelectedImage(null);
+  };
+
+  const compressImage = (file) => {
+    return new Promise((resolve, reject) => {
+      new Compressor(file, {
+        quality: 0.6, // Adjust the quality as needed
+        success: (compressedFile) => {
+          resolve(compressedFile);
+        },
+        error: (error) => {
+          reject(error);
+        },
       });
     });
   };
-
   return (
     <Box>
-      <ImageList cols={3}>
-        {images.map((item, index) => (
-          <ImageListItem key={item.img}>
-            <img
-              srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-              src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-              alt={item.title}
-              loading='lazy'
-            />
-            <ImageListItemBar
-              sx={{
-                background:
-                  "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
-                  "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
-              }}
-              position='top'
-              actionIcon={
-                <IconButton
-                  sx={{ color: "white" }}
-                  onClick={() => removeImage(index)}
-                >
-                  <DeleteOutlineOutlinedIcon />
-                </IconButton>
-              }
-            />
-          </ImageListItem>
-        ))}
+      <ImageList
+        cols={3}
+        sx={{ borderRadius: "12px", minHeight: "120px" }}
+      >
+        {images.map((image) => {
+          return (
+            <ImageListItem key={image}>
+              <img
+                src={image.url}
+                alt='Task Image'
+                onClick={() => openImageDialog(image)}
+              />
+              <ImageListItemBar
+                actionIcon={
+                  <IconButton
+                    sx={{ color: "white" }}
+                    onClick={() => handleImageRemove(image)}
+                  >
+                    <DeleteOutlineOutlinedIcon />
+                  </IconButton>
+                }
+              />
+            </ImageListItem>
+          );
+        })}
         {
           // Todo. redner <div> add photo</div> if there are less than 3 images
           images.length < maxImageCount && (
-            <Button onClick={handleAddImage}>add</Button>
+            <Stack justifyContent='center'>
+              <label htmlFor='upload-image'>
+                <input
+                  id='upload-image'
+                  type='file'
+                  accept='image/*'
+                  style={{ display: "none" }}
+                  onChange={handleImageAdd}
+                />
+                <Button
+                  size='small'
+                  variant='outlined'
+                  component='span'
+                  startIcon={<AddPhotoAlternateIcon />}
+                >
+                  <Typography variant='caption'>Add Image</Typography>
+                </Button>
+              </label>
+            </Stack>
           )
         }
       </ImageList>
+
+      {/* Dialog to display the selected image */}
+      <Dialog
+        open={Boolean(selectedImage)}
+        onClose={closeImageDialog}
+      >
+        <DialogContent style={{ maxWidth: "80vw", maxHeight: "80vh" }}>
+          <img
+            src={selectedImage}
+            alt='Selected Image'
+            style={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+              objectFit: "contain",
+            }}
+          />
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 };

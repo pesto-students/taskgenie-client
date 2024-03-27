@@ -1,8 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { InputAdornment } from "@mui/material/";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleButton from "../molecules/GoogleButton/index.jsx";
+import { IconButton } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import {
   Box,
   Typography,
@@ -13,15 +16,20 @@ import {
   Card,
   FormControl,
   TextField,
+  Link,
 } from "../atoms/index.js";
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
-import { useSignupMutation, useGetProfileStatusQuery } from "../../store/apiSlice.jsx";
+import {
+  useSignupMutation,
+  useGetProfileStatusQuery,
+} from "../../store/apiSlice.jsx";
 import { useDispatch } from "react-redux";
 import { setTokens } from "../../store/authSlice.jsx";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const SignUp = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const notificationPosition = { vertical: "top", horizontal: "center" };
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -62,12 +70,15 @@ const SignUp = () => {
         anchorOrigin: notificationPosition,
       });
     }
-      navigate("/setup-profile");
+    navigate("/setup-profile");
   };
 
-  
   useEffect(() => {
-    if (isAuthenticated && profileStatus && profileStatus.isSetupProfileComplete) {
+    if (
+      isAuthenticated &&
+      profileStatus &&
+      profileStatus.isSetupProfileComplete
+    ) {
       // Navigate to home
       navigate("/");
     }
@@ -75,7 +86,7 @@ const SignUp = () => {
 
   return (
     <>
-      <Container>
+      <Container maxWidth='sm'>
         <Box sx={{ padding: "2rem 0" }}>
           {/* Header */}
           <Typography
@@ -109,7 +120,7 @@ const SignUp = () => {
                           {...field}
                           type={"email"}
                           placeholder='Enter Email'
-                          autoComplete={"username"}
+                          autoComplete={"email"}
                           fullWidth
                           InputProps={{
                             startAdornment: (
@@ -134,7 +145,7 @@ const SignUp = () => {
                       render={({ field }) => (
                         <TextField
                           {...field}
-                          type={"password"}
+                          type={showPassword ? "text" : "password"} // Toggle between text and password
                           placeholder='Enter Password'
                           inputProps={{
                             maxLength: 32,
@@ -144,6 +155,20 @@ const SignUp = () => {
                             startAdornment: (
                               <InputAdornment position='start'>
                                 <LockOutlinedIcon />
+                              </InputAdornment>
+                            ),
+                            endAdornment: (
+                              <InputAdornment position='end'>
+                                <IconButton
+                                  onClick={() => setShowPassword(!showPassword)}
+                                  edge='end'
+                                >
+                                  {showPassword ? (
+                                    <VisibilityIcon />
+                                  ) : (
+                                    <VisibilityOffIcon />
+                                  )}
+                                </IconButton>
                               </InputAdornment>
                             ),
                           }}
@@ -170,7 +195,10 @@ const SignUp = () => {
                     </Button>
                   </FormControl>
                   <Typography>Or</Typography>
-                  <GoogleButton type='signup' />
+                  <Typography>
+                    Already have an Account? <Link href='/signin'>Sign In</Link>
+                  </Typography>
+                  {/* <GoogleButton type='signup' /> */}
                 </Stack>
               </form>
             </Box>
