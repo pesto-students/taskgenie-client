@@ -23,6 +23,7 @@ import Electrician from "assets/Electrician.svg?react";
 import TaskGenie from "assets/Taskgenie.svg?react";
 import HomeCarousel from "../molecules/HomeCarousel";
 import ServiceItem from "components/molecules/ServiceItem";
+import TaskGenieStepper from "components/molecules/TaskGenieStepper/TaskGenieStepper";
 
 const Home = () => {
   const theme = useTheme();
@@ -49,7 +50,10 @@ const Home = () => {
   });
 
   return (
-    <Container maxWidth='md'>
+    <Container
+      maxWidth='md'
+      sx={{ padding: 0 }}
+    >
       <Section
         className='hero-section'
         component='section'
@@ -117,7 +121,6 @@ const Home = () => {
       </Section>
 
       {/* Popular Services */}
-      {/* TODO :  size of svgs */}
       <Section
         component='section'
         className='popular-services-section'
@@ -183,11 +186,7 @@ const Home = () => {
         }}
       >
         <Typography variant='h6'>Find genie in 3 easy Steps</Typography>
-        <Stack direction='column'>
-          <Typography variant='subtitle'>Step 1</Typography>
-          <Typography variant='subtitle'>Step 2</Typography>
-          <Typography variant='subtitle'>Step 3</Typography>
-        </Stack>
+        <TaskGenieStepper />
       </Section>
 
       {/* Earn Money */}
