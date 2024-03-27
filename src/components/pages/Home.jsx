@@ -20,6 +20,7 @@ import HouseCleaning from "assets/cleaning-service.svg?react";
 import Shopping from "assets/WindowShopping.svg?react";
 import OpenSource from "assets/Open-source.svg?react";
 import Electrician from "assets/Electrician.svg?react";
+import EasySetupImage from "assets/Appinstallation.svg?react";
 import TaskGenie from "assets/Taskgenie.svg?react";
 import HomeCarousel from "../molecules/HomeCarousel";
 import ServiceItem from "components/molecules/ServiceItem";
@@ -185,8 +186,31 @@ const Home = () => {
           backgroundColor: theme.palette.grey[200],
         }}
       >
-        <Typography variant='h6'>Find genie in 3 easy Steps</Typography>
-        <TaskGenieStepper />
+        <Typography
+          variant='h6'
+          sx={{ marginBottom: "16px" }}
+        >
+          Find genie in 3 easy Steps
+        </Typography>
+        <Stack
+          direction='column'
+          alignItems='center'
+          justifyContent='center'
+          sx={{
+            [theme.breakpoints.up("md")]: {
+              flexDirection: "row",
+            },
+          }}
+        >
+          <TaskGenieStepper />
+          <Box
+            sx={{
+              width: "15rem",
+            }}
+          >
+            <EasySetupImage />
+          </Box>
+        </Stack>
       </Section>
 
       {/* Earn Money */}
