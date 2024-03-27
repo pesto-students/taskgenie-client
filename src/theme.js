@@ -16,9 +16,6 @@ const theme = createTheme({
     body: {
       color: textDark,
     },
-    h6: {
-      color: textDark,
-    },
     caption: {
       color: textLight,
     },

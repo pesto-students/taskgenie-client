@@ -1,11 +1,9 @@
-import React from "react";
 import {
   Stepper,
   Step,
   StepLabel,
   Typography,
   StepContent,
-  StepIcon,
   useTheme,
 } from "@mui/material";
 import { Box } from "components/atoms";
@@ -34,7 +32,16 @@ const steps = [
 const TaskGenieStepper = () => {
   const theme = useTheme();
   return (
-    <Box sx={{ padding: "1rem" }}>
+    <Box
+      sx={{
+        padding: "1rem",
+        [theme.breakpoints.up("sm")]: {
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-around",
+        },
+      }}
+    >
       <Stepper orientation='vertical'>
         {steps.map((step) => {
           return (
@@ -46,10 +53,10 @@ const TaskGenieStepper = () => {
                 sx={{ color: theme.palette.primary.main }}
                 StepIconComponent={step.icon}
               >
-                {step.label}
+                <Typography variant='subtitle1'>{step.label}</Typography>
               </StepLabel>
               <StepContent>
-                <Typography variant='caption'>{step.description}</Typography>
+                <Typography variant='body2'>{step.description}</Typography>
               </StepContent>
             </Step>
           );
