@@ -36,7 +36,7 @@ const TestimonialsSection = () => {
       className='testimonials-section'
     >
       <Box>
-        <Typography variant='h5'>Testimonials</Typography>
+        <Typography variant='h5'>Trusted by users across India</Typography>
       </Box>
 
       <Box>
