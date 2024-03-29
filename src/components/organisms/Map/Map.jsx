@@ -48,10 +48,7 @@ const Map = ({ tasks = [], center, searchRadius = 100, width }) => {
             const lng = task.location.coordinates[0];
             return (
               <>
-                <Marker
-                  position={[lat, lng]}
-                  // icon={RoomIcon}
-                >
+                <Marker position={[lat, lng]}>
                   <MapPopup task={task} />
                 </Marker>
               </>
