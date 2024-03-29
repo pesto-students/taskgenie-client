@@ -175,6 +175,7 @@ const BrowseTasks = () => {
         <Box
           sx={{
             height: "100%",
+            padding: "1rem",
             display: {
               xs: "none",
               md: "block",
@@ -187,7 +188,11 @@ const BrowseTasks = () => {
             tasks={filteredTasks}
             center={userLocation}
             width={mapWidth}
-            sx={{ width: "100%", backgroundColor: "blue" }}
+            sx={{
+              width: "100%",
+              backgroundColor: "blue",
+              borderRadius: "12px",
+            }}
           />
         </Box>
       </Stack>

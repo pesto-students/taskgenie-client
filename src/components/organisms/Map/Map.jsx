@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
-
+import MapPopup from "components/molecules/MapPopup/MapPopup";
+import RoomIcon from "@mui/icons-material/Room";
 const SetViewOnUpdate = ({ center }) => {
   const map = useMap();
   useEffect(() => {
     const newCenter = [center.lat, center.lng];
-    console.log("got new center", newCenter);
     map.setView(newCenter, 11);
 
     return () => {};
@@ -13,7 +13,6 @@ const SetViewOnUpdate = ({ center }) => {
 };
 
 const Map = ({ tasks = [], center, searchRadius = 100, width }) => {
-  console.log("width is", width);
   const calculateZoomLevel = (radius) => {
     // Approximate conversion factor from kilometers to meters
     const metersPerKilometer = 1000;
@@ -49,10 +48,11 @@ const Map = ({ tasks = [], center, searchRadius = 100, width }) => {
             const lng = task.location.coordinates[0];
             return (
               <>
-                <Marker position={[lat, lng]}>
-                  <Popup>
-                    A pretty CSS3 popup. <br /> Easily customizable.
-                  </Popup>
+                <Marker
+                  position={[lat, lng]}
+                  // icon={RoomIcon}
+                >
+                  <MapPopup task={task} />
                 </Marker>
               </>
             );
