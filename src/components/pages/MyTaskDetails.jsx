@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useGetTaskDetailsQuery } from "/src/store/apiSlice";
-import { Stack, Card, CardContent } from "components/atoms";
+import { Stack, Card, CardContent, Container } from "components/atoms";
 import TaskDescriptionCard from "components/organisms/TaskDescriptionCard";
 import TaskAttributesCard from "components/organisms/TaskAttributesCard";
 import { useSelector } from "react-redux";
@@ -31,7 +31,10 @@ const MyTaskDetails = () => {
     navigate("/error");
   }
   return (
-    <>
+    <Container
+      maxWidth='md'
+      sx={{ padding: 0 }}
+    >
       {isLoading ? (
         <Stack
           sx={{ padding: "1rem 1rem" }}
@@ -45,7 +48,7 @@ const MyTaskDetails = () => {
       ) : (
         <Stack
           sx={{ padding: "1rem 1rem" }}
-          gap={1}
+          gap={3}
           component='article'
         >
           <TaskAttributesCard
@@ -75,7 +78,7 @@ const MyTaskDetails = () => {
           />
         </Stack>
       )}
-    </>
+    </Container>
   );
 };
 

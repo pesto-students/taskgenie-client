@@ -1,9 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { jwtDecode } from "jwt-decode";
 // Function to check if access token exists in localStorage
 const isAccessTokenExists = () => {
   const accessToken = localStorage.getItem("accessToken");
   return accessToken !== null && accessToken !== "null";
+};
+
+const isTokenExpired = () => {
+  const accessToken = localStorage.getItem("accessToken");
+  if (!accessToken) {
+    return true;
+  }
+  const decodedToken = jwtDecode(accessToken);
+  const currentTime = Math.floor(Date.now() / 1000);
+  return decodedToken.exp < currentTime;
+};
+// Function to check if refresh token is expired
+const isRefreshTokenExpired = () => {
+  const refreshToken = localStorage.getItem("refreshToken");
+  if (!refreshToken) {
+    return true; // Refresh token doesn't exist
+  }
+  const decodedToken = jwtDecode(refreshToken);
+  const currentTime = Math.floor(Date.now() / 1000); // Convert milliseconds to seconds
+  return decodedToken.exp < currentTime;
 };
 
 export const authSlice = createSlice({
@@ -41,6 +61,7 @@ export const authSlice = createSlice({
     },
   },
 });
-
+// Selectors
+export const selectIsAuthenticated = (state) => state.isAuthenticated;
 export const { setTokens, logout, updateProfileStatus } = authSlice.actions;
 export default authSlice.reducer;

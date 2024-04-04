@@ -58,21 +58,18 @@ const StyledCardContent = styled(CardContent)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
 
-  ".task-budget": {
-    left: 40,
-    position: "absolute",
-  },
   ".show-more-button": {
     float: "right",
   },
-  [theme.breakpoints.up("sm")]: {
+  ".attributes": {
+    paddingBottom: "1rem",
+  },
+  [theme.breakpoints.up("md")]: {
     flexDirection: "row",
     position: "relative",
     ".attributes": {
       flex: 1,
-    },
-    ".task-budget": {
-      position: "static",
+      paddingBottom: 0,
     },
     ".show-more-button": {
       position: "absolute",
@@ -99,7 +96,7 @@ const TaskAttributesCard = ({
   /**
    * Hooks
    */
-  const { palette } = useTheme();
+  const { palette, breakpoints } = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const [cancelTask, { loading, error }] = useCancelTaskMutation();
   const navigate = useNavigate();
@@ -136,7 +133,13 @@ const TaskAttributesCard = ({
         open={menuOpen}
         handleClose={handleClose}
       />
-      <Card>
+      <Card
+        sx={{
+          [breakpoints.up("sm")]: {
+            padding: "2rem",
+          },
+        }}
+      >
         <StyledCardContent>
           <Box className='attributes'>
             <Box>

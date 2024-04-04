@@ -10,7 +10,7 @@ function MyTaskQuotesAndQuestions({ questions = [], quotes = [], ownerId }) {
   //  Hooks
   const [currentTab, setCurrentTab] = useState(0);
   //Variables
-
+  const theme = useTheme();
   const handleReply = (commentId) => {
     // Implement reply functionality here
   };
@@ -19,7 +19,14 @@ function MyTaskQuotesAndQuestions({ questions = [], quotes = [], ownerId }) {
     setCurrentTab(newValue);
   };
   return (
-    <Card sx={{ borderRadius: "12px" }}>
+    <Card
+      sx={{
+        borderRadius: "12px",
+        [theme.breakpoints.up("sm")]: {
+          padding: "2rem",
+        },
+      }}
+    >
       <CardContent>
         <Box>
           <Tabs

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { IconButton } from "@mui/material";
+import { IconButton, useMediaQuery, useTheme } from "@mui/material";
 import {
   Accordion,
   AccordionDetails,
@@ -14,14 +14,28 @@ import {
 import ImageList from "@mui/material/ImageList";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessOutlinedIcon from "@mui/icons-material/ExpandLessOutlined";
-import { useTheme } from "@mui/material";
 
 const TaskDescriptionCard = ({ description = "", images = [] }) => {
   const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const theme = useTheme();
-
+  // Set image list columns
+  const isSmallScreen = useMediaQuery(theme.breakpoints.up("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.up("md"));
+  let imageListCols = 2;
+  if (isMediumScreen) {
+    imageListCols = 6;
+  } else if (isSmallScreen) {
+    imageListCols = 3;
+  }
+  console.log();
   return (
-    <Card>
+    <Card
+      sx={{
+        [theme.breakpoints.up("sm")]: {
+          padding: "2rem",
+        },
+      }}
+    >
       <CardContent>
         <Typography
           variant='subtitle1'
@@ -82,7 +96,7 @@ const TaskDescriptionCard = ({ description = "", images = [] }) => {
         </Box>
         {images.length > 0 && (
           <Box>
-            <ImageList>
+            <ImageList cols={imageListCols}>
               {images.map((image) => (
                 <ImageListItem
                   key={image}
