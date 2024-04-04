@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Box, Stack, TextField, Select, Button, Link } from "components/atoms";
+import {
+  Box,
+  Stack,
+  TextField,
+  Select,
+  Button,
+  Link,
+  Container,
+} from "components/atoms";
 import TaskList from "components/organisms/TaskList";
 import { taskTypes } from "/src/constants";
 import { useGetMyTasksQuery } from "/src/store/apiSlice";
@@ -94,7 +102,10 @@ const MyTasks = () => {
     </Stack>
   );
   return (
-    <>
+    <Container
+      maxWidth='sm'
+      sx={{ padding: 0 }}
+    >
       <FilterSection />
       {tasks.length > 0 ? (
         <Box>
@@ -102,7 +113,12 @@ const MyTasks = () => {
           <Box
             component='section'
             aria-label='Task List'
-            sx={{ padding: "1rem", position: "relative" }}
+            sx={{
+              padding: "1rem",
+              position: "relative",
+              overflowY: "auto",
+              maxHeight: "100vh",
+            }}
           >
             <TaskList
               type={"mytasks"}
@@ -113,7 +129,7 @@ const MyTasks = () => {
       ) : (
         <EmptyList />
       )}
-    </>
+    </Container>
   );
 };
 
