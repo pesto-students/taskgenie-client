@@ -10,6 +10,9 @@ import { SnackbarProvider } from "notistack";
 import { createBrowserRouter } from "react-router-dom";
 import routes from "./routes";
 import { CssBaseline } from "@mui/material";
+import { DevSupport } from "@react-buddy/ide-toolbox";
+import { ComponentPreviews, useInitial } from "src/dev/index.js";
+
 const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -18,7 +21,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <SnackbarProvider>
-          <RouterProvider router={router} />
+          <DevSupport ComponentPreviews={ComponentPreviews}
+                      useInitialHook={useInitial}
+          >
+            <RouterProvider router={router} />
+          </DevSupport>
         </SnackbarProvider>
       </ThemeProvider>
     </Provider>

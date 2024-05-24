@@ -1,4 +1,5 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+
 /**
  * Formats a date into a human-readable string.
  * If the date is today, it returns 'Today'.
@@ -23,7 +24,7 @@ export const formatAmount = (amount) => {
   return Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
-    minimumFractionDigits: 0,
+    minimumFractionDigits: 0
   }).format(amount);
 };
 
@@ -45,8 +46,8 @@ export const uploadImageToS3 = async (file) => {
       region: import.meta.env.VITE_AWS_REGION,
       credentials: {
         accessKeyId: import.meta.env.VITE_AWS_ACCESS_KEY_ID,
-        secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY,
-      },
+        secretAccessKey: import.meta.env.VITE_AWS_SECRET_ACCESS_KEY
+      }
     });
     const key = file.name.replace(/\s/g, "_");
     console.log("file name is ", key);
@@ -54,7 +55,7 @@ export const uploadImageToS3 = async (file) => {
       Bucket: import.meta.env.VITE_S3_BUCKET_NAME,
       Key: key,
       Body: file,
-      ACL: "public-read",
+      ACL: "public-read"
     };
 
     const command = new PutObjectCommand(params);
@@ -69,4 +70,7 @@ export const uploadImageToS3 = async (file) => {
   } catch (error) {
     return error;
   }
+};
+export const checkLatAndLng = (arr) => {
+  if (arr.length !== 2 || !(arr.every(ele => (typeof ele) === "number"))) throw Error("Invalid Lat,lng");
 };

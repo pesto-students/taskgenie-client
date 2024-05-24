@@ -1,12 +1,14 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import { Stack, TextField } from "../atoms/index.js";
 import TaskList from "components/organisms/TaskList/index.jsx";
-import { IconButton, Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import FilterDialog from "components/molecules/FilterDialog/index.jsx";
 import { useGetTasksQuery } from "/src/store/apiSlice.jsx";
 import PlaceAutocomplete from "components/molecules/PlaceAutocomplete";
 import Map from "components/organisms/Map";
+import { checkLatAndLng } from "src/utils.jsx";
 import { useTheme } from "@emotion/react";
 // Default filters
 const defaultFilters = {
@@ -20,6 +22,8 @@ const defaultLocation = {
   lat: 26.9124,
   lng: 75.7873,
 };
+const userLocationKey = "userLocation";
+
 const BrowseTasks = () => {
   const theme = useTheme();
   const mapContainerRef = useRef(null);
@@ -28,33 +32,44 @@ const BrowseTasks = () => {
   const [searchText, setSearchText] = useState("");
   const [userLocation, setUserLocation] = useState(defaultLocation);
   let { data: tasks = [] } = useGetTasksQuery({ ...filters, ...userLocation });
-
   // Filter tasks based on search text
   const filteredTasks = tasks.filter((task) =>
     task.title.toLowerCase().includes(searchText.toLowerCase())
   );
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  // fetch Geolocation
-  const fetchUserLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setUserLocation({ lat: latitude, lng: longitude });
-        },
-        (error) => {
-          console.error("Error fetching user location:", error);
-        },
-        {
-          message:
-            "Taskgenie needs your location to show availabe tasks around you.",
-        }
-      );
-    }
-  };
+  // fetch user location from user's saved city
 
   useEffect(() => {
+    const fetchUserLocation = async () => {
+      // (only if there is no location stored in local storage) use ipapi.co/json to fetch user's current location, if it cant use default location.
+      // User can override location
+      try {
+        if (localStorage.getItem(userLocationKey)) {
+          // Use stored location
+          const storedLocation = JSON.parse(
+            localStorage.getItem(userLocationKey)
+          );
+          setUserLocation(storedLocation);
+        } else {
+          // if not use ipapi.co/json to fetch location
+          const response = await axios.get("https://ipinfo.io/json");
+          // Convert location in correct format
+          const { loc } = response.data;
+          const [lat, lng] = loc
+            .split(",")
+            .map((str) => Number.parseFloat(str));
+          checkLatAndLng([lat, lng]);
+          // Set user's location
+          setUserLocation({ lat, lng });
+          // Store location in local storage
+          localStorage.setItem(userLocationKey, JSON.stringify({ lat, lng }));
+        }
+      } catch (e) {
+        console.error("Error Occurred while fetching the location", e.message);
+      }
+    };
+    // Fetch user's ip location to show tasks nearby
     fetchUserLocation();
   }, []);
   useEffect(() => {
@@ -79,10 +94,14 @@ const BrowseTasks = () => {
   };
   const handleCitySelect = ({ coordinates }) => {
     if (coordinates) {
-      setUserLocation({
+      const location = {
         lat: coordinates[1],
         lng: coordinates[0],
-      });
+      };
+
+      setUserLocation(location);
+      // Store location in local storage
+      localStorage.setItem(userLocationKey, JSON.stringify(location));
     }
   };
   return (
