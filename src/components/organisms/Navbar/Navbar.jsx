@@ -110,12 +110,14 @@ const Navbar = ({ window }) => {
               <MenuIcon />
             </IconButton>
 
-            <Typography
-              variant='h5'
-              // sx={{ display: { xs: "none", sm: "block" }, fontWeight: 700 }}
-            >
-              TaskGenie
-            </Typography>
+            <NavLink href='/'>
+              <Typography
+                variant='h5'
+                // sx={{ display: { xs: "none", sm: "block" }, fontWeight: 700 }}
+              >
+                TaskGenie
+              </Typography>
+            </NavLink>
             <Box sx={{ display: { xs: "none", sm: "block" }, ml: "16px" }}>
               <Stack
                 direction={"row"}
