@@ -10,7 +10,6 @@ import PlaceAutocomplete from "components/molecules/PlaceAutocomplete";
 import Map from "components/organisms/Map";
 import { checkLatAndLng } from "src/utils.jsx";
 import { useTheme } from "@emotion/react";
-
 // Default filters
 const defaultFilters = {
 	locationType: "",
@@ -19,10 +18,7 @@ const defaultFilters = {
 	priceRange: [100, 99000],
 	sortBy: "date-desc",
 };
-const defaultLocation = {
-	lat: 26.9124,
-	lng: 75.7873,
-};
+const defaultLocation = { lat: 26.9124, lng: 75.7873 };
 const userLocationKey = "userLocation";
 
 const BrowseTasks = () => {

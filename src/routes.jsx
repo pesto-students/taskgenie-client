@@ -13,62 +13,62 @@ import PostTask from "components/pages/PostTask.jsx";
 import ProtectedRoutes from "components/templates/ProtectedRoutes.jsx";
 
 const routes = [
-  {
-    path: "/",
-    element: <Layout />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "tasks",
-        element: <BrowseTasks />,
-      },
-      {
-        path: "tasks/:taskId",
-        element: <ProtectedRoutes element={<TaskDetails />} />,
-      },
-      {
-        path: "/myTasks",
-        element: <ProtectedRoutes element={<MyTasks />} />,
-      },
-      {
-        path: "/mytasks/:taskId",
-        element: <ProtectedRoutes element={<MyTaskDetails />} />,
-      },
-      {
-        path: "/postTask",
-        element: <ProtectedRoutes element={<PostTask />} />,
-        errorElement: <ErrorPage />,
-      },
-    ],
-  },
-  {
-    path: "/signup",
-    element: <SignUp />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/signin",
-    element: <SignIn />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/setup-profile",
-    element: <SetupProfile />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/member-profile",
-    element: <MemberProfile />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/error",
-    element: <ErrorPage />,
-  },
+	{
+		path: "/",
+		element: <Layout />,
+		errorElement: <ErrorPage />,
+		children: [
+			{
+				path: "/",
+				element: <Home />,
+			},
+			{
+				path: "tasks",
+				element: <BrowseTasks />,
+			},
+			{
+				path: "tasks/:taskId",
+				element: <ProtectedRoutes element={<TaskDetails />} />,
+			},
+			{
+				path: "/myTasks",
+				element: <ProtectedRoutes element={<MyTasks />} />,
+			},
+			{
+				path: "/mytasks/:taskId",
+				element: <ProtectedRoutes element={<MyTaskDetails />} />,
+			},
+			{
+				path: "/postTask",
+				element: <ProtectedRoutes element={<PostTask />} />,
+				errorElement: <ErrorPage />,
+			},
+		],
+	},
+	{
+		path: "/signup",
+		element: <SignUp />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: "/signin",
+		element: <SignIn />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: "/setup-profile",
+		element: <SetupProfile />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: "/member-profile",
+		element: <MemberProfile />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: "/error",
+		element: <ErrorPage />,
+	},
 ];
 
 export default routes;
