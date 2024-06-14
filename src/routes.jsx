@@ -35,7 +35,7 @@ const routes = [
 				element: <ProtectedRoutes element={<MyTasks />} />,
 			},
 			{
-				path: "/mytasks/:taskId",
+				path: "/myTasks/:taskId",
 				element: <ProtectedRoutes element={<MyTaskDetails />} />,
 			},
 			{
@@ -46,12 +46,12 @@ const routes = [
 		],
 	},
 	{
-		path: "/signup",
+		path: "/signUp",
 		element: <SignUp />,
 		errorElement: <ErrorPage />,
 	},
 	{
-		path: "/signin",
+		path: "/signIn",
 		element: <SignIn />,
 		errorElement: <ErrorPage />,
 	},
