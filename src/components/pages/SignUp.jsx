@@ -20,7 +20,7 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
 import {
-	useSignupMutation,
+	useSignUpMutation,
 	useGetProfileStatusQuery,
 } from "../../store/apiSlice.jsx";
 import { useDispatch } from "react-redux";
