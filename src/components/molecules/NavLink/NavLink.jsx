@@ -19,8 +19,8 @@ const NavLink = ({ children, ...props }) => {
 };
 
 NavLink.propTypes = {
-	title: PropTypes.string.isRequired,
-	path: PropTypes.string.isRequired,
+	title: PropTypes.string,
+	href: PropTypes.string.isRequired,
 	children: PropTypes.node,
 };
 

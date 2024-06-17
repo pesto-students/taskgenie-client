@@ -8,7 +8,6 @@ import {
 	Drawer,
 	Grow,
 	Paper,
-	ClickAwayListener,
 	List,
 	ListItem,
 	MenuItem,
@@ -21,6 +20,7 @@ import {
 	Container,
 	Popper,
 } from "@mui/material";
+import { ClickAwayListener } from "@mui/base/ClickAwayListener";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
@@ -60,7 +60,9 @@ const Navbar = ({ window }) => {
 		dispatch(logout());
 	};
 	const handleMenuClose = () => {};
-	const handleClickOutsideMenu = () => {};
+	const handleClickOutsideMenu = () => {
+		console.log("handle click outside menu");
+	};
 	const isAuthenticated = true;
 	const drawer = (
 		<Box>
@@ -102,7 +104,20 @@ const Navbar = ({ window }) => {
 	);
 
 	const container = window !== undefined ? window().documents.body : undefined;
+	const handleClickAway = () => {
+		console.log("clicked outside");
+	};
 
+	const styles = {
+		position: "absolute",
+		top: 28,
+		right: 0,
+		left: 0,
+		zIndex: 1,
+		border: "1px solid",
+		p: 1,
+		bgcolor: "background.paper",
+	};
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
@@ -132,7 +147,10 @@ const Navbar = ({ window }) => {
 							<MenuIcon />
 						</IconButton>
 
-						<NavLink href='/'>
+						<NavLink
+							href='/'
+							title={"Home"}
+						>
 							<Typography
 								variant='h5'
 								// sx={{ display: { xs: "none", sm: "block" }, fontWeight: 700 }}
@@ -172,68 +190,77 @@ const Navbar = ({ window }) => {
 								justifyContent: "end",
 							}}
 						>
-							<IconButton
-								ref={anchorRef}
-								aria-haspopup={true}
-								onClick={() => setMenuOpen(!menuOpen)}
-								sx={{ color: "#384179" }}
+							<ClickAwayListener
+								onClickAway={() => {
+									// close menu if already open
+									if (menuOpen) {
+										setMenuOpen(false);
+									}
+								}}
 							>
-								<Profile />
-							</IconButton>
-							<Popper
-								open={menuOpen}
-								anchorEl={anchorRef.current}
-								placement='top'
-								transition
-								disablePortal
-							>
-								{({ TransitionProps, placement }) => (
-									<Grow
-										{...TransitionProps}
-										style={{
-											transformOrigin:
-												placement === "bottom-start"
-													? "left top"
-													: "left bottom",
-										}}
+								<div>
+									<IconButton
+										ref={anchorRef}
+										aria-haspopup={true}
+										onClick={() => setMenuOpen(!menuOpen)}
+										sx={{ color: "#384179" }}
 									>
-										{/* <ClickAwayListener onClickAway={handleClickOutsideMenu}> */}
-										<Paper
-											sx={{
-												padding: "0.5rem 1.5rem",
-											}}
-										>
-											<MenuList
-												autoFocusItem={menuOpen}
-												id='composition-menu'
-												aria-labelledby='composition-button'
-												// onKeyDown={handleListKeyDown}
+										<Profile />
+									</IconButton>
+									<Popper
+										open={menuOpen}
+										anchorEl={anchorRef.current}
+										placement='top'
+										transition
+										disablePortal
+									>
+										{({ TransitionProps, placement }) => (
+											<Grow
+												{...TransitionProps}
+												style={{
+													transformOrigin:
+														placement === "bottom-start"
+															? "left top"
+															: "left bottom",
+												}}
 											>
-												{navItems.rightAuthenticated.map((item) => (
-													<MenuItem
-														key={item.title}
-														sx={{
-															margin: "0.5rem 0",
-														}}
+												<Paper
+													sx={{
+														padding: "0.5rem 1.5rem",
+													}}
+												>
+													<MenuList
+														autoFocusItem={menuOpen}
+														id='composition-menu'
+														aria-labelledby='composition-button'
+														// onKeyDown={handleListKeyDown}
 													>
-														<Typography
-															variant='body2'
-															sx={{
-																display: "flex",
-																color: "#384179",
-															}}
-														>
-															{item.icon}
-															{item.title}
-														</Typography>
-													</MenuItem>
-												))}
-											</MenuList>
-										</Paper>
-										{/* </ClickAwayListener> */}
-									</Grow>
-								)}
-							</Popper>
+														{navItems.rightAuthenticated.map((item) => (
+															<MenuItem
+																key={item.title}
+																sx={{
+																	margin: "0.5rem 0",
+																}}
+															>
+																<Typography
+																	variant='body2'
+																	sx={{
+																		display: "flex",
+																		color: "#384179",
+																	}}
+																>
+																	{item.icon}
+																	{item.title}
+																</Typography>
+															</MenuItem>
+														))}
+													</MenuList>
+												</Paper>
+											</Grow>
+										)}
+									</Popper>
+								</div>
+							</ClickAwayListener>
 						</Box>
 					</Container>
 				</Toolbar>

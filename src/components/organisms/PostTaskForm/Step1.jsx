@@ -121,7 +121,7 @@ const Step1 = ({ formData, setFormData, onSubmit }) => {
               onChange={handleTitleChange}
               placeholder='Enter the title of task here'
               sx={{ width: "100%" }}
-              error={Boolean(errors.title)}
+              error={(errors.title)}
               helperText={errors?.title}
             />
           </FormControl>
