@@ -14,7 +14,6 @@ import {
 } from "../atoms/index.js";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import GoogleButton from "../molecules/GoogleButton/index.jsx";
 import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -197,9 +196,9 @@ const SignIn = () => {
 									</FormControl>
 									<Typography>Or</Typography>
 									<Typography>
-										Don't have an account? <Link href='/signup'>Sign Up</Link>
+										Don&apos;t have an account?{" "}
+										<Link href='/signUp'>Sign Up</Link>
 									</Typography>
-									{/* <GoogleButton type='signin'></GoogleButton> */}
 								</Stack>
 							</form>
 						</Box>

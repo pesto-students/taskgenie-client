@@ -23,11 +23,7 @@ import {
 import { ClickAwayListener } from "@mui/base/ClickAwayListener";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
-import {
-	AccountBalanceWalletOutlined as Wallet,
-	Person2Outlined as Profile,
-	LogoutOutlined as LogoutIcon,
-} from "@mui/icons-material";
+import { Person2Outlined as Profile } from "@mui/icons-material";
 import { logout, selectIsAuthenticated } from "../../../store/authSlice.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import NavLink from "components/molecules/NavLink";

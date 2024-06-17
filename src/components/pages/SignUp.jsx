@@ -19,10 +19,7 @@ import {
 } from "../atoms/index.js";
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
-import {
-	useSignUpMutation,
-	useGetProfileStatusQuery,
-} from "../../store/apiSlice.jsx";
+import { useSignUpMutation } from "../../store/apiSlice.jsx";
 import { useDispatch } from "react-redux";
 import { setTokens } from "../../store/authSlice.jsx";
 import { useSelector } from "react-redux";
@@ -32,8 +29,7 @@ const SignUp = () => {
 	const notificationPosition = { vertical: "top", horizontal: "center" };
 	const navigate = useNavigate();
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-	const [signup, { isLoading }] = useSignupMutation();
-	const { data: profileStatus } = useGetProfileStatusQuery();
+	const [signUp, { isLoading }] = useSignUpMutation();
 	const { enqueueSnackbar } = useSnackbar();
 	// Todo move it to auth
 	const dispatch = useDispatch();
@@ -48,7 +44,7 @@ const SignUp = () => {
 		},
 	});
 	const onSubmit = async (formData) => {
-		const response = await signup(formData);
+		const response = await signUp(formData);
 		if (response.error) {
 			const error = response.error;
 			const { data } = error;
@@ -193,7 +189,6 @@ const SignUp = () => {
 									<Typography>
 										Already have an Account? <Link href='/signIn'>Sign In</Link>
 									</Typography>
-									{/* <GoogleButton type='signup' /> */}
 								</Stack>
 							</form>
 						</Box>
