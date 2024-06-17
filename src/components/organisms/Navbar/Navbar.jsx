@@ -28,8 +28,8 @@ import {
 	Person2Outlined as Profile,
 	LogoutOutlined as LogoutIcon,
 } from "@mui/icons-material";
-import { logout } from "../../../store/authSlice.jsx";
-import { useDispatch } from "react-redux";
+import { logout, selectIsAuthenticated } from "../../../store/authSlice.jsx";
+import { useDispatch, useSelector } from "react-redux";
 import NavLink from "components/molecules/NavLink";
 
 const navItems = {
@@ -59,11 +59,7 @@ const Navbar = ({ window }) => {
 	const handleLogout = () => {
 		dispatch(logout());
 	};
-	const handleMenuClose = () => {};
-	const handleClickOutsideMenu = () => {
-		console.log("handle click outside menu");
-	};
-	const isAuthenticated = true;
+	const isAuthenticated = useSelector(selectIsAuthenticated);
 	const drawer = (
 		<Box>
 			<Stack direction={"column"}>
@@ -102,22 +98,7 @@ const Navbar = ({ window }) => {
 			</Stack>
 		</Box>
 	);
-
 	const container = window !== undefined ? window().documents.body : undefined;
-	const handleClickAway = () => {
-		console.log("clicked outside");
-	};
-
-	const styles = {
-		position: "absolute",
-		top: 28,
-		right: 0,
-		left: 0,
-		zIndex: 1,
-		border: "1px solid",
-		p: 1,
-		bgcolor: "background.paper",
-	};
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
@@ -151,12 +132,7 @@ const Navbar = ({ window }) => {
 							href='/'
 							title={"Home"}
 						>
-							<Typography
-								variant='h5'
-								// sx={{ display: { xs: "none", sm: "block" }, fontWeight: 700 }}
-							>
-								TaskGenie
-							</Typography>
+							<Typography variant='h5'>TaskGenie</Typography>
 						</NavLink>
 						<Box
 							sx={{
@@ -190,77 +166,88 @@ const Navbar = ({ window }) => {
 								justifyContent: "end",
 							}}
 						>
-							<ClickAwayListener
-								onClickAway={() => {
-									// close menu if already open
-									if (menuOpen) {
-										setMenuOpen(false);
-									}
-								}}
-							>
-								<div>
-									<IconButton
-										ref={anchorRef}
-										aria-haspopup={true}
-										onClick={() => setMenuOpen(!menuOpen)}
-										sx={{ color: "#384179" }}
+							{isAuthenticated ? (
+								<Box>
+									{/* Menu for authenticated users */}
+									<ClickAwayListener
+										onClickAway={() => {
+											// close menu if already open
+											if (menuOpen) {
+												setMenuOpen(false);
+											}
+										}}
 									>
-										<Profile />
-									</IconButton>
-									<Popper
-										open={menuOpen}
-										anchorEl={anchorRef.current}
-										placement='top'
-										transition
-										disablePortal
-									>
-										{({ TransitionProps, placement }) => (
-											<Grow
-												{...TransitionProps}
-												style={{
-													transformOrigin:
-														placement === "bottom-start"
-															? "left top"
-															: "left bottom",
-												}}
+										<div>
+											<IconButton
+												ref={anchorRef}
+												aria-haspopup={true}
+												onClick={() => setMenuOpen(!menuOpen)}
+												sx={{ color: "#384179" }}
 											>
-												<Paper
-													sx={{
-														padding: "0.5rem 1.5rem",
-													}}
-												>
-													<MenuList
-														autoFocusItem={menuOpen}
-														id='composition-menu'
-														aria-labelledby='composition-button'
-														// onKeyDown={handleListKeyDown}
+												<Profile />
+											</IconButton>
+											<Popper
+												open={menuOpen}
+												anchorEl={anchorRef.current}
+												placement='top'
+												transition
+												disablePortal
+											>
+												{({ TransitionProps, placement }) => (
+													<Grow
+														{...TransitionProps}
+														style={{
+															transformOrigin:
+																placement === "bottom-start"
+																	? "left top"
+																	: "left bottom",
+														}}
 													>
-														{navItems.rightAuthenticated.map((item) => (
-															<MenuItem
-																key={item.title}
-																sx={{
-																	margin: "0.5rem 0",
-																}}
+														<Paper
+															sx={{
+																padding: "0.5rem 1.5rem",
+															}}
+														>
+															<MenuList
+																autoFocusItem={menuOpen}
+																id='composition-menu'
+																aria-labelledby='composition-button'
+																// onKeyDown={handleListKeyDown}
 															>
-																<Typography
-																	variant='body2'
-																	sx={{
-																		display: "flex",
-																		color: "#384179",
-																	}}
-																>
-																	{item.icon}
-																	{item.title}
-																</Typography>
-															</MenuItem>
-														))}
-													</MenuList>
-												</Paper>
-											</Grow>
-										)}
-									</Popper>
-								</div>
-							</ClickAwayListener>
+																{navItems.rightAuthenticated.map((item) => (
+																	<MenuItem
+																		key={item.title}
+																		sx={{
+																			margin: "0.5rem 0",
+																		}}
+																	>
+																		<Typography
+																			variant='body2'
+																			sx={{
+																				display: "flex",
+																				color: "#384179",
+																			}}
+																		>
+																			{item.icon}
+																			{item.title}
+																		</Typography>
+																	</MenuItem>
+																))}
+															</MenuList>
+														</Paper>
+													</Grow>
+												)}
+											</Popper>
+										</div>
+									</ClickAwayListener>
+								</Box>
+							) : (
+								<Box>
+									<NavLink href='/signIn'>
+										<Typography variant='body2'>Sign In</Typography>
+									</NavLink>
+								</Box>
+							)}
 						</Box>
 					</Container>
 				</Toolbar>
