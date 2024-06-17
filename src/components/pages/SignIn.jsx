@@ -1,5 +1,5 @@
 import { InputAdornment } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Box,
 	Card,
@@ -25,7 +25,7 @@ import {
 	useGetProfileStatusQuery,
 } from "../../store/apiSlice.jsx";
 import { useDispatch } from "react-redux";
-import { setTokens } from "../../store/authSlice.jsx";
+import { setTokens, updateProfileStatus } from "../../store/authSlice.jsx";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -34,9 +34,9 @@ const SignIn = () => {
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const userId = useSelector((state) => state.auth.userId);
 	const navigate = useNavigate();
-	const [signin, { isLoading }] = useSigninMutation();
+	const [signIn, { isLoading }] = useSignInMutation();
 	const { enqueueSnackbar } = useSnackbar();
-	const { data: isSetupProfileComplete } = useGetProfileStatusQuery({ userId });
+	const { data: isProfileComplete } = useGetProfileStatusQuery({ userId });
 	// State to manage password visibility
 	const [showPassword, setShowPassword] = useState(false);
 	const notificationPosition = { vertical: "top", horizontal: "center" };
@@ -52,7 +52,7 @@ const SignIn = () => {
 	});
 
 	const onSubmit = async (formData) => {
-		const response = await signin(formData);
+		const response = await signIn(formData);
 		if (response.error) {
 			const error = response.error;
 			const { data } = error;
@@ -68,7 +68,9 @@ const SignIn = () => {
 					user: response.data.user,
 				})
 			);
-			enqueueSnackbar("Logged In Succesfully", {
+			const profileStatus = JSON.parse(response.data.user.isProfileComplete);
+			dispatch(updateProfileStatus(profileStatus));
+			enqueueSnackbar("Logged In Successfully", {
 				variant: "success",
 				anchorOrigin: notificationPosition,
 			});
@@ -76,12 +78,12 @@ const SignIn = () => {
 	};
 
 	useEffect(() => {
-		if (isAuthenticated && isSetupProfileComplete) {
+		if (isAuthenticated && isProfileComplete) {
 			navigate("/");
-		} else if (isAuthenticated && !isSetupProfileComplete) {
+		} else if (isAuthenticated && !isProfileComplete) {
 			navigate("/setup-profile");
 		}
-	}, [isAuthenticated, isSetupProfileComplete, navigate]);
+	}, [isAuthenticated, isProfileComplete, navigate]);
 
 	return (
 		<>

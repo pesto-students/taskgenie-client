@@ -5,13 +5,16 @@ import { Outlet } from "react-router";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Footer from "components/organisms/Footer";
-import { selectIsAuthenticated } from "src/store/authSlice";
+import {
+	selectIsAuthenticated,
+	selectIsProfileComplete,
+} from "src/store/authSlice";
 // Layout component to get consistent layout experience
 const Layout = () => {
 	const navigate = useNavigate();
 	const isAuthenticated = useSelector(selectIsAuthenticated);
-	const isProfileComplete = Boolean(localStorage.getItem("profileStatus"));
-	// Redirect to setup profile, if user is authenticated but profile is not complete 
+	const isProfileComplete = useSelector(selectIsProfileComplete);
+	// Redirect to setup profile, if user is authenticated but profile is not complete
 	useEffect(() => {
 		if (isAuthenticated && !isProfileComplete) {
 			// Redirect to setup profile

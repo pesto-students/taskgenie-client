@@ -35,13 +35,13 @@ import NavLink from "components/molecules/NavLink";
 const navItems = {
 	left: [
 		{ title: "Post a Task", path: "/postTask" },
-		{ title: "My Tasks", path: "/mytasks" },
 		{ title: "Browse Tasks", path: "/tasks" },
 	],
 	rightAuthenticated: [
-		{ title: "wallet", path: "/wallet" },
-		{ title: "profile", path: "/profile" },
-		{ title: "logout", path: "/logout" },
+		{ title: "My Tasks", path: "/myTasks" },
+		{ title: "Wallet", path: "/wallet" },
+		{ title: "Profile", path: "/profile" },
+		{ title: "Logout", path: "/logout" },
 	],
 	rightUnAuthenticated: [
 		{ title: "Sign In", path: "/signIn" },
@@ -198,38 +198,38 @@ const Navbar = ({ window }) => {
 										}}
 									>
 										{/* <ClickAwayListener onClickAway={handleClickOutsideMenu}> */}
-											<Paper
-												sx={{
-													padding: "0.5rem 1.5rem",
-												}}
+										<Paper
+											sx={{
+												padding: "0.5rem 1.5rem",
+											}}
+										>
+											<MenuList
+												autoFocusItem={menuOpen}
+												id='composition-menu'
+												aria-labelledby='composition-button'
+												// onKeyDown={handleListKeyDown}
 											>
-												<MenuList
-													autoFocusItem={menuOpen}
-													id='composition-menu'
-													aria-labelledby='composition-button'
-													// onKeyDown={handleListKeyDown}
-												>
-													{navItems.rightAuthenticated.map((item) => (
-														<MenuItem
-															key={item.title}
+												{navItems.rightAuthenticated.map((item) => (
+													<MenuItem
+														key={item.title}
+														sx={{
+															margin: "0.5rem 0",
+														}}
+													>
+														<Typography
+															variant='body2'
 															sx={{
-																margin: "0.5rem 0",
+																display: "flex",
+																color: "#384179",
 															}}
 														>
-															<Typography
-																variant='body2'
-																sx={{
-																	display: "flex",
-																	color: "#384179",
-																}}
-															>
-																{item.icon}
-																{item.title}
-															</Typography>
-														</MenuItem>
-													))}
-												</MenuList>
-											</Paper>
+															{item.icon}
+															{item.title}
+														</Typography>
+													</MenuItem>
+												))}
+											</MenuList>
+										</Paper>
 										{/* </ClickAwayListener> */}
 									</Grow>
 								)}

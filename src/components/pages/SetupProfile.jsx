@@ -14,7 +14,6 @@ import {
 	TextField,
 	ToggleButtonGroup,
 } from "components/atoms";
-
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
@@ -23,8 +22,8 @@ import { logout, updateProfileStatus } from "../../store/authSlice.jsx";
 
 const SetUpProfile = () => {
 	const dispatch = useDispatch();
-	const isSetupProfileComplete = useSelector(
-		(state) => state.auth.isSetupProfileComplete
+	const isProfileComplete = useSelector(
+		(state) => state.auth.isProfileComplete
 	);
 	const userId = useSelector((state) => state.auth.userId);
 	const navigate = useNavigate();
@@ -63,43 +62,27 @@ const SetUpProfile = () => {
 	};
 
 	useEffect(() => {
-		console.log(isSetupProfileComplete);
-		if (isSetupProfileComplete) {
+		if (isProfileComplete) {
 			navigate("/");
 		}
-	}, [isSetupProfileComplete, navigate]);
+	}, [isProfileComplete, navigate]);
 
 	const onSubmit = async (formData) => {
-		const combinedData = {
-			...formData,
-			city,
-			isSetupProfileComplete: true,
-		};
-		console.log("submit Data::", combinedData);
-		const response = await setupProfile(combinedData, userId);
-		console.log(userId);
-		console.log(response);
-		// console.log(profileStatus);
-		// console.log(profileStatus.isSetupProfileComplete);
-		// if (response.error) {
-		//   const error = response.error;
-		//   const { data } = error;
-		//   enqueueSnackbar(data.message, {
-		//     variant: "error",
-		//     anchorOrigin: notificationPosition,
-		//   });
-		// } else {
-		//   enqueueSnackbar("Profile Set up successful", {
-		//     variant: "success",
-		//     anchorOrigin: notificationPosition,
-		//   });
-		dispatch(updateProfileStatus());
-		navigate("/");
+		try {
+			const combinedData = {
+				...formData,
+				city,
+				isProfileComplete: true,
+			};
+			const response = await setupProfile(combinedData, userId);
+			if (response.status === 200) {
+				dispatch(updateProfileStatus());
+			}
+			navigate("/");
+		} catch (error) {
+			console.error(error);
+		}
 	};
-
-	// if(isLoading){
-	//   return <div>Loading</div>
-	// }
 
 	return (
 		<>
@@ -125,9 +108,7 @@ const SetUpProfile = () => {
 							onClick={handleClose}
 						/>
 						<Box component='header'>
-							<Typography variant='h5'>
-								Setup your account
-							</Typography>
+							<Typography variant='h5'>Setup your account</Typography>
 						</Box>
 						<Box sx={{ mt: "1rem" }}>
 							{/* Form1 */}
@@ -144,8 +125,7 @@ const SetUpProfile = () => {
 											name={"firstName"}
 											control={control}
 											rules={{
-												required:
-													"First Name is required.",
+												required: "First Name is required.",
 											}}
 											render={({ field }) => (
 												<TextField
@@ -158,13 +138,8 @@ const SetUpProfile = () => {
 													inputProps={{
 														maxLength: 20,
 													}}
-													error={Boolean(
-														errors.firstName
-													)}
-													helperText={
-														errors?.firstName
-															?.message
-													}
+													error={Boolean(errors.firstName)}
+													helperText={errors?.firstName?.message}
 												/>
 											)}
 										/>
@@ -177,8 +152,7 @@ const SetUpProfile = () => {
 											name={"lastName"}
 											control={control}
 											rules={{
-												required:
-													"Last Name is required.",
+												required: "Last Name is required.",
 											}}
 											render={({ field }) => (
 												<TextField
@@ -191,13 +165,8 @@ const SetUpProfile = () => {
 													sx={{
 														width: "100%",
 													}}
-													error={Boolean(
-														errors.lastName
-													)}
-													helperText={
-														errors?.lastName
-															?.message
-													}
+													error={Boolean(errors.lastName)}
+													helperText={errors?.lastName?.message}
 												/>
 											)}
 										/>
