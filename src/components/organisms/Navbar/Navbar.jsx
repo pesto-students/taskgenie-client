@@ -240,7 +240,12 @@ const Navbar = ({ window }) => {
 							) : (
 								<Box>
 									<NavLink href='/signIn'>
-										<Typography variant='body2'>Sign In</Typography>
+										<Typography
+											variant='body2'
+											sx={{ color: "#384179" }}
+										>
+											Sign In
+										</Typography>
 									</NavLink>
 								</Box>
 							)}
