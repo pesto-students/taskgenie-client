@@ -34,12 +34,7 @@ const TaskGenieStepper = () => {
 	return (
 		<Box
 			sx={{
-				padding: "1rem",
-				[theme.breakpoints.up("sm")]: {
-					display: "flex",
-					flexDirection: "row",
-					justifyContent: "space-around",
-				},
+				padding: "1rem 0",
 			}}
 		>
 			<Stepper orientation='vertical'>
