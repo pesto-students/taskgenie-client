@@ -23,6 +23,7 @@ import {
 	useSignInMutation,
 	useGetProfileStatusQuery,
 } from "../../store/apiSlice.jsx";
+import LoadingSpinner from "../molecules/LoadingSpinner/LoadingSpinner.jsx";
 import { useDispatch } from "react-redux";
 import { setTokens, updateProfileStatus } from "../../store/authSlice.jsx";
 import { useSelector } from "react-redux";
@@ -35,7 +36,8 @@ const SignIn = () => {
 	const navigate = useNavigate();
 	const [signIn, { isLoading }] = useSignInMutation();
 	const { enqueueSnackbar } = useSnackbar();
-	const { data: isProfileComplete } = useGetProfileStatusQuery({ userId });
+	const { data: isProfileComplete, isLoading: isProfileStatusLoading } =
+		useGetProfileStatusQuery({ userId });
 	// State to manage password visibility
 	const [showPassword, setShowPassword] = useState(false);
 	const notificationPosition = { vertical: "top", horizontal: "center" };
@@ -75,18 +77,13 @@ const SignIn = () => {
 			});
 		}
 	};
-
-	useEffect(() => {
-		if (isAuthenticated && isProfileComplete) {
-			navigate("/");
-		} else if (isAuthenticated && !isProfileComplete) {
-			navigate("/setup-profile");
-		}
-	}, [isAuthenticated, isProfileComplete, navigate]);
-
+	if (isProfileStatusLoading) {
+		return <LoadingSpinner />;
+	} else if (isAuthenticated && isProfileComplete) {
+		navigate("/");
+	}
 	return (
 		<>
-			`{" "}
 			<Container maxWidth='sm'>
 				<Box sx={{ padding: "2rem 0" }}>
 					<Typography
@@ -205,7 +202,6 @@ const SignIn = () => {
 					</Card>
 				</Box>
 			</Container>
-			`
 		</>
 	);
 };
