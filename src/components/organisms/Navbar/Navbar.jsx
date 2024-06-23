@@ -9,6 +9,7 @@ import {
 	Grow,
 	Paper,
 	List,
+	Button,
 	ListItem,
 	MenuItem,
 	MenuList,
@@ -27,6 +28,7 @@ import { Person2Outlined as Profile } from "@mui/icons-material";
 import { logout, selectIsAuthenticated } from "../../../store/authSlice.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import NavLink from "components/molecules/NavLink";
+import { useNavigate } from "react-router-dom";
 
 const navItems = {
 	left: [
@@ -37,7 +39,6 @@ const navItems = {
 		{ title: "My Tasks", path: "/myTasks" },
 		{ title: "Wallet", path: "/wallet" },
 		{ title: "Profile", path: "/profile" },
-		{ title: "Logout", path: "/logout" },
 	],
 	rightUnAuthenticated: [
 		{ title: "Sign In", path: "/signIn" },
@@ -46,6 +47,7 @@ const navItems = {
 };
 const Navbar = ({ window }) => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const anchorRef = useRef(null);
@@ -95,6 +97,11 @@ const Navbar = ({ window }) => {
 		</Box>
 	);
 	const container = window !== undefined ? window().documents.body : undefined;
+	const handleLogoutPressed = () => {
+		// TODO: Implement logout logic for backend
+		dispatch(logout());
+		navigate("/");
+	};
 	return (
 		<Box sx={{ display: "flex" }}>
 			<CssBaseline />
@@ -230,6 +237,9 @@ const Navbar = ({ window }) => {
 																	</MenuItem>
 																))}
 															</MenuList>
+															<Button onClick={handleLogoutPressed}>
+																Logout
+															</Button>
 														</Paper>
 													</Grow>
 												)}

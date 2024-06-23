@@ -5,7 +5,7 @@ const isAccessTokenExists = () => {
 	const accessToken = localStorage.getItem("accessToken");
 	return accessToken !== null && accessToken !== "null";
 };
-
+// TODO: add functionality to check if jwt token has been expired
 const isTokenExpired = () => {
 	const accessToken = localStorage.getItem("accessToken");
 	if (!accessToken) {
@@ -15,7 +15,7 @@ const isTokenExpired = () => {
 	const currentTime = Math.floor(Date.now() / 1000);
 	return decodedToken.exp < currentTime;
 };
-// Function to check if refresh token is expired
+// TODO: Add functionality to check if refresh token is expired
 const isRefreshTokenExpired = () => {
 	const refreshToken = localStorage.getItem("refreshToken");
 	if (!refreshToken) {
