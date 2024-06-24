@@ -28,7 +28,7 @@ const routes = [
 			},
 			{
 				path: "tasks/:taskId",
-				element: <ProtectedRoutes element={<TaskDetails />} />,
+				element: <TaskDetails />,
 			},
 			{
 				path: "/myTasks",
