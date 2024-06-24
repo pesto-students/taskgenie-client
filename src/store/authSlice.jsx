@@ -29,10 +29,10 @@ const isRefreshTokenExpired = () => {
 export const authSlice = createSlice({
 	name: "auth",
 	initialState: {
-		accessToken: localStorage.getItem("accessToken") || null,
-		refreshToken: localStorage.getItem("refreshToken") || null,
+		accessToken: localStorage.getItem("accessToken") ?? null,
+		refreshToken: localStorage.getItem("refreshToken") ?? null,
 		isAuthenticated: isAccessTokenExists(), // Set isAuthenticated based on accessToken presence
-		userId: localStorage.getItem("userId") || null,
+		userId: localStorage.getItem("userId") ?? null,
 		isProfileComplete:
 			JSON.parse(localStorage.getItem("isProfileComplete")) ?? false,
 	},
@@ -63,6 +63,7 @@ export const authSlice = createSlice({
 });
 // Selectors
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
+export const selectUserId = (state) => state.auth.userId;
 export const selectIsProfileComplete = (state) => state.auth.isProfileComplete;
 export const { setTokens, logout, updateProfileStatus } = authSlice.actions;
 export default authSlice.reducer;
