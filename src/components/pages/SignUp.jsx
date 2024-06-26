@@ -80,12 +80,14 @@ const SignUp = () => {
 			<Container maxWidth='sm'>
 				<Box sx={{ padding: "2rem 0" }}>
 					{/* Header */}
-					<Typography
-						variant='h5'
-						sx={{ fontWeight: "bold", color: "#8659d3" }}
-					>
-						{/* TaskGenie */}
-					</Typography>
+					<Link href='/'>
+						<Typography
+							variant='h5'
+							sx={{ fontWeight: "bold", color: "#8659d3" }}
+						>
+							{/* TaskGenie */}
+						</Typography>
+					</Link>
 				</Box>
 				<Box component={"section"}>
 					<Card sx={{ padding: "2rem 1rem" }}>

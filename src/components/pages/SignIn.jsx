@@ -11,7 +11,7 @@ import {
 	Container,
 	Button,
 	Link,
-} from "../atoms/index.js";
+} from "components/atoms/index.js";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { IconButton } from "@mui/material";
@@ -23,7 +23,7 @@ import {
 	useSignInMutation,
 	useGetProfileStatusQuery,
 } from "../../store/apiSlice.jsx";
-import LoadingSpinner from "../molecules/LoadingSpinner/LoadingSpinner.jsx";
+import LoadingSpinner from "components/molecules/LoadingSpinner/LoadingSpinner.jsx";
 import { useDispatch } from "react-redux";
 import { setTokens, updateProfileStatus } from "../../store/authSlice.jsx";
 import { useSelector } from "react-redux";
@@ -86,12 +86,14 @@ const SignIn = () => {
 		<>
 			<Container maxWidth='sm'>
 				<Box sx={{ padding: "2rem 0" }}>
-					<Typography
-						variant='h5'
-						sx={{ fontWeight: "bold", color: "#8659d3" }}
-					>
-						TaskGenie
-					</Typography>
+					<Link href='/'>
+						<Typography
+							variant='h5'
+							sx={{ fontWeight: "bold", color: "#8659d3" }}
+						>
+							TaskGenie
+						</Typography>
+					</Link>
 				</Box>
 				<Box component={"section"}>
 					<Card sx={{ padding: "2rem 1rem" }}>
