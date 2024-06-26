@@ -147,6 +147,9 @@ export const apiSlice = createApi({
 				};
 			},
 		}),
+		getQuotes: builder.query({
+			query: (taskId) => `/tasks/${taskId}/quotes`,
+		}),
 	}),
 });
 
@@ -167,5 +170,6 @@ export const {
 	useGetUserByIdQuery,
 	useGetUserNameByIdQuery,
 	useAddQuoteMutation,
+	useGetQuotesQuery,
 } = apiSlice;
 export default apiSlice;
