@@ -42,7 +42,7 @@ const BrowseTasks = () => {
 
 	useEffect(() => {
 		const fetchUserLocation = async () => {
-			// (only if there is no location stored in local storage) use ipapi.co/json to fetch user's current location, if it cant use default location.
+			// only if there is no location stored in local storage) use ipapi.co/json to fetch user's current location, if it cant use default location.
 			// User can override location
 			try {
 				if (localStorage.getItem(userLocationKey)) {
@@ -63,16 +63,10 @@ const BrowseTasks = () => {
 					// Set user's location
 					setUserLocation({ lat, lng });
 					// Store location in local storage
-					localStorage.setItem(
-						userLocationKey,
-						JSON.stringify({ lat, lng })
-					);
+					localStorage.setItem(userLocationKey, JSON.stringify({ lat, lng }));
 				}
 			} catch (e) {
-				console.error(
-					"Error Occurred while fetching the location",
-					e.message
-				);
+				console.error("Error Occurred while fetching the location", e.message);
 			}
 		};
 		// Fetch user's ip location to show tasks nearby
@@ -126,9 +120,7 @@ const BrowseTasks = () => {
 				alignItems='center'
 			>
 				{/* Filters */}
-				<Box
-					sx={{ display: { xs: "none", md: "block" }, flex: 1 }}
-				></Box>
+				<Box sx={{ display: { xs: "none", md: "block" }, flex: 1 }}></Box>
 				<Stack
 					className='filter-section'
 					component='section'

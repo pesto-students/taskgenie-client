@@ -85,7 +85,7 @@ const SignUp = () => {
 							variant='h5'
 							sx={{ fontWeight: "bold", color: "#8659d3" }}
 						>
-							{/* TaskGenie */}
+							TaskGenie
 						</Typography>
 					</Link>
 				</Box>
