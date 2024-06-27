@@ -224,16 +224,18 @@ const Navbar = ({ window }) => {
 																			margin: "0.5rem 0",
 																		}}
 																	>
-																		<Typography
-																			variant='body2'
-																			sx={{
-																				display: "flex",
-																				color: "#384179",
-																			}}
-																		>
-																			{item.icon}
-																			{item.title}
-																		</Typography>
+																		<Link href={item.path}>
+																			<Typography
+																				variant='body2'
+																				sx={{
+																					display: "flex",
+																					color: "#384179",
+																				}}
+																			>
+																				{item.icon}
+																				{item.title}
+																			</Typography>
+																		</Link>
 																	</MenuItem>
 																))}
 															</MenuList>
