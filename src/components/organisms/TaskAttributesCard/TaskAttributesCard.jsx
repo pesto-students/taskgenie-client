@@ -12,7 +12,7 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import MakeQuoteModal from "components/molecules/MakeQuoteModal/MakeQuoteModal";
-import { useTheme, Divider, Paper, Menu, MenuItem } from "@mui/material";
+import { useTheme, Divider } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { formatDate, formatAmount } from "/src/utils.jsx";
 import PropTypes from "prop-types";
@@ -55,10 +55,13 @@ const TaskAttributesCard = ({
 	canMakeOffer,
 	isAssignedToCurrentUser,
 	offeredAlready,
+	quotes,
+	currentUser,
 }) => {
 	const {
+		_id,
 		title,
-		userId,
+		postedBy,
 		status,
 		budget,
 		locationType,
@@ -74,7 +77,7 @@ const TaskAttributesCard = ({
 	const [cancelModalOpen, setCancelModalOpen] = React.useState(false);
 	const [cancelTask, { loading: cancelTaskLoading }] = useCancelTaskMutation();
 	const navigate = useNavigate();
-	const { data } = useGetUserNameByIdQuery(userId);
+	const { data: posterName } = useGetUserNameByIdQuery(postedBy);
 	const [addQuote, { addQuoteLoading }] = useAddQuoteMutation();
 	const { enqueueSnackbar } = useSnackbar();
 	/**
@@ -90,14 +93,14 @@ const TaskAttributesCard = ({
 
 	const handleSubmitQuote = async (formData) => {
 		if (formData.message) {
-			const response = await addQuote({ taskId, body: formData });
+			const response = await addQuote({ taskId: _id, body: formData });
 			if (response.error) {
 				enqueueSnackbar("Unable to Process! Please wait", { variant: "error" });
 			} else {
 				enqueueSnackbar("Quote Submitted", { variant: "info" });
 			}
 		}
-		// setDialogOpen(false);
+		setQuoteDialogOpen(false);
 	};
 	const handleTaskModalClose = async (shouldCancel) => {
 		if (shouldCancel) {
@@ -108,6 +111,9 @@ const TaskAttributesCard = ({
 		// Force reload page
 		window.location.reload();
 	};
+	const currentQuote = quotes.filter(
+		(quote) => quote.userId === currentUser
+	)[0];
 	return (
 		<>
 			<ConfirmationModal
@@ -143,7 +149,7 @@ const TaskAttributesCard = ({
 							<TaskDetailAttribute
 								label={"Task Owner"}
 								icon={<Person2OutlinedIcon sx={{ fontSize: "1.2rem" }} />}
-								value={data?.name}
+								value={posterName}
 							/>
 							{/* Location */}
 							<TaskDetailAttribute
@@ -248,7 +254,7 @@ const TaskAttributesCard = ({
 									padding: "1rem 3rem",
 								}}
 							>
-								{isAssignedToCurrentUser ? (
+								{!isAssignedToCurrentUser ? (
 									<Box>
 										<Stack gap={1}>
 											<Box>
@@ -256,14 +262,14 @@ const TaskAttributesCard = ({
 													<b>Your Message</b>
 												</Typography>
 												<Typography variant='body2'>
-													laren ipsun sfssf safsfsfd sfsdfasfsd ffsdf
+													{currentQuote.message}
 												</Typography>
 											</Box>
 											<Box>
 												<Typography>
 													<b>You Quoted</b>
 												</Typography>
-												<Typography>$34,00</Typography>
+												<Typography>{currentQuote.price}</Typography>
 											</Box>
 											<Button
 												variant='outlined'

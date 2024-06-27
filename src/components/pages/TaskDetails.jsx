@@ -45,15 +45,14 @@ const TaskDetails = () => {
 
 	// Calculate offeredAlready
 	const offeredAlready = React.useMemo(() => {
-		if (!quotes || !userId || quotes.length == 0) {
+		if (!quotes || !isAuthenticated || quotes.length == 0) {
 			return false;
 		} else {
 			return quotes.some((quote) => {
-				quote.userId === userId;
+				return quote.userId === userId;
 			});
 		}
-	}, [userId]);
-
+	}, [userId, quotes]);
 	// Calculate canMakeOffer
 	const canMakeOffer = React.useMemo(() => {
 		if (!isAuthenticated || isOwner) return false;
@@ -100,7 +99,6 @@ const TaskDetails = () => {
 	if (getTaskDetailsLoading || isOwnerLoading || getQuotesLoading) {
 		return <LoadingSpinner />;
 	}
-	
 	return (
 		<Container maxWidth='md'>
 			{/* Task Cancellation Confirmation Modal */}
@@ -116,16 +114,19 @@ const TaskDetails = () => {
 					offeredAlready={offeredAlready}
 					canMakeOffer={canMakeOffer}
 					isAssignedToCurrentUser={isAssignedToCurrentUser}
+					quotes={quotes}
+					currentUser={userId}
 				/>
 				{/* Task Description */}
 				<TaskDescriptionCard description={taskData?.description} />
 				{/* Task Quotes and Comments */}
-				{/* 				<TaskQuotesAndQuestions
-					quotes={quotes}
-					questions={questions}
-					currentUser={userId}
-					ownerId={postedBy}
-				/> */}
+				{isOwner && (
+					<TaskQuotesAndQuestions
+						quotes={quotes}
+						// questions={questions}
+						isOwner={isOwner}
+					/>
+				)}
 			</Stack>
 		</Container>
 	);

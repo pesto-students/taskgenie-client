@@ -17,7 +17,7 @@ import TaskStatusChip from "components/molecules/TaskStatusChip";
 // TaskItem component
 const TaskItem = ({ task }) => {
 	const theme = useTheme();
-	const { data } = useGetUserNameByIdQuery(task.postedBy);
+	const { data: posterName } = useGetUserNameByIdQuery(task.postedBy);
 	const iconColor = theme ? theme.palette.textLight?.main : "black";
 	const avatarColor = theme ? theme.palette.primary?.light : "purple";
 	return (
@@ -116,7 +116,7 @@ const TaskItem = ({ task }) => {
 									height: "30px",
 								}}
 							>
-								{data?.name.charAt(0)}
+								{posterName?.charAt(0)}
 							</Avatar>
 						)}
 					</Stack>
