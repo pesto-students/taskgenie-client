@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
 	Card,
 	Box,
@@ -20,33 +20,8 @@ import { useCancelTaskMutation, useGetUserNameByIdQuery } from "store/apiSlice";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { useAddQuoteMutation } from "/src/store/apiSlice";
-/**
- * Action Menu
- */
-const TaskMenu = ({ anchorEl, open, handleClose }) => {
-	return (
-		<Paper>
-			<Menu
-				id='basic-menu'
-				anchorEl={anchorEl}
-				open={open}
-				onClose={handleClose}
-				MenuListProps={{
-					"aria-labelledby": "basic-button",
-				}}
-			>
-				<MenuItem onClick={handleClose}>
-					<Typography
-						id='cancel-task'
-						variant='caption'
-					>
-						Cancel Task
-					</Typography>
-				</MenuItem>
-			</Menu>
-		</Paper>
-	);
-};
+import ConfirmationModal from "components/molecules/ConfirmationModal";
+import TaskStatusChip from "src/components/molecules/TaskStatusChip";
 const StyledCardContent = styled(CardContent)(({ theme }) => ({
 	display: "flex",
 	flexDirection: "column",
@@ -82,7 +57,6 @@ const TaskAttributesCard = ({
 	offeredAlready,
 }) => {
 	const {
-		taskId,
 		title,
 		userId,
 		status,
@@ -96,9 +70,9 @@ const TaskAttributesCard = ({
 	 * Hooks
 	 */
 	const { palette, breakpoints } = useTheme();
-	const [anchorEl, setAnchorEl] = useState(null);
-	const [dialogOpen, setDialogOpen] = useState(false);
-	const [cancelTask, { loading, error }] = useCancelTaskMutation();
+	const [quoteDialogOpen, setQuoteDialogOpen] = useState(false);
+	const [cancelModalOpen, setCancelModalOpen] = React.useState(false);
+	const [cancelTask, { loading: cancelTaskLoading }] = useCancelTaskMutation();
 	const navigate = useNavigate();
 	const { data } = useGetUserNameByIdQuery(userId);
 	const [addQuote, { addQuoteLoading }] = useAddQuoteMutation();
@@ -106,29 +80,12 @@ const TaskAttributesCard = ({
 	/**
 	 * Variables
 	 */
-	const menuOpen = Boolean(anchorEl);
 	const { textLight } = palette;
 	/**
 	 * Functions
 	 */
-	const handleClick = (event) => {
-		setAnchorEl(event.currentTarget);
-	};
-	const handleClose = async (event) => {
-		setAnchorEl(null);
-		if (event.target.id === "cancel-task") {
-			try {
-				const response = await cancelTask(taskId);
-				if (!response.error) {
-					navigate("/myTasks");
-				}
-			} catch (error) {
-				console.error(error);
-			}
-		}
-	};
 	const handleDialogOpen = () => {
-		setDialogOpen(!dialogOpen);
+		setQuoteDialogOpen(!quoteDialogOpen);
 	};
 
 	const handleSubmitQuote = async (formData) => {
@@ -140,20 +97,29 @@ const TaskAttributesCard = ({
 				enqueueSnackbar("Quote Submitted", { variant: "info" });
 			}
 		}
-		setDialogOpen(false);
+		// setDialogOpen(false);
 	};
-	let TaskAction = <div>default View</div>;
+	const handleTaskModalClose = async (shouldCancel) => {
+		if (shouldCancel) {
+			const taskId = taskData._id;
+			await cancelTask(taskId);
+		}
+		setCancelModalOpen(false);
+		// Force reload page
+		window.location.reload();
+	};
 	return (
 		<>
+			<ConfirmationModal
+				open={cancelModalOpen}
+				title={"Cancel Task?"}
+				message={"Are you sure you want to delte this task? "}
+				handleClose={handleTaskModalClose}
+			/>
 			<MakeQuoteModal
-				open={dialogOpen}
+				open={quoteDialogOpen}
 				onDialogClose={handleSubmitQuote}
 				budget={budget}
-			/>
-			<TaskMenu
-				anchorEl={anchorEl}
-				open={menuOpen}
-				handleClose={handleClose}
 			/>
 			<Card
 				sx={{
@@ -162,6 +128,7 @@ const TaskAttributesCard = ({
 					},
 				}}
 			>
+				<TaskStatusChip status={taskData.status} />
 				<StyledCardContent>
 					<Box className='attributes'>
 						{/* Title */}
@@ -215,6 +182,7 @@ const TaskAttributesCard = ({
 					<Stack
 						direction='column'
 						gap={3}
+						justifyContent='center'
 						alignItems='center'
 						className='budget-action-wrapper'
 						sx={{ padding: "1rem" }}
@@ -245,11 +213,14 @@ const TaskAttributesCard = ({
 								</Typography>
 							</Box>
 						</Stack>
-						{/* TODO: Cancel task2 button by owner. should be open or assigned */}
-						{isOwner && (
+						{isOwner && taskData?.status === "open" && (
 							<Button
 								variant='outlined'
 								color='error'
+								loading={cancelTaskLoading}
+								onClick={() => {
+									setCancelModalOpen(true);
+								}}
 							>
 								Cancel Task
 							</Button>
@@ -268,7 +239,6 @@ const TaskAttributesCard = ({
 								</Box>
 							</Stack>
 						)}
-						{/* TODO: Offered by current user already */}
 						{offeredAlready && (
 							<Box
 								sx={{
@@ -335,7 +305,7 @@ const TaskAttributesCard = ({
 // Prop validation
 TaskAttributesCard.propTypes = {
 	taskData: PropTypes.shape({
-		taskId: PropTypes.string,
+		_id: PropTypes.string,
 		title: PropTypes.string,
 		userId: PropTypes.string,
 		status: PropTypes.string,
@@ -348,6 +318,8 @@ TaskAttributesCard.propTypes = {
 	// postedBy: PropTypes.string,
 	canMakeOffer: PropTypes.bool,
 	isOwner: PropTypes.bool,
+	isAssignedToCurrentUser: PropTypes.bool,
+	offeredAlready: PropTypes.bool,
 };
 
 export default TaskAttributesCard;

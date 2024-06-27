@@ -26,6 +26,8 @@ const TaskDetails = () => {
 	} = useGetTaskDetailsQuery(taskId);
 	const [isOwner, setIsOwner] = React.useState(false);
 	const [isOwnerLoading, setIsOwnerLoading] = React.useState(true);
+
+	// useEffect Hook
 	React.useEffect(() => {
 		setIsOwnerLoading(true);
 		if (userId === null) {
@@ -98,8 +100,11 @@ const TaskDetails = () => {
 	if (getTaskDetailsLoading || isOwnerLoading || getQuotesLoading) {
 		return <LoadingSpinner />;
 	}
+	
 	return (
 		<Container maxWidth='md'>
+			{/* Task Cancellation Confirmation Modal */}
+
 			<Stack
 				sx={{ padding: "1rem 1rem" }}
 				gap={1.5}
