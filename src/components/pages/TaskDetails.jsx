@@ -18,40 +18,14 @@ const TaskDetails = () => {
 	const { taskId } = useParams();
 	const navigate = useNavigate();
 	const userId = useSelector(selectUserId);
-	const [isOwner, setIsOwner] = React.useState(false);
-	const [isOwnerLoading, setIsOwnerLoading] = React.useState(true);
-	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const {
 		data: taskData,
 		isLoading: getTaskDetailsLoading,
 		isError,
 		refetch,
 	} = useGetTaskDetailsQuery(taskId);
-
-	// Get Quotes if authenticated
-	const { data: quotes, isLoading: getQuotesLoading } =
-		isAuthenticated && useGetQuotesQuery(taskId);
-
-	// Calculate offeredAlready
-	const offeredAlready = React.useMemo(() => {
-		if (!quotes || !userId) return false;
-		return quotes.some((quote) => quote.userId === userId);
-	}, [quotes, userId]);
-
-	// Calculate canMakeOffer
-	const canMakeOffer = React.useMemo(() => {
-		if (!isAuthenticated) return false;
-		return taskData?.status === "open" && !offeredAlready;
-	}, [taskData?.status, offeredAlready]);
-
-	// Calculate isAssignedToCurrentUser
-	const isAssignedToCurrentUser = React.useMemo(() => {
-		if (!isAuthenticated) return false;
-		return taskData?.genieId === userId;
-	}, [taskData?.genieId, userId]);
-	/* const [postQuestion, { postQuestionLoading }] =
-		isAuthenticated && usePostQuestionMutation(); */
-
+	const [isOwner, setIsOwner] = React.useState(false);
+	const [isOwnerLoading, setIsOwnerLoading] = React.useState(true);
 	React.useEffect(() => {
 		setIsOwnerLoading(true);
 		if (userId === null) {
@@ -61,6 +35,36 @@ const TaskDetails = () => {
 		}
 		setIsOwnerLoading(false);
 	}, [userId, taskData?.postedBy]);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+	// Get Quotes if authenticated
+	const { data: quotes = [], isLoading: getQuotesLoading } =
+		isAuthenticated && useGetQuotesQuery(taskId);
+
+	// Calculate offeredAlready
+	const offeredAlready = React.useMemo(() => {
+		if (!quotes || !userId || quotes.length == 0) {
+			return false;
+		} else {
+			return quotes.some((quote) => {
+				quote.userId === userId;
+			});
+		}
+	}, [userId]);
+
+	// Calculate canMakeOffer
+	const canMakeOffer = React.useMemo(() => {
+		if (!isAuthenticated || isOwner) return false;
+		else return taskData?.status === "open" && !offeredAlready;
+	}, [taskData?.status, offeredAlready, isAuthenticated, isOwner]);
+
+	// Calculate isAssignedToCurrentUser
+	const isAssignedToCurrentUser = React.useMemo(() => {
+		if (!isAuthenticated) return false;
+		return taskData?.genieId === userId;
+	}, [taskData?.genieId, userId]);
+	/* const [postQuestion, { postQuestionLoading }] =
+		isAuthenticated && usePostQuestionMutation(); */
 
 	// Functions
 	const handleSubmitQuestion = async (e) => {

@@ -77,9 +77,9 @@ const StyledCardContent = styled(CardContent)(({ theme }) => ({
 const TaskAttributesCard = ({
 	taskData,
 	isOwner,
-	canMakeOffer = true,
-	isAssignedToCurrentUser = true,
-	offeredAlready = true,
+	canMakeOffer,
+	isAssignedToCurrentUser,
+	offeredAlready,
 }) => {
 	const {
 		taskId,
