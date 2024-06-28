@@ -14,21 +14,28 @@ import {
 	TextField,
 	ToggleButtonGroup,
 } from "components/atoms";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
-import { useSetupProfileMutation } from "../../store/apiSlice.jsx";
-import { logout, updateProfileStatus } from "../../store/authSlice.jsx";
+import {
+	useGetProfileStatusQuery,
+	useSetupProfileMutation,
+} from "../../store/apiSlice.jsx";
+import { logout } from "../../store/authSlice.jsx";
+import LoadingSpinner from "../molecules/LoadingSpinner/LoadingSpinner.jsx";
 
+const choiceTypes = [
+	{ value: "post-task", label: "Post Task" },
+	{ value: "find-task", label: "Find Task" },
+];
 const SetUpProfile = () => {
 	const dispatch = useDispatch();
-	const isProfileComplete = useSelector(
-		(state) => state.auth.isProfileComplete
-	);
-	const userId = useSelector((state) => state.auth.userId);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const { data: profileStatus, isLoading: profileStatusLoading } =
+		useGetProfileStatusQuery();
+	console.log("profileStatus", profileStatus);
 	const navigate = useNavigate();
-	const [setupProfile] = useSetupProfileMutation();
-
+	const [setupProfile, { isLoading: setupProfileLoading }] =
+		useSetupProfileMutation();
 	const {
 		control,
 		handleSubmit,
@@ -39,14 +46,9 @@ const SetUpProfile = () => {
 			lastName: "",
 		},
 	});
-
-	const choiceTypes = [
-		{ value: "post-task", label: "Post Task" },
-		{ value: "find-task", label: "Find Task" },
-	];
-
 	const [choice, setChoice] = useState("post-task");
 	const [city, setCity] = useState(null);
+	// UseEffect
 
 	const handleChoiceTypeChange = (newChoice) => {
 		setChoice(newChoice);
@@ -61,12 +63,6 @@ const SetUpProfile = () => {
 		navigate("/");
 	};
 
-	useEffect(() => {
-		if (isProfileComplete) {
-			navigate("/");
-		}
-	}, [isProfileComplete, navigate]);
-
 	const onSubmit = async (formData) => {
 		try {
 			const combinedData = {
@@ -74,16 +70,20 @@ const SetUpProfile = () => {
 				city,
 				isProfileComplete: true,
 			};
-			const response = await setupProfile(combinedData, userId);
-			if (response.status === 200) {
-				dispatch(updateProfileStatus());
-			}
+			await setupProfile(combinedData);
 			navigate("/");
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
+	if (!isAuthenticated) {
+		return navigate("/");
+	} else if (profileStatusLoading) {
+		return <LoadingSpinner />;
+	} else if (profileStatus) {
+		navigate("/");
+	}
 	return (
 		<>
 			<Container>
@@ -211,7 +211,7 @@ const SetUpProfile = () => {
 											variant='contained'
 											sx={{ width: "100%" }}
 											type='submit'
-											// loading={isLoading}
+											loading={setupProfileLoading}
 										>
 											Finish setting up!
 										</Button>

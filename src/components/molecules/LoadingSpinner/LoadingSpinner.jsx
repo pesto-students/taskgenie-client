@@ -4,7 +4,7 @@ const LoadingSpinner = () => {
 	return (
 		<Box
 			sx={{
-				height: "100%",
+				minHeight: "50vh",
 				display: "flex",
 			}}
 		>

@@ -12,16 +12,15 @@ import routes from "./routes";
 import { CssBaseline } from "@mui/material";
 
 const router = createBrowserRouter(routes);
-
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <CssBaseline />
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <SnackbarProvider>
-          <RouterProvider router={router} />
-        </SnackbarProvider>
-      </ThemeProvider>
-    </Provider>
-  </React.StrictMode>
+	<React.StrictMode>
+		<CssBaseline />
+		<Provider store={store}>
+			<ThemeProvider theme={theme}>
+				<SnackbarProvider>
+					<RouterProvider router={router} />
+				</SnackbarProvider>
+			</ThemeProvider>
+		</Provider>
+	</React.StrictMode>
 );

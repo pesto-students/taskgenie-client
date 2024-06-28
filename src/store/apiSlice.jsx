@@ -93,7 +93,7 @@ export const apiSlice = createApi({
 		 * User Profile
 		 */
 		getProfileStatus: builder.query({
-			query: (id) => `/user/${id}/profileStatus`,
+			query: () => `/user/profileStatus`,
 		}),
 		updateUserProfile: builder.mutation({
 			query: (data) => ({
@@ -103,11 +103,13 @@ export const apiSlice = createApi({
 			}),
 		}),
 		setupProfile: builder.mutation({
-			query: (data, id) => ({
-				url: `/user/${id}`,
-				method: "PATCH",
-				body: data,
-			}),
+			query: (data) => {
+				return {
+					url: `/user`,
+					method: "PATCH",
+					body: data,
+				};
+			},
 		}),
 		getUserById: builder.query({
 			query: (userId) => `/user/${userId}/`,

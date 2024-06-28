@@ -81,7 +81,12 @@ const SignIn = () => {
 		return <LoadingSpinner />;
 	} else if (isAuthenticated && isProfileComplete) {
 		navigate("/");
+	} else if (isAuthenticated) {
+		navigate("/setup-profile");
 	}
+	console.log(
+		`isAuthenticated ${isAuthenticated} isProfileComplete: ${isProfileComplete}`
+	);
 	return (
 		<>
 			<Container maxWidth='sm'>

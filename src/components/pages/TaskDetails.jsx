@@ -100,7 +100,7 @@ const TaskDetails = () => {
 		return <LoadingSpinner />;
 	}
 	return (
-		<Container maxWidth='md'>
+		<PageWrapper maxWidth='md'>
 			{/* Task Cancellation Confirmation Modal */}
 
 			<Stack
@@ -128,7 +128,7 @@ const TaskDetails = () => {
 					/>
 				)}
 			</Stack>
-		</Container>
+		</PageWrapper>
 	);
 };
 

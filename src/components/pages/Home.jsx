@@ -1,13 +1,13 @@
-import { Container } from "components/atoms";
 import HeroSection from "components/organisms/HeroSection/HeroSection";
 import PopularServices from "components/organisms/PopularServices/PopularServices";
 import TaskGenieProcess from "components/organisms/TaskGenieProcess";
 import TestimonialsSection from "components/organisms/TestimonialsSection/TestimonialsSection";
 import TaskGenieSection from "components/organisms/TaskGenieSection/TaskGenieSection";
+import PageWrapper from "../molecules/PageWrapper";
 
 const Home = () => {
 	return (
-		<Container
+		<PageWrapper
 			maxWidth={"lg"}
 			sx={{ padding: 0 }}
 		>
@@ -20,7 +20,7 @@ const Home = () => {
 			<TaskGenieSection />
 			{/* Testimonials */}
 			<TestimonialsSection />
-		</Container>
+		</PageWrapper>
 	);
 };
 

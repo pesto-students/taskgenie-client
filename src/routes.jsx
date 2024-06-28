@@ -61,11 +61,6 @@ const routes = [
 		errorElement: <ErrorPage />,
 	},
 	{
-		path: "/member-profile",
-		element: <MemberProfile />,
-		errorElement: <ErrorPage />,
-	},
-	{
 		path: "/error",
 		element: <ErrorPage />,
 	},

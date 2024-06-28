@@ -10,6 +10,7 @@ import PlaceAutocomplete from "components/molecules/PlaceAutocomplete";
 import Map from "components/organisms/Map";
 import { checkLatAndLng } from "src/utils.jsx";
 import { useTheme } from "@emotion/react";
+import PageWrapper from "../molecules/PageWrapper/PageWrapper.jsx";
 // Default filters
 const defaultFilters = {
 	locationType: "",
@@ -105,7 +106,7 @@ const BrowseTasks = () => {
 		}
 	};
 	return (
-		<>
+		<PageWrapper>
 			{/* Filter Dialog */}
 			<FilterDialog
 				open={dialogOpen}
@@ -215,7 +216,7 @@ const BrowseTasks = () => {
 					/>
 				</Box>
 			</Stack>
-		</>
+		</PageWrapper>
 	);
 };
 
