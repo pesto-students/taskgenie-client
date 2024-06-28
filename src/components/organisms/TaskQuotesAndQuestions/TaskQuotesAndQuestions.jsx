@@ -5,8 +5,9 @@ import TabPanel from "components/molecules/TabPanel/TabPanel";
 import { Card, CardContent, Typography, Box, Tab, Tabs } from "@mui/material";
 import { useTheme } from "@mui/material";
 import QuoteItem from "../../molecules/QuoteItem/QuoteItem";
-
+import EmptyList from "assets/emptyList.svg?react";
 function TaskQuotesAndQuestions({ questions = [], quotes = [], isOwner }) {
+	const theme = useTheme();
 	//  Hooks
 	// TODO: add qutestions tab
 	const [currentTab, setCurrentTab] = useState(isOwner ? 0 : 1);
@@ -20,7 +21,14 @@ function TaskQuotesAndQuestions({ questions = [], quotes = [], isOwner }) {
 	};
 	console.log("quote", quotes, "length", quotes.length);
 	return (
-		<Card sx={{ borderRadius: "12px" }}>
+		<Card
+			sx={{
+				borderRadius: "12px",
+				[theme.breakpoints.up("sm")]: {
+					padding: "1rem",
+				},
+			}}
+		>
 			<CardContent>
 				{/* <Box>
 					<Tabs
@@ -66,7 +74,9 @@ function TaskQuotesAndQuestions({ questions = [], quotes = [], isOwner }) {
 				{isOwner && (
 					<Box>
 						{/* show questions here */}
-						<Typography>Quotes</Typography>
+						<Typography sx={{ color: theme.palette.textLight.main }}>
+							Quotes
+						</Typography>
 						{quotes.length > 0 ? (
 							<Box>
 								{quotes.map((quote) => (
@@ -77,7 +87,19 @@ function TaskQuotesAndQuestions({ questions = [], quotes = [], isOwner }) {
 								))}
 							</Box>
 						) : (
-							<div>no quotes</div>
+							<Box
+								sx={{
+									display: "flex",
+									justifContent: "center",
+									alignItems: "center",
+									flexDirection: "column",
+								}}
+							>
+								<Box sx={{ width: "120px" }}>
+									<EmptyList />
+								</Box>
+								<Typography variant='caption'>No quotes yet!</Typography>
+							</Box>
 						)}
 					</Box>
 				)}

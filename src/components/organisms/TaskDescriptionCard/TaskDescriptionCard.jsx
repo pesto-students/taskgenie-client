@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { IconButton, useMediaQuery, useTheme } from "@mui/material";
+import { Divider, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import {
 	Accordion,
 	AccordionDetails,
@@ -31,7 +31,7 @@ const TaskDescriptionCard = ({ description = "", images = [] }) => {
 		<Card
 			sx={{
 				[theme.breakpoints.up("sm")]: {
-					padding: "2rem",
+					padding: "1rem",
 				},
 			}}
 		>
@@ -94,7 +94,13 @@ const TaskDescriptionCard = ({ description = "", images = [] }) => {
 					)}
 				</Box>
 				{images.length > 0 && (
-					<Box>
+					<Box sx={{ marginTop: "2rem" }}>
+						<Typography
+							variant='subtitle2'
+							sx={{ color: theme.palette.textLight.main }}
+						>
+							Images
+						</Typography>
 						<ImageList cols={imageListCols}>
 							{images.map((image) => (
 								<ImageListItem

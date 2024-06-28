@@ -130,7 +130,7 @@ const TaskAttributesCard = ({
 			<Card
 				sx={{
 					[breakpoints.up("sm")]: {
-						padding: "2rem",
+						padding: "1rem",
 					},
 				}}
 			>

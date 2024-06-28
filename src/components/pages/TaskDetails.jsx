@@ -4,7 +4,7 @@ import {
 	useGetTaskDetailsQuery,
 	usePostQuestionMutation,
 } from "/src/store/apiSlice";
-import { Stack, Container } from "components/atoms";
+import { Stack } from "components/atoms";
 import TaskDescriptionCard from "components/organisms/TaskDescriptionCard";
 import TaskAttributesCard from "components/organisms/TaskAttributesCard";
 import { useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import TaskQuotesAndQuestions from "../organisms/TaskQuotesAndQuestions/TaskQuot
 import LoadingSpinner from "components/molecules/LoadingSpinner";
 import { selectUserId } from "src/store/authSlice";
 import { useGetQuotesQuery } from "src/store/apiSlice";
+import PageWrapper from "components/molecules/PageWrapper";
 
 const TaskDetails = () => {
 	// Hooks
@@ -26,7 +27,7 @@ const TaskDetails = () => {
 	} = useGetTaskDetailsQuery(taskId);
 	const [isOwner, setIsOwner] = React.useState(false);
 	const [isOwnerLoading, setIsOwnerLoading] = React.useState(true);
-
+	console.log("taskData", taskData);
 	// useEffect Hook
 	React.useEffect(() => {
 		setIsOwnerLoading(true);
@@ -118,7 +119,10 @@ const TaskDetails = () => {
 					currentUser={userId}
 				/>
 				{/* Task Description */}
-				<TaskDescriptionCard description={taskData?.description} />
+				<TaskDescriptionCard
+					description={taskData?.description}
+					images={taskData?.images}
+				/>
 				{/* Task Quotes and Comments */}
 				{isOwner && (
 					<TaskQuotesAndQuestions
