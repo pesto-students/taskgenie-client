@@ -1,110 +1,101 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import QuestionItem from "components/molecules/QuestionItem";
-import TabPanel from "components/molecules/TabPanel/TabPanel";
-import { Card, CardContent, Typography, Box, Tab, Tabs } from "@mui/material";
+import { Card, CardContent, Typography, Box } from "@mui/material";
 import { useTheme } from "@mui/material";
-import QuoteItem from "../../molecules/QuoteItem/QuoteItem";
+import QuoteItem from "components/molecules/QuoteItem/QuoteItem";
 import EmptyList from "assets/emptyList.svg?react";
-function TaskQuotesAndQuestions({ questions = [], quotes = [], isOwner }) {
+import ConfirmationModal from "components/molecules/ConfirmationModal";
+import { useAcceptQuoteMutation } from "src/store/apiSlice";
+function TaskQuotesAndQuestions({
+	quotes = [],
+	isOwner,
+	taskStatus,
+	taskId,
+	acceptedQuote,
+}) {
 	const theme = useTheme();
-	//  Hooks
-	// TODO: add qutestions tab
-	const [currentTab, setCurrentTab] = useState(isOwner ? 0 : 1);
-	//Variables
-
-	const handleReply = (commentId) => {
-		// Implement reply functionality here
+	const [quoteConfirmationOpen, setQuoteConfirmationOpen] =
+		React.useState(false);
+	const [selectedQuoteId, setSelectedQuoteId] = useState(null);
+	const [genieName, setGenieName] = useState("");
+	const selectedQuote = React.useMemo(() => {
+		return quotes.filter((quote) => quote._id === selectedQuoteId)[0];
+	}, [selectedQuoteId]);
+	const [acceptQuote, { isLoading: acceptQuoteLoading }] =
+		useAcceptQuoteMutation();
+	const handleQuoteItemClicked = (quoteId, genieName) => {
+		setGenieName(genieName);
+		setSelectedQuoteId(quoteId);
+		setQuoteConfirmationOpen(true);
 	};
-	const handleTabChange = (_, newValue) => {
-		setCurrentTab(newValue);
+	const handleConfirmationModalClose = async (shouldMakeQuote) => {
+		if (shouldMakeQuote) {
+			await acceptQuote({
+				taskId,
+				selectedQuoteId,
+			});
+		}
+		setQuoteConfirmationOpen(false);
+		window.location.reload();
 	};
-	console.log("quote", quotes, "length", quotes.length);
 	return (
-		<Card
-			sx={{
-				borderRadius: "12px",
-				[theme.breakpoints.up("sm")]: {
-					padding: "1rem",
-				},
-			}}
-		>
-			<CardContent>
-				{/* <Box>
-					<Tabs
-						value={currentTab}
-						onChange={handleTabChange}
-					>
-						{isOwner && (
-							<Tab
-								value={0}
-								label='Quotes'
-							/>
-						)}
-						<Tab
-							value={1}
-							label='Questions'
-						/>
-					</Tabs>
-					<TabPanel
-						value={currentTab}
-						index={0}
-					>
-						{quotes.length > 0 &&
-							quotes.map((quote) => (
-								<QuoteItem
-									key={quote._id}
-									quote={quote}
-								/>
-							))}
-					</TabPanel>
-					<TabPanel
-						value={currentTab}
-						index={1}
-					>
-						{questions.map((question) => (
-							<QuestionItem
-								key={question._id}
-								canReply={true}
-								question={question}
-							/>
-						))}
-					</TabPanel>
-				</Box> */}
-				{isOwner && (
-					<Box>
-						{/* show questions here */}
-						<Typography sx={{ color: theme.palette.textLight.main }}>
-							Quotes
-						</Typography>
-						{quotes.length > 0 ? (
-							<Box>
-								{quotes.map((quote) => (
-									<QuoteItem
-										key={quote._id}
-										quote={quote}
-									/>
-								))}
-							</Box>
-						) : (
-							<Box
-								sx={{
-									display: "flex",
-									justifContent: "center",
-									alignItems: "center",
-									flexDirection: "column",
-								}}
-							>
-								<Box sx={{ width: "120px" }}>
-									<EmptyList />
+		<>
+			<ConfirmationModal
+				open={quoteConfirmationOpen}
+				handleClose={handleConfirmationModalClose}
+				title={`Do you want to accept quote by ${genieName} for Rs ${selectedQuote?.price}?`}
+				message={selectedQuote?.message}
+				loading={acceptQuoteLoading}
+			/>
+			<Card
+				sx={{
+					borderRadius: "12px",
+					[theme.breakpoints.up("sm")]: {
+						padding: "1rem",
+					},
+				}}
+			>
+				<CardContent>
+					{isOwner && (
+						<Box>
+							{/* show questions here */}
+							<Typography sx={{ color: theme.palette.textLight.main }}>
+								Quotes
+							</Typography>
+							{quotes.length > 0 ? (
+								<Box sx={{ margin: "1rem" }}>
+									{quotes.map((quote) => (
+										<QuoteItem
+											key={quote._id}
+											quote={quote}
+											isAssigned={quote._id === acceptedQuote}
+											onClick={(genieName) => {
+												taskStatus !== "assigned" &&
+													handleQuoteItemClicked(quote._id, genieName);
+											}}
+										/>
+									))}
 								</Box>
-								<Typography variant='caption'>No quotes yet!</Typography>
-							</Box>
-						)}
-					</Box>
-				)}
-			</CardContent>
-		</Card>
+							) : (
+								<Box
+									sx={{
+										display: "flex",
+										justifContent: "center",
+										alignItems: "center",
+										flexDirection: "column",
+									}}
+								>
+									<Box sx={{ width: "120px" }}>
+										<EmptyList />
+									</Box>
+									<Typography variant='caption'>No quotes yet!</Typography>
+								</Box>
+							)}
+						</Box>
+					)}
+				</CardContent>
+			</Card>
+		</>
 	);
 }
 

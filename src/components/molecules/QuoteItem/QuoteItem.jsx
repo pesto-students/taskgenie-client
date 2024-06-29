@@ -1,83 +1,74 @@
 import React from "react";
-import {
-	Box,
-	Button,
-	Accordion,
-	AccordionDetails,
-	AccordionSummary,
-	Stack,
-	Avatar,
-	// Chip,
-	Typography,
-} from "components/atoms";
-import { AccordionActions } from "@mui/material";
+import { Box, Stack, Avatar, Typography } from "components/atoms";
+import { Paper } from "@mui/material";
 import { useTheme, Skeleton } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useGetUserNameByIdQuery } from "store/apiSlice";
 import { formatAmount } from "/src/utils.jsx";
-const QuoteItem = ({ quote }) => {
+const QuoteItem = ({ quote, onClick, isAssigned }) => {
 	const { data: genieName, isLoading } = useGetUserNameByIdQuery(quote.userId);
-	console.log("userId", quote.userId, "genieNamwe", genieName);
 	const theme = useTheme();
 	return (
 		<Box>
 			{isLoading ? (
 				<Skeleton height={"80px"} />
 			) : (
-				<Accordion
+				<Paper
 					sx={{
-						boxShadow: "none",
-						"&.Mui-expanded": {
-							boxShadow: `0px 0px 2px 2px ${theme.palette.primary.light}`,
-							borderRadius: "12px",
-							marginBottom: "8px !important",
-						},
+						padding: "1rem",
+						margin: "8px",
+						cursor: "pointer",
 					}}
+					onClick={() => onClick(genieName)}
 				>
-					<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+					<Stack
+						direction={{ xs: "column", md: "row" }}
+						alignItems='center'
+					>
+						{/* User Profile Icon */}
 						<Stack
-							direction='row'
+							direction='column'
+							justifyContent='center'
 							alignItems='center'
-							gap={2}
-							sx={{ width: "100%" }}
+							sx={{ minWidth: "60px" }}
 						>
-							<Stack
-								direction='column'
-								sx={{ minWidth: "60px" }}
+							<Avatar
+								sx={{
+									backgroundColor: theme.palette.primary.light,
+									height: "30px",
+									width: "30px",
+								}}
 							>
-								<Avatar
-									sx={{
-										backgroundColor: theme.palette.primary.light,
-										height: "30px",
-										width: "30px",
-									}}
-								>
-									{genieName?.charAt(0)}
-								</Avatar>
+								{genieName?.charAt(0)}
+							</Avatar>
 
-								<Typography
-									sx={{ flex: 1 }}
-									variant='caption'
-								>
-									{genieName}
-								</Typography>
-							</Stack>
-							<Typography sx={{ flex: 1 }}>
+							<Typography
+								sx={{ flex: 1 }}
+								variant='caption'
+							>
+								{genieName}
+							</Typography>
+						</Stack>
+						{/* Message */}
+						<Box sx={{ flex: 1, padding: "8px", textAlign: "justify" }}>
+							<Typography variant='body2'>{quote.message}</Typography>
+						</Box>
+						{/* Price */}
+						<Box sx={{ textAlign: "center" }}>
+							<Typography
+								variant='caption'
+								sx={{ color: theme.palette.textLight.main }}
+							>
+								Budget
+							</Typography>
+							<Typography
+								variant='h6'
+								sx={{ flex: 1 }}
+							>
 								{formatAmount(quote.price)}
 							</Typography>
-							{/* <Chip
-								label='4.3'
-								size='small'
-							/> */}
-						</Stack>
-					</AccordionSummary>
-					<AccordionDetails>
-						<Typography variant='body2'>{quote.message}</Typography>
-					</AccordionDetails>
-					<AccordionActions>
-						<Button size='small'>Accept Quote</Button>
-					</AccordionActions>
-				</Accordion>
+						</Box>
+					</Stack>
+				</Paper>
 			)}
 		</Box>
 	);

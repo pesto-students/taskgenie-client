@@ -80,6 +80,11 @@ const TaskAttributesCard = ({
 	const { data: posterName } = useGetUserNameByIdQuery(postedBy);
 	const [addQuote, { addQuoteLoading }] = useAddQuoteMutation();
 	const { enqueueSnackbar } = useSnackbar();
+	const assignedQuote = quotes.filter(
+		(quote) => quote._id === taskData?.acceptedQuote
+	)[0];
+	const { data: genieName, isLoading: genieNameLoading } =
+		useGetUserNameByIdQuery(assignedQuote?.userId);
 	/**
 	 * Variables
 	 */
@@ -101,6 +106,7 @@ const TaskAttributesCard = ({
 			}
 		}
 		setQuoteDialogOpen(false);
+		window.location.reload();
 	};
 	const handleTaskModalClose = async (shouldCancel) => {
 		if (shouldCancel) {
@@ -114,6 +120,8 @@ const TaskAttributesCard = ({
 	const currentQuote = quotes.filter(
 		(quote) => quote.userId === currentUser
 	)[0];
+
+	console.log("ravi", assignedQuote);
 	return (
 		<>
 			<ConfirmationModal
@@ -129,6 +137,7 @@ const TaskAttributesCard = ({
 			/>
 			<Card
 				sx={{
+					padding: "1rem",
 					[breakpoints.up("sm")]: {
 						padding: "1rem",
 					},
@@ -167,13 +176,6 @@ const TaskAttributesCard = ({
 										: "Flexible"
 								}
 							/>
-							{status === "assigned" && (
-								<TaskDetailAttribute
-									label={"TaskGenie"}
-									icon={<Person2OutlinedIcon sx={{ fontSize: "1.2rem" }} />}
-									value={locationName}
-								/>
-							)}
 						</Box>
 					</Box>
 					<Divider
@@ -219,17 +221,33 @@ const TaskAttributesCard = ({
 								</Typography>
 							</Box>
 						</Stack>
-						{isOwner && taskData?.status === "open" && (
-							<Button
-								variant='outlined'
-								color='error'
-								loading={cancelTaskLoading}
-								onClick={() => {
-									setCancelModalOpen(true);
-								}}
-							>
-								Cancel Task
-							</Button>
+						{isOwner &&
+							(taskData?.status === "open" ||
+								taskData?.status === "assigned") && (
+								<Button
+									variant='outlined'
+									color='error'
+									loading={cancelTaskLoading}
+									onClick={() => {
+										setCancelModalOpen(true);
+									}}
+									size='small'
+								>
+									Cancel Task
+								</Button>
+							)}
+						{isOwner && assignedQuote && (
+							<Box>
+								<Stack>
+									<Typography variant='caption'>
+										Assigned to <b style={{ color: "#8659d3" }}>{genieName}</b>
+									</Typography>
+									<Typography variant='caption'>
+										{`Agreed budget `}
+										<b style={{ color: "#8659d3" }}>₹{assignedQuote?.price}</b>
+									</Typography>
+								</Stack>
+							</Box>
 						)}
 						{/* Show only if user can make an offer */}
 						{canMakeOffer && (

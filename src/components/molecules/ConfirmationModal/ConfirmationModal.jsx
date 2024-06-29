@@ -9,7 +9,13 @@ import {
 	DialogContentText,
 	DialogTitle,
 } from "@mui/material";
-const ConfirmationModal = ({ title, message, open, handleClose }) => {
+const ConfirmationModal = ({
+	title,
+	message,
+	open,
+	handleClose,
+	isLoading,
+}) => {
 	const handleCancel = () => {
 		handleClose(false);
 	};
@@ -37,6 +43,7 @@ const ConfirmationModal = ({ title, message, open, handleClose }) => {
 						color='success'
 						variant='outlined'
 						onClick={handleConfirm}
+						loading={isLoading}
 					>
 						Confirm
 					</Button>

@@ -127,8 +127,10 @@ const TaskDetails = () => {
 				{isOwner && (
 					<TaskQuotesAndQuestions
 						quotes={quotes}
-						// questions={questions}
 						isOwner={isOwner}
+						taskStatus={taskData?.status}
+						taskId={taskData?._id}
+						acceptedQuote={taskData?.acceptedQuote}
 					/>
 				)}
 			</Stack>

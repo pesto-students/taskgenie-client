@@ -85,12 +85,6 @@ const Navbar = ({ window }) => {
 								</Link>
 							</ListItem>
 						))}
-						<ListItem
-							key='logout-button'
-							onClick={handleLogout}
-						>
-							Logout
-						</ListItem>
 					</List>
 				</Box>
 			</Stack>
@@ -224,7 +218,10 @@ const Navbar = ({ window }) => {
 																			margin: "0.5rem 0",
 																		}}
 																	>
-																		<Link href={item.path}>
+																		<Link
+																			href={item.path}
+																			sx={{ textDecoration: "none" }}
+																		>
 																			<Typography
 																				variant='body2'
 																				sx={{

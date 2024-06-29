@@ -152,6 +152,14 @@ export const apiSlice = createApi({
 		getQuotes: builder.query({
 			query: (taskId) => `/tasks/${taskId}/quotes`,
 		}),
+		acceptQuote: builder.mutation({
+			query: ({ taskId, selectedQuoteId }) => {
+				return {
+					url: `/tasks/${taskId}/quotes/${selectedQuoteId}/accept`,
+					method: "POST",
+				};
+			},
+		}),
 	}),
 });
 
@@ -173,5 +181,6 @@ export const {
 	useGetUserNameByIdQuery,
 	useAddQuoteMutation,
 	useGetQuotesQuery,
+	useAcceptQuoteMutation,
 } = apiSlice;
 export default apiSlice;

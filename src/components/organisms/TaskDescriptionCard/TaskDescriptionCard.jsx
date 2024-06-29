@@ -42,9 +42,9 @@ const TaskDescriptionCard = ({ description = "", images = [] }) => {
 				>
 					Description
 				</Typography>
-				<Box sx={{ marginTop: "0.5rem" }}>
+				<Box sx={{ marginTop: "0.5rem", textAlign: "justify" }}>
 					{description.length <= 500 ? (
-						<Box>
+						<Box sx={{ textAlign: "justify" }}>
 							<Typography
 								variant='body1'
 								sx={{ wordBreak: "break-word" }}
