@@ -6,7 +6,7 @@ export const apiSlice = createApi({
 		/**
 		 * Base URL
 		 */
-		baseUrl: "http://localhost:5000/api",
+		baseUrl: "https://taskgenie-api-1lye.onrender.com/api",
 		prepareHeaders: (headers, { getState }) => {
 			const token = getState().auth.accessToken;
 			if (token) {
