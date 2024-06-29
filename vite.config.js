@@ -9,20 +9,20 @@ export default defineConfig({
 		environment: "jsdom",
 		setupFiles: ["src/setupTests.js"],
 	},
-	server: {
+	/* server: {
 		proxy: {
 			"/api": {
-				/* target: "http://localhost:5000",
+				 target: "http://localhost:5000",
 				secure: false,
 				changeOrigin: true,
-				rewrite: (path) => path.replace(/^\/api/, "/api"), */
+				rewrite: (path) => path.replace(/^\/api/, "/api"), 
 				target: "https://taskgenie-api-1lye.onrender.com", // Updated target URL
 				secure: true, // Set this to true if your API endpoint uses HTTPS
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\/api/, ""),
 			},
 		},
-	},
+	}, */
 	resolve: {
 		alias: {
 			src: "/src",
