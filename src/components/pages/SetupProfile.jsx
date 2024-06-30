@@ -30,8 +30,11 @@ const choiceTypes = [
 const SetUpProfile = () => {
 	const dispatch = useDispatch();
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-	const { data: profileStatus, isLoading: profileStatusLoading } =
-		useGetProfileStatusQuery();
+	const {
+		data: profileStatus,
+		isLoading: profileStatusLoading,
+		refetch: refetchProfileStatus,
+	} = useGetProfileStatusQuery();
 	console.log("profileStatus", profileStatus);
 	const navigate = useNavigate();
 	const [setupProfile, { isLoading: setupProfileLoading }] =
@@ -49,6 +52,11 @@ const SetUpProfile = () => {
 	const [choice, setChoice] = useState("post-task");
 	const [city, setCity] = useState(null);
 	// UseEffect
+	useEffect(() => {
+		if (profileStatus || !isAuthenticated) {
+			navigate("/");
+		}
+	}, [profileStatus]);
 
 	const handleChoiceTypeChange = (newChoice) => {
 		setChoice(newChoice);
@@ -71,18 +79,14 @@ const SetUpProfile = () => {
 				isProfileComplete: true,
 			};
 			await setupProfile(combinedData);
-			navigate("/");
+			refetchProfileStatus();
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
-	if (!isAuthenticated) {
-		return navigate("/");
-	} else if (profileStatusLoading) {
+	if (profileStatusLoading) {
 		return <LoadingSpinner />;
-	} else if (profileStatus) {
-		navigate("/");
 	}
 	return (
 		<>
