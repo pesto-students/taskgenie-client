@@ -1,7 +1,7 @@
 
 TaskGenie is a versatile service aggregator platform where users can list their needs and find task opportunities. Think of it as a marketplace similar to Airtasker but with a broader range of services and functionalities.
 
-Visit the live version: [TaskGenie Client](https://taskgenie-client.onrender.com)
+Visit the live version: [TaskGenie Client](https://superb-macaron-4765a3.netlify.app)
 
 ## Technologies Used
 
