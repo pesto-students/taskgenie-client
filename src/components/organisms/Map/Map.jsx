@@ -27,10 +27,8 @@ const Map = ({ tasks = [], center, searchRadius = 100, width }) => {
 
 		return zoomLevel;
 	};
-	const tileLayerURL =
-		"https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}";
-	const tileLayerAttribution =
-		"Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ";
+	const tileLayerURL = import.meta.env.VITE_TILE_URL;
+	const tileLayerAttribution = import.meta.env.VITE_TILE_ATTRIBUTION;
 	const zoomLevel = calculateZoomLevel(searchRadius);
 	return (
 		<>
