@@ -6,7 +6,7 @@ export const apiSlice = createApi({
 		/**
 		 * Base URL
 		 */
-		baseUrl: "https://taskgenie-api-1lye.onrender.com/api",
+		baseUrl: import.meta.env.VITE_API_URL,
 		prepareHeaders: (headers, { getState }) => {
 			const token = getState().auth.accessToken;
 			if (token) {
@@ -34,9 +34,7 @@ export const apiSlice = createApi({
 				body: data,
 			}),
 		}),
-		/**
-		 * My Tasks Endpoints
-		 */
+		/** My Tasks Endpoints */
 		getMyTasks: builder.query({
 			query: ({ status, searchText }) => {
 				return {
