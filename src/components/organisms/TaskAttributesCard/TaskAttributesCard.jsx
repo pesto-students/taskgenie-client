@@ -127,7 +127,7 @@ const TaskAttributesCard = ({
 			<ConfirmationModal
 				open={cancelModalOpen}
 				title={"Cancel Task?"}
-				message={"Are you sure you want to delte this task? "}
+				message={"Are you sure you want to delete this task? "}
 				handleClose={handleTaskModalClose}
 			/>
 			<MakeQuoteModal

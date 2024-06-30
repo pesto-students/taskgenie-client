@@ -9,14 +9,18 @@ import LoadingSpinner from "../LoadingSpinner";
 const PageWrapper = ({ children, ...props }) => {
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const { data: profileStatus, isLoading: profileStatusLoading } =
-		isAuthenticated && useGetProfileStatusQuery();
+		useGetProfileStatusQuery();
 	const navigate = useNavigate();
-	// if user is authenticated and profile is not complete redirect to setup profile
+
+	// Handle redirection or loading state based on profile status and authentication
 	if (profileStatusLoading) {
 		return <LoadingSpinner />;
 	} else if (isAuthenticated && !profileStatus) {
 		navigate("/setup-profile");
+		return <LoadingSpinner />; // or any loading indicator while navigating
 	}
+
+	// If everything is loaded and conditions are met, render children
 	return <Container {...props}>{children}</Container>;
 };
 
