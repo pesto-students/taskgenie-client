@@ -8,7 +8,6 @@ import SignIn from "components/pages/SignIn.jsx";
 import SetupProfile from "components/pages/SetupProfile";
 import MemberProfile from "components/pages/SetupProfile";
 import TaskDetails from "components/pages/TaskDetails.jsx";
-import MyTaskDetails from "components/pages/MyTaskDetails";
 import PostTask from "components/pages/PostTask.jsx";
 import ProtectedRoutes from "components/templates/ProtectedRoutes.jsx";
 

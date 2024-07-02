@@ -18,7 +18,8 @@ const defaultFilters = {
 	taskStatus: "open",
 	distance: 50,
 	priceRange: [100, 99000],
-	sortBy: "date-desc", };
+	sortBy: "date-desc",
+};
 const defaultLocation = { lat: 26.9124, lng: 75.7873 };
 const userLocationKey = "userLocation";
 
@@ -72,7 +73,7 @@ const BrowseTasks = () => {
 		};
 		// Fetch user's ip location to show tasks nearby
 		fetchUserLocation();
-	});
+	}, []);
 	useEffect(() => {
 		if (mapContainerRef.current) {
 			const width = mapContainerRef.current.clientWidth;
