@@ -11,14 +11,14 @@ import Map from "components/organisms/Map";
 import { checkLatAndLng } from "src/utils.jsx";
 import { useTheme } from "@emotion/react";
 import PageWrapper from "../molecules/PageWrapper/PageWrapper.jsx";
+import LoadingSpinner from "../molecules/LoadingSpinner/LoadingSpinner.jsx";
 // Default filters
 const defaultFilters = {
 	locationType: "",
 	taskStatus: "open",
 	distance: 50,
 	priceRange: [100, 99000],
-	sortBy: "date-desc",
-};
+	sortBy: "date-desc", };
 const defaultLocation = { lat: 26.9124, lng: 75.7873 };
 const userLocationKey = "userLocation";
 
@@ -29,7 +29,7 @@ const BrowseTasks = () => {
 	const [filters, setFilters] = useState(defaultFilters);
 	const [searchText, setSearchText] = useState("");
 	const [userLocation, setUserLocation] = useState(defaultLocation);
-	let { data: tasks = [] } = useGetTasksQuery({
+	let { data: tasks = [], isLoading: getTasksLoading } = useGetTasksQuery({
 		...filters,
 		...userLocation,
 	});
@@ -72,7 +72,7 @@ const BrowseTasks = () => {
 		};
 		// Fetch user's ip location to show tasks nearby
 		fetchUserLocation();
-	}, []);
+	});
 	useEffect(() => {
 		if (mapContainerRef.current) {
 			const width = mapContainerRef.current.clientWidth;
@@ -105,6 +105,9 @@ const BrowseTasks = () => {
 			localStorage.setItem(userLocationKey, JSON.stringify(location));
 		}
 	};
+	if (getTasksLoading) {
+		return <LoadingSpinner />;
+	}
 	return (
 		<PageWrapper>
 			{/* Filter Dialog */}
