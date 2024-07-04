@@ -84,9 +84,6 @@ const SignIn = () => {
 	} else if (isAuthenticated) {
 		navigate("/setup-profile");
 	}
-	console.log(
-		`isAuthenticated ${isAuthenticated} isProfileComplete: ${isProfileComplete}`
-	);
 	return (
 		<>
 			<Container maxWidth='sm'>

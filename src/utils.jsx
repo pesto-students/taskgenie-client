@@ -50,7 +50,6 @@ export const uploadImageToS3 = async (file) => {
 			},
 		});
 		const key = file.name.replace(/\s/g, "_");
-		console.log("file name is ", key);
 		const params = {
 			Bucket: import.meta.env.VITE_S3_BUCKET_NAME,
 			Key: key,
@@ -62,7 +61,6 @@ export const uploadImageToS3 = async (file) => {
 		const response = await s3Client.send(command);
 		if (response.$metadata.httpStatusCode === 200) {
 			const imageUrl = `https://${params.Bucket}.s3.amazonaws.com/${params.Key}`;
-			console.log("image url", imageUrl);
 			return imageUrl;
 		} else {
 			throw new Error("Unable to convert Image");

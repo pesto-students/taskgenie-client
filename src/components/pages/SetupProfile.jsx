@@ -35,7 +35,7 @@ const SetUpProfile = () => {
 		isLoading: profileStatusLoading,
 		refetch: refetchProfileStatus,
 	} = useGetProfileStatusQuery();
-	console.log("profileStatus", profileStatus);
+
 	const navigate = useNavigate();
 	const [setupProfile, { isLoading: setupProfileLoading }] =
 		useSetupProfileMutation();

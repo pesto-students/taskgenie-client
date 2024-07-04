@@ -121,7 +121,6 @@ const TaskAttributesCard = ({
 		(quote) => quote.userId === currentUser
 	)[0];
 
-	console.log("ravi", assignedQuote);
 	return (
 		<>
 			<ConfirmationModal

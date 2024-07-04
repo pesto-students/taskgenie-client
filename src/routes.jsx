@@ -10,6 +10,7 @@ import MemberProfile from "components/pages/SetupProfile";
 import TaskDetails from "components/pages/TaskDetails.jsx";
 import PostTask from "components/pages/PostTask.jsx";
 import ProtectedRoutes from "components/templates/ProtectedRoutes.jsx";
+import Test from "./components/pages/Test";
 
 const routes = [
 	{
@@ -62,6 +63,10 @@ const routes = [
 	{
 		path: "/error",
 		element: <ErrorPage />,
+	},
+	{
+		path: "/test",
+		element: <Test />,
 	},
 ];
 

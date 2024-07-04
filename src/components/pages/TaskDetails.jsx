@@ -27,7 +27,7 @@ const TaskDetails = () => {
 	} = useGetTaskDetailsQuery(taskId);
 	const [isOwner, setIsOwner] = React.useState(false);
 	const [isOwnerLoading, setIsOwnerLoading] = React.useState(true);
-	console.log("taskData", taskData);
+
 	// useEffect Hook
 	React.useEffect(() => {
 		setIsOwnerLoading(true);

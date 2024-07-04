@@ -5,8 +5,7 @@ import RoomIcon from "@mui/icons-material/Room";
 const SetViewOnUpdate = ({ center }) => {
 	const map = useMap();
 	useEffect(() => {
-		const newCenter = [center.lat, center.lng];
-		map.setView(newCenter, 11);
+		map.setView(center, 11);
 
 		return () => {};
 	}, [center]);
@@ -33,7 +32,7 @@ const Map = ({ tasks = [], center, searchRadius = 100, width }) => {
 	return (
 		<>
 			<MapContainer
-				center={[center.lat, center.lng]}
+				center={center}
 				zoom={zoomLevel}
 				scrollWheelZoom={false}
 				style={{ width: { width }, height: "95vh" }}

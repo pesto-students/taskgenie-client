@@ -64,7 +64,6 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
 				const response = await postTask(taskData);
 
 				if (response.error) {
-					console.log(response.error);
 					enqueueSnackbar("Unable to post task", {
 						variant: "error",
 						anchorOrigin: { vertical: "top", horizontal: "center" },
@@ -78,7 +77,6 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
 				setErrors(errors);
 			}
 		} catch (error) {
-			console.log("Unable to create task");
 			enqueueSnackbar("Unable to post Task", {
 				variant: "error",
 				anchorOrigin: { vertical: "top", horizontal: "center" },

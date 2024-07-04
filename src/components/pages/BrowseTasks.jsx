@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Stack, TextField } from "../atoms/index.js";
 import TaskList from "components/organisms/TaskList/index.jsx";
@@ -12,6 +12,7 @@ import { checkLatAndLng } from "src/utils.jsx";
 import { useTheme } from "@emotion/react";
 import PageWrapper from "../molecules/PageWrapper/PageWrapper.jsx";
 import LoadingSpinner from "../molecules/LoadingSpinner/LoadingSpinner.jsx";
+import { defaultLocation } from "src/constants.jsx";
 // Default filters
 const defaultFilters = {
 	locationType: "",
@@ -20,7 +21,6 @@ const defaultFilters = {
 	priceRange: [100, 99000],
 	sortBy: "date-desc",
 };
-const defaultLocation = { lat: 26.9124, lng: 75.7873 };
 const userLocationKey = "userLocation";
 
 const BrowseTasks = () => {
@@ -30,6 +30,7 @@ const BrowseTasks = () => {
 	const [filters, setFilters] = useState(defaultFilters);
 	const [searchText, setSearchText] = useState("");
 	const [userLocation, setUserLocation] = useState(defaultLocation);
+	const [useLocationLoading, setUserLocationLoading] = useState(true);
 	let { data: tasks = [], isLoading: getTasksLoading } = useGetTasksQuery({
 		...filters,
 		...userLocation,
@@ -42,8 +43,9 @@ const BrowseTasks = () => {
 
 	// fetch user location from user's saved city
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const fetchUserLocation = async () => {
+			setUserLocation(true);
 			// only if there is no location stored in local storage) use ipapi.co/json to fetch user's current location, if it cant use default location.
 			// User can override location
 			try {
@@ -57,18 +59,21 @@ const BrowseTasks = () => {
 					// if not use ipapi.co/json to fetch location
 					const response = await axios.get("https://ipinfo.io/json");
 					// Convert location in correct format
-					const { loc } = response.data;
+					const { city, loc } = response.data;
 					const [lat, lng] = loc
 						.split(",")
 						.map((str) => Number.parseFloat(str));
 					checkLatAndLng([lat, lng]);
 					// Set user's location
-					setUserLocation({ lat, lng });
+					const location = { name: city, loc: [lat, lng] };
+					setUserLocation(location);
 					// Store location in local storage
-					localStorage.setItem(userLocationKey, JSON.stringify({ lat, lng }));
+					localStorage.setItem(userLocationKey, JSON.stringify(location));
 				}
 			} catch (e) {
 				console.error("Error Occurred while fetching the location", e.message);
+			} finally {
+				setUserLocationLoading(false);
 			}
 		};
 		// Fetch user's ip location to show tasks nearby
@@ -94,19 +99,14 @@ const BrowseTasks = () => {
 	const handleSearchTextChange = (event) => {
 		setSearchText(event.target.value);
 	};
-	const handleCitySelect = ({ coordinates }) => {
-		if (coordinates) {
-			const location = {
-				lat: coordinates[1],
-				lng: coordinates[0],
-			};
-
+	const handleCitySelect = (location) => {
+		if (location) {
 			setUserLocation(location);
 			// Store location in local storage
 			localStorage.setItem(userLocationKey, JSON.stringify(location));
 		}
 	};
-	if (getTasksLoading) {
+	if (getTasksLoading || useLocationLoading) {
 		return <LoadingSpinner />;
 	}
 	return (
@@ -148,6 +148,7 @@ const BrowseTasks = () => {
 							size={"small"}
 							placeholder='City'
 							onSelectPlace={handleCitySelect}
+							defaultPlace={userLocation}
 						/>
 					</Box>
 					<Box sx={{ flex: 1 }}>
@@ -210,7 +211,7 @@ const BrowseTasks = () => {
 				>
 					<Map
 						tasks={filteredTasks}
-						center={userLocation}
+						center={userLocation?.loc}
 						width={mapWidth}
 						sx={{
 							width: "100%",
