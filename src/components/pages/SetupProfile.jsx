@@ -20,7 +20,7 @@ import {
 	useGetProfileStatusQuery,
 	useSetupProfileMutation,
 } from "../../store/apiSlice.jsx";
-import { logout } from "../../store/authSlice.jsx";
+import { logout, updateProfileStatus } from "../../store/authSlice.jsx";
 import LoadingSpinner from "../molecules/LoadingSpinner/LoadingSpinner.jsx";
 
 const choiceTypes = [
@@ -53,6 +53,10 @@ const SetUpProfile = () => {
 	const [city, setCity] = useState(null);
 	// UseEffect
 	useEffect(() => {
+		if (profileStatus) {
+			// update profile status
+			dispatch(updateProfileStatus());
+		}
 		if (profileStatus || !isAuthenticated) {
 			navigate("/");
 		}
@@ -88,6 +92,7 @@ const SetUpProfile = () => {
 	if (profileStatusLoading) {
 		return <LoadingSpinner />;
 	}
+	console.log("setup profile rendered");
 	return (
 		<>
 			<Container>
