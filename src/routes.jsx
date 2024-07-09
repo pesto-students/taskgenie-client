@@ -6,11 +6,10 @@ import MyTasks from "components/pages/MyTasks.jsx";
 import SignUp from "components/pages/SignUp.jsx";
 import SignIn from "components/pages/SignIn.jsx";
 import SetupProfile from "components/pages/SetupProfile";
-import MemberProfile from "components/pages/SetupProfile";
 import TaskDetails from "components/pages/TaskDetails.jsx";
 import PostTask from "components/pages/PostTask.jsx";
 import ProtectedRoutes from "components/templates/ProtectedRoutes.jsx";
-
+import { Navigate } from "react-router-dom";
 const routes = [
 	{
 		path: "/",
@@ -37,11 +36,6 @@ const routes = [
 				path: "/myTasks/:taskId",
 				element: <ProtectedRoutes element={<TaskDetails />} />,
 			},
-			{
-				path: "/postTask",
-				element: <ProtectedRoutes element={<PostTask />} />,
-				errorElement: <ErrorPage />,
-			},
 		],
 	},
 	{
@@ -60,7 +54,7 @@ const routes = [
 		errorElement: <ErrorPage />,
 	},
 	{
-		path: "/error",
+		path: "*",
 		element: <ErrorPage />,
 	},
 ];
