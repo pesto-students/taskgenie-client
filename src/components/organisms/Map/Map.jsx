@@ -1,16 +1,31 @@
 import { useEffect } from "react";
+import PropTypes from "prop-types";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import MapPopup from "components/molecules/MapPopup/MapPopup";
-import RoomIcon from "@mui/icons-material/Room";
+/**
+ * Sets the view on update based on the center coordinates.
+ *
+ * @param {Object} center - The center coordinates for the map view.
+ * @return {void}
+ */
 const SetViewOnUpdate = ({ center }) => {
 	const map = useMap();
 	useEffect(() => {
-		map.setView(center, 11);
+		if (center && center.lat && center.lng) map.setView(center, 11);
 
 		return () => {};
 	}, [center]);
 };
-
+/**
+ * Renders a map component with markers and popups for tasks.
+ *
+ * @param {Object} props - The properties for the map.
+ * @param {Array} props.tasks - The array of tasks to display.
+ * @param {Object} props.center - The center coordinates for the map.
+ * @param {number} [props.searchRadius=100] - The search radius in kilometers.
+ * @param {string} props.width - The width of the map.
+ * @return {JSX.Element} The map component.
+ */
 const Map = ({ tasks = [], center, searchRadius = 100, width }) => {
 	const calculateZoomLevel = (radius) => {
 		// Approximate conversion factor from kilometers to meters
@@ -58,6 +73,9 @@ const Map = ({ tasks = [], center, searchRadius = 100, width }) => {
 			</MapContainer>
 		</>
 	);
+};
+Map.propTypes = {
+	center: PropTypes.arrayOf(PropTypes.number.isRequired),
 };
 
 export default Map;
