@@ -68,5 +68,17 @@ const Map = ({ tasks = [], center, searchRadius = 100, width }) => {
 Map.propTypes = {
 	center: PropTypes.arrayOf(PropTypes.number.isRequired),
 };
-
-export default Map;
+function arePropsEqual(prevProps, nextProps) {
+	if (
+		Array.isArray(prevProps.center) &&
+		Array.isArray(nextProps.center) &&
+		prevProps.center.length === 2 &&
+		nextProps.center.length === 2
+	) {
+		return (
+			prevProps.center[0] === nextProps.center[0] &&
+			prevProps.center[1] === nextProps.center[1]
+		);
+	}
+}
+export default React.memo(Map, arePropsEqual);
