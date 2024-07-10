@@ -3,6 +3,7 @@ import Section from "components/molecules/Section";
 import { Box, Typography, Stack, TextField, Button } from "components/atoms";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
+import { useMediaQuery } from "@mui/material";
 const HeroSection = () => {
 	const theme = useTheme();
 	const [taskTitle, setTaskTitle] = useState("");
@@ -14,6 +15,7 @@ const HeroSection = () => {
 		// Redirect to /postTask route and pass the taskTitle as a query parameter
 		navigateTo(`/postTask?title=${encodeURIComponent(taskTitle)}`);
 	};
+	const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
 	return (
 		<Section
 			className='hero-section'
@@ -40,12 +42,6 @@ const HeroSection = () => {
 						justifyContent: "center",
 						paddingTop: "3rem",
 						paddingBottom: "3rem",
-						"& .task-title-form": {
-							flex: 1,
-							flexDirection: "row",
-							margin: "0 0 0 15px!important",
-							maxWidth: "400px",
-						},
 					},
 				}}
 			>
@@ -56,9 +52,14 @@ const HeroSection = () => {
 					</Typography>
 				</Box>
 				<Stack
-					class='task-title-form'
 					direction='column'
+					sx={{
+						padding: isSmUp ? "0rem 1rem" : "1rem 0rem",
+						flex: 1,
+						maxWidth: "400px",
+					}}
 				>
+					{}
 					<TextField
 						fullWidth
 						placeholder='What do you need help with'
