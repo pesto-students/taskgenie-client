@@ -1,4 +1,14 @@
+import React from "react";
 import PropTypes from "prop-types";
+// External Imports
+import { Divider } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
+import { useTheme } from "@mui/material/styles";
+// Internal Imports
+import TaskStatusChip from "components/molecules/TaskStatusChip";
+import { formatAmount, formatDate } from "../../../utils.jsx";
 import {
 	Card,
 	CardContent,
@@ -6,14 +16,7 @@ import {
 	Box,
 	Stack,
 } from "../../atoms/index.js";
-import { Divider } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
-import { useTheme } from "@mui/material/styles";
-import { formatAmount, formatDate } from "../../../utils.jsx";
 import { useGetUserNameByIdQuery } from "store/apiSlice";
-import TaskStatusChip from "components/molecules/TaskStatusChip";
 // TaskItem component
 const TaskItem = ({ task }) => {
 	const theme = useTheme();
@@ -119,6 +122,7 @@ const TaskItem = ({ task }) => {
 								{posterName?.charAt(0)}
 							</Avatar>
 						)}
+						<div>{posterName}</div>
 					</Stack>
 				</CardContent>
 			</Card>

@@ -109,6 +109,7 @@ const BrowseTasks = () => {
 	if (getTasksLoading || useLocationLoading) {
 		return <LoadingSpinner />;
 	}
+	console.log("browse tasks rendered");
 	return (
 		<PageWrapper>
 			{/* Filter Dialog */}

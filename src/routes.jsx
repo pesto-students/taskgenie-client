@@ -9,7 +9,6 @@ import SetupProfile from "components/pages/SetupProfile";
 import TaskDetails from "components/pages/TaskDetails.jsx";
 import PostTask from "components/pages/PostTask.jsx";
 import ProtectedRoutes from "components/templates/ProtectedRoutes.jsx";
-import { Navigate } from "react-router-dom";
 const routes = [
 	{
 		path: "/",

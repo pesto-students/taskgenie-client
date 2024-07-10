@@ -22,6 +22,7 @@ const Layout = () => {
 		}
 	}, [navigate]);
 
+	console.log("layout rendered");
 	return (
 		<Box>
 			<Header />

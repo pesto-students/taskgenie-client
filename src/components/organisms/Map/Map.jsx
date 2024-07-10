@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, useMap, Marker } from "react-leaflet";
 import MapPopup from "components/molecules/MapPopup/MapPopup";
+import { calculateZoomLevel } from "src/utils/mapUtils";
 /**
  * Sets the view on update based on the center coordinates.
  *
@@ -10,7 +11,7 @@ import MapPopup from "components/molecules/MapPopup/MapPopup";
  */
 const SetViewOnUpdate = ({ center }) => {
 	const map = useMap();
-	useEffect(() => {
+	React.useEffect(() => {
 		if (center && center.lat && center.lng) map.setView(center, 11);
 
 		return () => {};
@@ -27,23 +28,13 @@ const SetViewOnUpdate = ({ center }) => {
  * @return {JSX.Element} The map component.
  */
 const Map = ({ tasks = [], center, searchRadius = 100, width }) => {
-	const calculateZoomLevel = (radius) => {
-		// Approximate conversion factor from kilometers to meters
-		const metersPerKilometer = 1000;
-		const radiusInMeters = radius * metersPerKilometer;
-
-		// Approximate conversion factor from meters to degrees
-		const metersPerDegree = 111000;
-		const radiusInDegrees = radiusInMeters / metersPerDegree;
-
-		// Use a formula to determine the zoom level based on the radius
-		const zoomLevel = Math.ceil(14 - Math.log(radiusInDegrees) / Math.log(2));
-
-		return zoomLevel;
-	};
+	console.log("Map rendered");
 	const tileLayerURL = import.meta.env.VITE_TILE_URL;
 	const tileLayerAttribution = import.meta.env.VITE_TILE_ATTRIBUTION;
-	const zoomLevel = calculateZoomLevel(searchRadius);
+	const zoomLevel = React.useMemo(
+		() => calculateZoomLevel(searchRadius),
+		[searchRadius]
+	);
 	return (
 		<>
 			<MapContainer
