@@ -8,7 +8,7 @@ import FilterDialog from "components/molecules/FilterDialog/index.jsx";
 import { useGetTasksQuery } from "/src/store/apiSlice.jsx";
 import PlaceAutocomplete from "components/molecules/PlaceAutocomplete";
 import Map from "components/organisms/Map";
-import { checkLatAndLng } from "src/utils.jsx";
+import { checkLatAndLng } from "src/utils/mapUtils.js";
 import { useTheme } from "@emotion/react";
 import PageWrapper from "../molecules/PageWrapper/PageWrapper.jsx";
 import LoadingSpinner from "../molecules/LoadingSpinner/LoadingSpinner.jsx";

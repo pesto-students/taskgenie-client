@@ -3,7 +3,7 @@ import { Box, Stack, Avatar, Typography } from "components/atoms";
 import { Paper } from "@mui/material";
 import { useTheme, Skeleton } from "@mui/material";
 import { useGetUserNameByIdQuery } from "store/apiSlice";
-import { formatAmount } from "/src/utils.jsx";
+import { formatAmount } from "src/utils/formatUtils";
 const QuoteItem = ({ quote, onClick, isAssigned }) => {
 	const { data: genieName, isLoading } = useGetUserNameByIdQuery(quote.userId);
 	const theme = useTheme();

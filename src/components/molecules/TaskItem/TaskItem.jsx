@@ -8,7 +8,7 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import { useTheme } from "@mui/material/styles";
 // Internal Imports
 import TaskStatusChip from "components/molecules/TaskStatusChip";
-import { formatAmount, formatDate } from "../../../utils.jsx";
+import { formatAmount, formatDate } from "src/utils/formatUtils.js";
 import {
 	Card,
 	CardContent,

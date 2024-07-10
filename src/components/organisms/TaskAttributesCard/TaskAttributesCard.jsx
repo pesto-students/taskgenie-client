@@ -14,7 +14,7 @@ import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined
 import MakeQuoteModal from "components/molecules/MakeQuoteModal/MakeQuoteModal";
 import { useTheme, Divider } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { formatDate, formatAmount } from "/src/utils.jsx";
+import { formatDate, formatAmount } from "src/utils/formatUtils";
 import PropTypes from "prop-types";
 import { useCancelTaskMutation, useGetUserNameByIdQuery } from "store/apiSlice";
 import { useNavigate } from "react-router-dom";

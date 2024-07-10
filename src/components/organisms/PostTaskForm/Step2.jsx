@@ -15,7 +15,7 @@ import { TaskStep2Schema } from "../../../validation/schema/validationSchema";
 import TaskImageList from "components/organisms/TaskImageList";
 import { usePostTaskMutation } from "store/apiSlice";
 import { useNavigate } from "react-router-dom";
-import { uploadImages } from "../../../utils";
+import { uploadImages } from "src/utils/uploadImagesUtils";
 const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
 	const navigate = useNavigate();
 	const { enqueueSnackbar } = useSnackbar();
