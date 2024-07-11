@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useMemo } from "react";
 import axios from "axios";
 import { Stack, TextField } from "../atoms/index.js";
 import TaskList from "components/organisms/TaskList/index.jsx";
@@ -35,11 +35,13 @@ const BrowseTasks = () => {
 		...filters,
 		...userLocation,
 	});
-	// Filter tasks based on search text
-	const filteredTasks = tasks.filter((task) =>
-		task.title.toLowerCase().includes(searchText.toLowerCase())
-	);
 	const [dialogOpen, setDialogOpen] = useState(false);
+	// Filter tasks based on search text
+	const filteredTasks = useMemo(() => {
+		return tasks.filter((task) =>
+			task.title.toLowerCase().includes(searchText.toLowerCase())
+		);
+	}, [tasks, searchText]);
 
 	// fetch user location from user's saved city
 
