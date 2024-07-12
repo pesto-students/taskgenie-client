@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useMemo } from "react";
 import axios from "axios";
 import { Stack } from "../atoms/index.js";
 import TaskList from "components/organisms/TaskList/index.jsx";
@@ -38,7 +38,6 @@ const BrowseTasks = () => {
 	// Filter tasks based on search text
 	const [filteredTasks, setFilteredTasks] = useState(tasks);
 	const [dialogOpen, setDialogOpen] = useState(false);
-
 	// fetch user location from user's saved city
 	useEffect(() => {
 		setFilteredTasks(tasks);
