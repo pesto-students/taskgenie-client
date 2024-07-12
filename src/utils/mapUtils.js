@@ -5,7 +5,6 @@
  * @return {number} The calculated zoom level.
  */
 export const calculateZoomLevel = (radius) => {
-	console.log("calculating zoom level");
 	// Approximate conversion factor from kilometers to meters
 	const metersPerKilometer = 1000;
 	const radiusInMeters = radius * metersPerKilometer;

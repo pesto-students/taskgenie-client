@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { MapContainer, TileLayer, useMap, Marker } from "react-leaflet";
 import MapPopup from "components/molecules/MapPopup/MapPopup";
 import { calculateZoomLevel } from "src/utils/mapUtils";
+
 /**
  * Sets the view on update based on the center coordinates.
  *
@@ -11,9 +12,10 @@ import { calculateZoomLevel } from "src/utils/mapUtils";
  */
 const SetViewOnUpdate = ({ center }) => {
 	const map = useMap();
+	map.getContainer().focus = () => {};
+
 	React.useEffect(() => {
 		if (center && center.lat && center.lng) map.setView(center, 11);
-
 		return () => {};
 	}, [center]);
 };
@@ -28,7 +30,6 @@ const SetViewOnUpdate = ({ center }) => {
  * @return {JSX.Element} The map component.
  */
 const Map = ({ tasks = [], center, searchRadius = 100, width }) => {
-	console.log("Map rendered");
 	const tileLayerURL = import.meta.env.VITE_TILE_URL;
 	const tileLayerAttribution = import.meta.env.VITE_TILE_ATTRIBUTION;
 	const zoomLevel = React.useMemo(
@@ -40,7 +41,6 @@ const Map = ({ tasks = [], center, searchRadius = 100, width }) => {
 			<MapContainer
 				center={center}
 				zoom={zoomLevel}
-				scrollWheelZoom={false}
 				style={{ width: { width }, height: "95vh" }}
 			>
 				<TileLayer
