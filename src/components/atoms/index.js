@@ -16,6 +16,7 @@ export { Grid } from "./Grid";
 export { InputLabel } from "./InputLabel";
 export { ImageListItem } from "./ImageListItem";
 export { Link } from "./Link";
+export { SearchField } from "./SearchField";
 export { Slider } from "./Slider";
 export { Stack } from "./Stack";
 export { Select } from "./Select";

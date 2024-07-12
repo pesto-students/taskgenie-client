@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import axios from "axios";
-import { Stack, TextField } from "../atoms/index.js";
+import { Stack } from "../atoms/index.js";
 import TaskList from "components/organisms/TaskList/index.jsx";
 import { Box, IconButton } from "@mui/material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
@@ -13,6 +13,7 @@ import { useTheme } from "@emotion/react";
 import PageWrapper from "../molecules/PageWrapper/PageWrapper.jsx";
 import LoadingSpinner from "../molecules/LoadingSpinner/LoadingSpinner.jsx";
 import { defaultLocation } from "src/constants.jsx";
+import { SearchField } from "../atoms/index.js";
 // Default filters
 const defaultFilters = {
 	locationType: "",
@@ -28,7 +29,6 @@ const BrowseTasks = () => {
 	const mapContainerRef = useRef(null);
 	const [mapWidth, setMapWidth] = useState(0);
 	const [filters, setFilters] = useState(defaultFilters);
-	const [searchText, setSearchText] = useState("");
 	const [userLocation, setUserLocation] = useState(defaultLocation);
 	const [useLocationLoading, setUserLocationLoading] = useState(true);
 	let { data: tasks = [], isLoading: getTasksLoading } = useGetTasksQuery({
@@ -36,17 +36,16 @@ const BrowseTasks = () => {
 		...userLocation,
 	});
 	// Filter tasks based on search text
-	const filteredTasks = tasks.filter((task) =>
-		task.title.toLowerCase().includes(searchText.toLowerCase())
-	);
+	const [filteredTasks, setFilteredTasks] = useState(tasks);
 	const [dialogOpen, setDialogOpen] = useState(false);
 
 	// fetch user location from user's saved city
-
+	useEffect(() => {
+		setFilteredTasks(tasks);
+	}, [tasks]);
 	useLayoutEffect(() => {
 		const fetchUserLocation = async () => {
-			setUserLocation(true);
-			// only if there is no location stored in local storage) use ipapi.co/json to fetch user's current location, if it cant use default location.
+			setUserLocation(true); // only if there is no location stored in local storage) use ipapi.co/json to fetch user's current location, if it cant use default location.
 			// User can override location
 			try {
 				if (localStorage.getItem(userLocationKey)) {
@@ -96,8 +95,13 @@ const BrowseTasks = () => {
 		}
 		setDialogOpen(false);
 	};
-	const handleSearchTextChange = (event) => {
-		setSearchText(event.target.value);
+
+	const handleSearchTextChange = (searchTerm) => {
+		setFilteredTasks(
+			tasks.filter((task) =>
+				task.title.toLowerCase().includes(searchTerm.toLowerCase())
+			)
+		);
 	};
 	const handleCitySelect = (location) => {
 		if (location) {
@@ -109,7 +113,6 @@ const BrowseTasks = () => {
 	if (getTasksLoading || useLocationLoading) {
 		return <LoadingSpinner />;
 	}
-	console.log("browse tasks rendered");
 	return (
 		<PageWrapper>
 			{/* Filter Dialog */}
@@ -154,13 +157,7 @@ const BrowseTasks = () => {
 					</Box>
 					<Box sx={{ flex: 1 }}>
 						{/* Search field */}
-						<TextField
-							label='Search'
-							size='small'
-							aria-label='Search'
-							value={searchText}
-							onChange={handleSearchTextChange}
-						/>
+						<SearchField onSearchTextChange={handleSearchTextChange} />
 					</Box>
 					<Box>
 						{/* filter button */}
