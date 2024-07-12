@@ -92,7 +92,6 @@ const SetUpProfile = () => {
 	if (profileStatusLoading) {
 		return <LoadingSpinner />;
 	}
-	console.log("setup profile rendered");
 	return (
 		<>
 			<Container>
