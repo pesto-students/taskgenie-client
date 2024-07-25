@@ -14,6 +14,8 @@ import PageWrapper from "../molecules/PageWrapper/PageWrapper.jsx";
 import LoadingSpinner from "../molecules/LoadingSpinner/LoadingSpinner.jsx";
 import { defaultLocation } from "src/constants.jsx";
 import { SearchField } from "../atoms/index.js";
+import { useSelector } from "react-redux";
+import { selectUserId } from "src/store/authSlice.jsx";
 // Default filters
 const defaultFilters = {
 	locationType: "",
@@ -26,6 +28,7 @@ const userLocationKey = "userLocation";
 
 const BrowseTasks = () => {
 	const theme = useTheme();
+	const userId = useSelector(selectUserId);
 	const mapContainerRef = useRef(null);
 	const [mapWidth, setMapWidth] = useState(0);
 	const [filters, setFilters] = useState(defaultFilters);
@@ -39,8 +42,13 @@ const BrowseTasks = () => {
 	const [filteredTasks, setFilteredTasks] = useState(tasks);
 	const [dialogOpen, setDialogOpen] = useState(false);
 	// fetch user location from user's saved city
+
 	useEffect(() => {
-		setFilteredTasks(tasks);
+		if (userId) {
+			setFilteredTasks(tasks.filter((task) => task.postedBy !== userId));
+		} else {
+			setFilteredTasks(tasks);
+		}
 	}, [tasks]);
 	useLayoutEffect(() => {
 		const fetchUserLocation = async () => {
