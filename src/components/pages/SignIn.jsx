@@ -1,5 +1,5 @@
 import { InputAdornment } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
 	Box,
 	Card,
@@ -19,21 +19,22 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useForm, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
+import queryString from "query-string";
 import {
 	useSignInMutation,
 	useGetProfileStatusQuery,
 } from "../../store/apiSlice.jsx";
 import LoadingSpinner from "components/molecules/LoadingSpinner/LoadingSpinner.jsx";
-import { useDispatch } from "react-redux";
 import { setTokens, updateProfileStatus } from "../../store/authSlice.jsx";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
 	const dispatch = useDispatch();
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 	const userId = useSelector((state) => state.auth.userId);
 	const navigate = useNavigate();
+	const location = useLocation();
 	const [signIn, { isLoading }] = useSignInMutation();
 	const { enqueueSnackbar } = useSnackbar();
 	const { data: isProfileComplete, isLoading: isProfileStatusLoading } =
@@ -51,7 +52,8 @@ const SignIn = () => {
 			password: "",
 		},
 	});
-
+	const { redirect } = queryString.parse(location.search);
+	const redirectTo = redirect || "/";
 	const onSubmit = async (formData) => {
 		const response = await signIn(formData);
 		if (response.error) {
@@ -75,12 +77,14 @@ const SignIn = () => {
 				variant: "success",
 				anchorOrigin: notificationPosition,
 			});
+			// TODO navigate from here
+			navigate(redirectTo, { replace: true });
 		}
 	};
 	if (isProfileStatusLoading) {
 		return <LoadingSpinner />;
 	} else if (isAuthenticated && isProfileComplete) {
-		navigate("/");
+		navigate(redirectTo, { replace: true });
 	} else if (isAuthenticated) {
 		navigate("/setup-profile");
 	}
