@@ -28,7 +28,7 @@ const TaskDescriptionCard = ({ description = "", images = [] }) => {
 		imageListCols = 3;
 	}
 	return (
-		<Card
+		<Box
 			sx={{
 				[theme.breakpoints.up("sm")]: {
 					padding: "1rem",
@@ -112,7 +112,7 @@ const TaskDescriptionCard = ({ description = "", images = [] }) => {
 					</Box>
 				)}
 			</CardContent>
-		</Card>
+		</Box>
 	);
 };
 

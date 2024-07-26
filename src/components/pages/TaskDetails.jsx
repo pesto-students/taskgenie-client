@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Card } from "../atoms";
 import {
 	useGetTaskDetailsQuery,
 	usePostQuestionMutation,
@@ -67,7 +68,10 @@ const TaskDetails = () => {
 	}, [taskData?.genieId, userId]);
 	/* const [postQuestion, { postQuestionLoading }] =
 		isAuthenticated && usePostQuestionMutation(); */
-
+	// Check if user can ask a question
+	const canAskQuestion = React.useMemo(() => {
+		return isAuthenticated && !isOwner;
+	}, [isAuthenticated, isOwner]);
 	// Functions
 	const handleSubmitQuestion = async (e) => {
 		e.preventDefault();
@@ -104,36 +108,37 @@ const TaskDetails = () => {
 		<PageWrapper maxWidth='md'>
 			{/* Task Cancellation Confirmation Modal */}
 
-			<Stack
-				sx={{ padding: "1rem 1rem" }}
-				gap={1.5}
-				component='article'
-			>
-				<TaskAttributesCard
-					taskData={taskData}
-					isOwner={isOwner}
-					offeredAlready={offeredAlready}
-					canMakeOffer={canMakeOffer}
-					isAssignedToCurrentUser={isAssignedToCurrentUser}
-					quotes={quotes}
-					currentUser={userId}
-				/>
-				{/* Task Description */}
-				<TaskDescriptionCard
-					description={taskData?.description}
-					images={taskData?.images}
-				/>
-				{/* Task Quotes and Comments */}
-				{isOwner && (
+			<Card sx={{ margin: "3rem 0" }}>
+				<Stack
+					sx={{ padding: "1rem 1rem" }}
+					gap={1.5}
+					component='article'
+				>
+					<TaskAttributesCard
+						taskData={taskData}
+						isOwner={isOwner}
+						offeredAlready={offeredAlready}
+						canMakeOffer={canMakeOffer}
+						isAssignedToCurrentUser={isAssignedToCurrentUser}
+						quotes={quotes}
+						currentUser={userId}
+					/>
+					{/* Task Description */}
+					<TaskDescriptionCard
+						description={taskData?.description}
+						images={taskData?.images}
+					/>
+					{/* Task Quotes and Comments */}
 					<TaskQuotesAndQuestions
 						quotes={quotes}
 						isOwner={isOwner}
 						taskStatus={taskData?.status}
 						taskId={taskData?._id}
 						acceptedQuote={taskData?.acceptedQuote}
+						canAskQuestion={canAskQuestion}
 					/>
-				)}
-			</Stack>
+				</Stack>
+			</Card>
 		</PageWrapper>
 	);
 };

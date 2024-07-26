@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-	Card,
-	Box,
-	Button,
-	CardContent,
-	Typography,
-	Stack,
-} from "components/atoms";
+import { Box, Button, CardContent, Typography, Stack } from "components/atoms";
 import TaskDetailAttribute from "components/molecules/TaskDetailAttribute";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
@@ -134,7 +127,7 @@ const TaskAttributesCard = ({
 				onDialogClose={handleSubmitQuote}
 				budget={budget}
 			/>
-			<Card
+			<Box
 				sx={{
 					padding: "1rem",
 					[breakpoints.up("sm")]: {
@@ -321,7 +314,7 @@ const TaskAttributesCard = ({
 						)}
 					</Stack>
 				</StyledCardContent>
-			</Card>
+			</Box>
 		</>
 	);
 };
