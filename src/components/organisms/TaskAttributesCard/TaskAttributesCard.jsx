@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Box, Button, CardContent, Typography, Stack } from "components/atoms";
 import TaskDetailAttribute from "components/molecules/TaskDetailAttribute";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
@@ -89,19 +89,21 @@ const TaskAttributesCard = ({
 		setQuoteDialogOpen(!quoteDialogOpen);
 	};
 
-	const handleSubmitQuote = async (formData) => {
-		if (formData.message) {
-			const response = await addQuote({ taskId: _id, body: formData });
+	const handleSubmitQuote = useCallback(async (formdata) => {
+		if (formdata.message) {
+			const response = await addQuote({ taskid: _id, body: formdata });
 			if (response.error) {
-				enqueueSnackbar("Unable to Process! Please wait", { variant: "error" });
+				enqueueSnackbar("unable to process! please wait", { variant: "error" });
 			} else {
-				enqueueSnackbar("Quote Submitted", { variant: "info" });
+				enqueueSnackbar("quote submitted", { variant: "info" });
 			}
+
+			window.location.reload();
 		}
 		setQuoteDialogOpen(false);
-		window.location.reload();
-	};
-	const handleTaskModalClose = async (shouldCancel) => {
+	}, []);
+
+	const handleTaskModalClose = useCallback(async (shouldCancel) => {
 		if (shouldCancel) {
 			const taskId = taskData._id;
 			await cancelTask(taskId);
@@ -109,11 +111,12 @@ const TaskAttributesCard = ({
 		setCancelModalOpen(false);
 		// Force reload page
 		window.location.reload();
-	};
+	}, []);
+
 	const currentQuote = quotes.filter(
 		(quote) => quote.userId === currentUser
 	)[0];
-
+	console.log("task attributes rendered");
 	return (
 		<>
 			<ConfirmationModal
