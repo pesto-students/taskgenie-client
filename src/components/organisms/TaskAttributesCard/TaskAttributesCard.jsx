@@ -116,7 +116,6 @@ const TaskAttributesCard = ({
 	const currentQuote = quotes.filter(
 		(quote) => quote.userId === currentUser
 	)[0];
-	console.log("task attributes rendered");
 	return (
 		<>
 			<ConfirmationModal

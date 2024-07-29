@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useTheme, Box, Tabs, Tab } from "@mui/material";
 import { Typography, Link, TextField, Button } from "src/components/atoms";
@@ -38,7 +38,7 @@ function TaskQuotesAndQuestions({
 		setSelectedQuoteId(quoteId);
 		setQuoteConfirmationOpen(true);
 	};
-	const handleConfirmationModalClose = async (shouldMakeQuote) => {
+	const handleConfirmationModalClose = useCallback(async (shouldMakeQuote) => {
 		if (shouldMakeQuote) {
 			await acceptQuote({
 				taskId,
@@ -47,7 +47,8 @@ function TaskQuotesAndQuestions({
 		}
 		setQuoteConfirmationOpen(false);
 		window.location.reload();
-	};
+	}, []);
+
 	const handleTabChange = (_, newValue) => {
 		setCurrentTab(newValue);
 	};
@@ -58,7 +59,6 @@ function TaskQuotesAndQuestions({
 		const question = formData.get("question");
 		if (question) {
 			// TODO: implement the code to post the question
-			console.log(question);
 			await postQuestion({ taskId, question });
 		}
 	};
