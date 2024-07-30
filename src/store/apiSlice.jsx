@@ -118,22 +118,29 @@ export const apiSlice = createApi({
 		/**
 		 * Questions
 		 */
+		getQuestions: builder.query({
+			query: (taskId) => `/task/${taskId}/questions`,
+		}),
 		postQuestion: builder.mutation({
-			query: ({ taskId, body }) => ({
+			query: ({ taskId, question }) => ({
 				url: `/task/${taskId}/questions`,
 				method: "POST",
-				body,
+				body: {
+					question,
+				},
 			}),
 		}),
 		replyToQuestion: builder.mutation({
-			query: ({ taskId, questionId, userId, message }) => ({
-				url: `/task/${taskId}/questions/${questionId}`,
-				method: "POST",
-				body: {
-					userId,
-					message,
-				},
-			}),
+			query: ({ taskId, questionId, userId, message }) => {
+				return {
+					url: `/task/${taskId}/questions/${questionId}`,
+					method: "POST",
+					body: {
+						userId,
+						message,
+					},
+				};
+			},
 		}),
 		/**
 		 * Quotes
@@ -170,6 +177,7 @@ export const {
 	useCancelTaskMutation,
 	useGetTaskDetailsQuery,
 	useGetTasksQuery,
+	useGetQuestionsQuery,
 	usePostQuestionMutation,
 	useReplyToQuestionMutation,
 	useSetupProfileMutation,
