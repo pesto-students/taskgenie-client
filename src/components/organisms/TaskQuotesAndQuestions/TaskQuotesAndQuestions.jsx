@@ -67,6 +67,7 @@ function TaskQuotesAndQuestions({
 		const question = formData.get("question");
 		if (question) {
 			await postQuestion({ taskId, question });
+			form.reset();
 			refetchQuestions();
 		}
 	};
