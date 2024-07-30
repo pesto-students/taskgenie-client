@@ -7,10 +7,13 @@ import QuoteItem from "components/molecules/QuoteItem/QuoteItem";
 import EmptyList from "assets/emptyList.svg?react";
 import ConfirmationModal from "components/molecules/ConfirmationModal";
 import {
+	useGetQuestionsQuery,
 	useAcceptQuoteMutation,
 	usePostQuestionMutation,
 } from "src/store/apiSlice";
 import { useLocation } from "react-router-dom";
+import LoadingSpinner from "src/components/molecules/LoadingSpinner";
+import QuestionItem from "src/components/molecules/QuestionItem";
 function TaskQuotesAndQuestions({
 	quotes = [],
 	canAskQuestion,
@@ -29,6 +32,11 @@ function TaskQuotesAndQuestions({
 	const selectedQuote = React.useMemo(() => {
 		return quotes.filter((quote) => quote._id === selectedQuoteId)[0];
 	}, [selectedQuoteId]);
+	const {
+		data: questions = [],
+		isLoading: getQuestionsLoading,
+		refetch: refetchQuestions,
+	} = useGetQuestionsQuery(taskId);
 	const [acceptQuote, { isLoading: acceptQuoteLoading }] =
 		useAcceptQuoteMutation();
 	const [postQuestion, { isLoading: postQuestionLoading }] =
@@ -58,8 +66,8 @@ function TaskQuotesAndQuestions({
 		const formData = new FormData(form);
 		const question = formData.get("question");
 		if (question) {
-			// TODO: implement the code to post the question
 			await postQuestion({ taskId, question });
+			refetchQuestions();
 		}
 	};
 	const currentPath = location.pathname;
@@ -124,6 +132,7 @@ function TaskQuotesAndQuestions({
 											sx={{ flex: 1 }}
 										/>
 										<Button
+											loading={postQuestionLoading}
 											type='submit'
 											variant='outlined'
 										>
@@ -143,6 +152,26 @@ function TaskQuotesAndQuestions({
 								to ask questions
 							</Typography>
 						)}
+						<Box>
+							{getQuestionsLoading ? (
+								<div>
+									<LoadingSpinner />
+								</div>
+							) : (
+								<Box>
+									{questions.length > 0 && (
+										<Box sx={{ padding: "1rem" }}>
+											{questions.map((question) => (
+												<QuestionItem
+													key={question._id}
+													question={question}
+												/>
+											))}
+										</Box>
+									)}
+								</Box>
+							)}
+						</Box>
 					</Box>
 				</TabPanel>
 				<TabPanel
