@@ -142,6 +142,14 @@ export const apiSlice = createApi({
 				};
 			},
 		}),
+		closeQuestion: builder.mutation({
+			query: ({ taskId, questionId }) => {
+				return {
+					url: `/task/${taskId}/questions/${questionId}`,
+					method: "DELETE",
+				};
+			},
+		}),
 		/**
 		 * Quotes
 		 */
@@ -179,6 +187,7 @@ export const {
 	useGetTasksQuery,
 	useGetQuestionsQuery,
 	usePostQuestionMutation,
+	useCloseQuestionMutation,
 	useReplyToQuestionMutation,
 	useSetupProfileMutation,
 	useGetProfileStatusQuery,

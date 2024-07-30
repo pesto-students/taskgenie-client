@@ -11,7 +11,7 @@ const QuestionItem = ({ question, canReply = false }) => {
 		useReplyToQuestionMutation();
 	const [showReplyTextField, setshowReplyTextField] = useState(false);
 	const { taskId } = useParams();
-	const { name, userId, reply, message } = question;
+	const { _id, name, userId, reply, message } = question;
 	const handleSubmitReply = async (event) => {
 		event.preventDefault();
 		try {
@@ -84,6 +84,13 @@ const QuestionItem = ({ question, canReply = false }) => {
 							}}
 						>
 							Reply
+						</Button>
+						<Button
+							variant='text'
+							size='small'
+							color='error'
+						>
+							Delete
 						</Button>
 					</Box>
 				)}
