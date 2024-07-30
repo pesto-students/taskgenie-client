@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Avatar, Divider } from "@mui/material";
 import { Box, Stack, Typography, Button, TextField } from "components/atoms";
 import { useTheme } from "@mui/material";
 import { useReplyToQuestionMutation } from "/src/store/apiSlice";
 import { useParams } from "react-router-dom";
+import { useGetUserNameByIdQuery } from "src/store/apiSlice";
+import { useSelector } from "react-redux";
+import { selectUserId } from "src/store/authSlice";
 
 const QuestionItem = ({ question, canReply = false }) => {
 	const theme = useTheme();
@@ -11,7 +14,11 @@ const QuestionItem = ({ question, canReply = false }) => {
 		useReplyToQuestionMutation();
 	const [showReplyTextField, setshowReplyTextField] = useState(false);
 	const { taskId } = useParams();
-	const { _id, name, userId, reply, message } = question;
+	const { name, userId, reply, message } = question;
+	const currentUser = useSelector(selectUserId);
+	const { data: userName, isLoading: userNameLoading } =
+		useGetUserNameByIdQuery(userId);
+	console.log("got username", userName);
 	const handleSubmitReply = async (event) => {
 		event.preventDefault();
 		try {
@@ -31,6 +38,11 @@ const QuestionItem = ({ question, canReply = false }) => {
 			console.error(error);
 		}
 	};
+	const canCloseQuestion = useMemo(() => {
+		// If user is owner of this question, then he can close it
+		console.log(`userId ${userId},${currentUser}, ${userId === currentUser}`);
+		return userId === currentUser;
+	}, [userId, currentUser]);
 	return (
 		<Box
 			sx={{
@@ -47,27 +59,26 @@ const QuestionItem = ({ question, canReply = false }) => {
 				alignItems='center'
 			>
 				{/* Avatar and Name */}
-				<Stack
-					gap={0.5}
-					sx={{ minWidth: "60px" }}
-				>
-					<Avatar
-						sx={{
-							width: 24,
-							height: 24,
-							backgroundColor: theme.palette.primary.light,
-						}}
+				{userName && (
+					<Stack
+						gap={0.5}
+						sx={{ minWidth: "60px" }}
 					>
-						R
-					</Avatar>
-					<Typography
-						variant={"caption"}
-						sx={{ fontSize: "0.7rem" }}
-					>
-						{"Ravi"}
-					</Typography>
-				</Stack>
-
+						<Avatar
+							sx={{
+								width: 24,
+								height: 24,
+								backgroundColor: theme.palette.primary.light,
+							}}
+						></Avatar>
+						<Typography
+							variant={"caption"}
+							sx={{ fontSize: "0.7rem" }}
+						>
+							{userName}
+						</Typography>
+					</Stack>
+				)}
 				{/* Message */}
 				<Box sx={{ flexGrow: 1 }}>
 					<Typography variant='body2'>{message}</Typography>
@@ -85,13 +96,15 @@ const QuestionItem = ({ question, canReply = false }) => {
 						>
 							Reply
 						</Button>
-						<Button
-							variant='text'
-							size='small'
-							color='error'
-						>
-							Delete
-						</Button>
+						{canCloseQuestion && (
+							<Button
+								variant='text'
+								size='small'
+								color='error'
+							>
+								Delete
+							</Button>
+						)}
 					</Box>
 				)}
 			</Stack>
