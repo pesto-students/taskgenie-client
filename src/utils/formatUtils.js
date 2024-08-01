@@ -46,10 +46,20 @@ export const formatAmount = (amount) => {
 export function timeSince(date = new Date()) {
 	const today = new Date();
 	// Difference in miliseconds
-	const timeDiff = today.getTime() - date.getTime();
+	let diff = Math.floor((today.getTime() - date.getTime()) / (1000 * 60));
+	console.log("diff si ", diff);
 	// Diff in days
-	const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-	if (daysDiff >= 7)
-		return `${Math.floor(daysDiff / 7)} week${daysDiff >= 2 ? "s" : ""} ago`;
-	else return `${daysDiff} day${daysDiff > 1 ? "s" : ""} ago`;
+	if (diff < 60) {
+		return `${diff} ${diff > 1 ? "minutes" : "minute"} ago`;
+	}
+	diff = Math.floor(diff / 60);
+	if (diff < 24) {
+		return `${diff} ${diff > 1 ? "hours" : "hour"} ago`;
+	}
+	diff = Math.floor(diff / 24);
+	if (diff < 7) {
+		return `${diff} ${diff > 1 ? "days" : "day"} ago`;
+	}
+	diff = Math.floor(diff / 7);
+	return `${diff} ${diff > 1 ? "weeks" : "week"} ago`;
 }
