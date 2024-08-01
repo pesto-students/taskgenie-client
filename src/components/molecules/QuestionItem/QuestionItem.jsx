@@ -4,21 +4,25 @@ import { Box, Stack, Typography, Button, TextField } from "components/atoms";
 import { useTheme } from "@mui/material";
 import { useReplyToQuestionMutation } from "/src/store/apiSlice";
 import { useParams } from "react-router-dom";
-import { useGetUserNameByIdQuery } from "src/store/apiSlice";
+import {
+	useCloseQuestionMutation,
+	useGetUserNameByIdQuery,
+} from "src/store/apiSlice";
 import { useSelector } from "react-redux";
 import { selectUserId } from "src/store/authSlice";
 
-const QuestionItem = ({ question, canReply = false }) => {
+const QuestionItem = ({ question, canReply = false, onQuestionClose }) => {
 	const theme = useTheme();
 	const [replyToQuestion, { replyLoading, error }] =
 		useReplyToQuestionMutation();
 	const [showReplyTextField, setshowReplyTextField] = useState(false);
 	const { taskId } = useParams();
-	const { name, userId, reply, message } = question;
+	const { _id, name, userId, reply, message } = question;
 	const currentUser = useSelector(selectUserId);
 	const { data: userName, isLoading: userNameLoading } =
 		useGetUserNameByIdQuery(userId);
-	console.log("got username", userName);
+	const [closeQuestion, { isLoading: closeQuestionLoading }] =
+		useCloseQuestionMutation();
 	const handleSubmitReply = async (event) => {
 		event.preventDefault();
 		try {
@@ -40,9 +44,14 @@ const QuestionItem = ({ question, canReply = false }) => {
 	};
 	const canCloseQuestion = useMemo(() => {
 		// If user is owner of this question, then he can close it
-		console.log(`userId ${userId},${currentUser}, ${userId === currentUser}`);
 		return userId === currentUser;
 	}, [userId, currentUser]);
+	const handleQuestionClose = async () => {
+		await closeQuestion({ taskId, questionId: _id });
+		// Refetch questions
+		onQuestionClose();
+	};
+
 	return (
 		<Box
 			sx={{
@@ -86,7 +95,7 @@ const QuestionItem = ({ question, canReply = false }) => {
 
 				{/* Reply Button */}
 				{!showReplyTextField && !reply && (
-					<Box>
+					<Box sx={{ display: "flex" }}>
 						<Button
 							variant='text'
 							size='small'
@@ -101,6 +110,8 @@ const QuestionItem = ({ question, canReply = false }) => {
 								variant='text'
 								size='small'
 								color='error'
+								onClick={handleQuestionClose}
+								loading={closeQuestionLoading}
 							>
 								Delete
 							</Button>

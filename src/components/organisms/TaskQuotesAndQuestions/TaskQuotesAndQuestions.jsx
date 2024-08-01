@@ -71,6 +71,10 @@ function TaskQuotesAndQuestions({
 			refetchQuestions();
 		}
 	};
+	const handleCloseQuestion = async () => {
+		refetchQuestions();
+	};
+
 	const currentPath = location.pathname;
 	return (
 		<>
@@ -166,6 +170,7 @@ function TaskQuotesAndQuestions({
 												<QuestionItem
 													key={question._id}
 													question={question}
+													onQuestionClose={handleCloseQuestion}
 												/>
 											))}
 										</Box>
