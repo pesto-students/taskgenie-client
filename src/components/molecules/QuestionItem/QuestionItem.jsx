@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Avatar, Divider } from "@mui/material";
+import { Avatar, Divider, IconButton } from "@mui/material";
 import { Box, Stack, Typography, Button, TextField } from "components/atoms";
 import { useTheme } from "@mui/material";
 import { useReplyToQuestionMutation } from "/src/store/apiSlice";
@@ -10,14 +10,21 @@ import {
 } from "src/store/apiSlice";
 import { useSelector } from "react-redux";
 import { selectUserId } from "src/store/authSlice";
-
-const QuestionItem = ({ question, canReply = false, onQuestionClose }) => {
+import { timeSince } from "src/utils/formatUtils";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
+const QuestionItem = ({
+	question,
+	onQuestionClose,
+	canReply,
+	onQuestionReply,
+}) => {
 	const theme = useTheme();
 	const [replyToQuestion, { replyLoading, error }] =
 		useReplyToQuestionMutation();
 	const [showReplyTextField, setshowReplyTextField] = useState(false);
 	const { taskId } = useParams();
-	const { _id, name, userId, reply, message } = question;
+	const { _id, name, userId, reply, message, date } = question;
 	const currentUser = useSelector(selectUserId);
 	const { data: userName, isLoading: userNameLoading } =
 		useGetUserNameByIdQuery(userId);
@@ -40,18 +47,23 @@ const QuestionItem = ({ question, canReply = false, onQuestionClose }) => {
 			formData.delete("reply");
 		} catch (error) {
 			console.error(error);
+		} finally {
+			onQuestionReply();
 		}
 	};
 	const canCloseQuestion = useMemo(() => {
 		// If user is owner of this question, then he can close it
 		return userId === currentUser;
 	}, [userId, currentUser]);
+	// only task owner can reply to the question
 	const handleQuestionClose = async () => {
 		await closeQuestion({ taskId, questionId: _id });
 		// Refetch questions
 		onQuestionClose();
 	};
-
+	const timeSincePosted = useMemo(() => {
+		return timeSince(new Date(date));
+	}, [date]);
 	return (
 		<Box
 			sx={{
@@ -91,10 +103,31 @@ const QuestionItem = ({ question, canReply = false, onQuestionClose }) => {
 				{/* Message */}
 				<Box sx={{ flexGrow: 1 }}>
 					<Typography variant='body2'>{message}</Typography>
+					<Typography variant='caption'>{timeSincePosted}</Typography>
 				</Box>
 
+				{canCloseQuestion && (
+					<Box>
+						{/* <Button
+							variant='text'
+							size='small'
+							color='error'
+							onClick={handleQuestionClose}
+							loading={closeQuestionLoading}
+						>
+							Delete
+						</Button> */}
+						<IconButton
+							onClick={handleQuestionClose}
+							loading={closeQuestionLoading}
+							color='error'
+						>
+							<DeleteForeverOutlinedIcon />
+						</IconButton>
+					</Box>
+				)}
 				{/* Reply Button */}
-				{!showReplyTextField && !reply && (
+				{!showReplyTextField && !reply.message && canReply && (
 					<Box sx={{ display: "flex" }}>
 						<Button
 							variant='text'
@@ -105,22 +138,11 @@ const QuestionItem = ({ question, canReply = false, onQuestionClose }) => {
 						>
 							Reply
 						</Button>
-						{canCloseQuestion && (
-							<Button
-								variant='text'
-								size='small'
-								color='error'
-								onClick={handleQuestionClose}
-								loading={closeQuestionLoading}
-							>
-								Delete
-							</Button>
-						)}
 					</Box>
 				)}
 			</Stack>
 
-			{canReply && !reply && showReplyTextField && (
+			{canReply && !reply.message && showReplyTextField && (
 				<Box sx={{ padding: "1rem 0" }}>
 					<Box>
 						<form onSubmit={handleSubmitReply}>
@@ -137,16 +159,19 @@ const QuestionItem = ({ question, canReply = false, onQuestionClose }) => {
 							>
 								<Button
 									size='small'
-									variant='outlined'
+									variant='text'
 									onClick={() => setshowReplyTextField(!showReplyTextField)}
 									color='error'
+									loading={replyLoading}
 								>
 									Cancel
 								</Button>
+
 								<Button
 									size='small'
 									variant='text'
 									type='submit'
+									loading={replyLoading}
 								>
 									Submit
 								</Button>
@@ -156,17 +181,21 @@ const QuestionItem = ({ question, canReply = false, onQuestionClose }) => {
 				</Box>
 			)}
 
-			{reply && (
-				<Box sx={{ textAlign: "right" }}>
-					<Divider variant='inset' />
-					<Box sx={{ padding: "1rem" }}>
+			{reply.message && (
+				<Box sx={{ marginLeft: "4rem", marginTop: "0.5rem" }}>
+					<Stack
+						direction='row'
+						gap={1}
+						alignItems='center'
+					>
+						<QuestionAnswerOutlinedIcon sx={{ fontSize: "1rem" }} />
 						<Typography
-							variant='body2'
+							variant='caption'
 							sx={{ fontSize: "0.85rem" }}
 						>
-							{reply}
+							{reply.message}
 						</Typography>
-					</Box>
+					</Stack>
 				</Box>
 			)}
 		</Box>

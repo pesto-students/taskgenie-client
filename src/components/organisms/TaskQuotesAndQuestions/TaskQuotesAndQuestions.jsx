@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useTheme, Box, Tabs, Tab } from "@mui/material";
 import { Typography, Link, TextField, Button } from "src/components/atoms";
@@ -14,6 +14,8 @@ import {
 import { useLocation } from "react-router-dom";
 import LoadingSpinner from "src/components/molecules/LoadingSpinner";
 import QuestionItem from "src/components/molecules/QuestionItem";
+import { selectIsAuthenticated } from "src/store/authSlice";
+import { useSelector } from "react-redux";
 function TaskQuotesAndQuestions({
 	quotes = [],
 	canAskQuestion,
@@ -29,6 +31,7 @@ function TaskQuotesAndQuestions({
 	const [selectedQuoteId, setSelectedQuoteId] = useState(null);
 	const [genieName, setGenieName] = useState("");
 	const location = useLocation();
+	const isAuthenticated = useSelector(selectIsAuthenticated);
 	const selectedQuote = React.useMemo(() => {
 		return quotes.filter((quote) => quote._id === selectedQuoteId)[0];
 	}, [selectedQuoteId]);
@@ -74,6 +77,9 @@ function TaskQuotesAndQuestions({
 	const handleCloseQuestion = async () => {
 		refetchQuestions();
 	};
+	const handleQuestionReply = () => {
+		refetchQuestions();
+	};
 
 	const currentPath = location.pathname;
 	return (
@@ -93,7 +99,6 @@ function TaskQuotesAndQuestions({
 					},
 				}}
 			>
-				{/* TODO: Tabs here */}
 				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 					<Tabs
 						value={currentTab}
@@ -108,10 +113,21 @@ function TaskQuotesAndQuestions({
 					value={currentTab}
 					index={0}
 				>
-					{/* TODO: Questions */}
+					{!isAuthenticated && (
+						<Typography variant='caption'>
+							you need to{" "}
+							<Link
+								href={`/signIn?redirect=${encodeURIComponent(currentPath)}`}
+								sx={{ fontWeight: "bold" }}
+							>
+								sign in
+							</Link>{" "}
+							to ask questions
+						</Typography>
+					)}
 					<Box>
 						{/* Need to be authenticated to be able to ask questions */}
-						{canAskQuestion ? (
+						{canAskQuestion && (
 							<Box>
 								{/* Question form */}
 
@@ -146,16 +162,6 @@ function TaskQuotesAndQuestions({
 									</Box>
 								</form>
 							</Box>
-						) : (
-							<Typography>
-								you need to{" "}
-								<Link
-									href={`/signIn?redirect=${encodeURIComponent(currentPath)}`}
-								>
-									sign in
-								</Link>{" "}
-								to ask questions
-							</Typography>
 						)}
 						<Box>
 							{getQuestionsLoading ? (
@@ -171,6 +177,8 @@ function TaskQuotesAndQuestions({
 													key={question._id}
 													question={question}
 													onQuestionClose={handleCloseQuestion}
+													canReply={isOwner}
+													onQuestionReply={handleQuestionReply}
 												/>
 											))}
 										</Box>

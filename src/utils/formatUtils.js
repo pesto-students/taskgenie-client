@@ -47,9 +47,9 @@ export function timeSince(date = new Date()) {
 	const today = new Date();
 	// Difference in miliseconds
 	let diff = Math.floor((today.getTime() - date.getTime()) / (1000 * 60));
-	console.log("diff si ", diff);
-	// Diff in days
-	if (diff < 60) {
+	if (diff == 0) {
+		return "Just now";
+	} else if (diff < 60) {
 		return `${diff} ${diff > 1 ? "minutes" : "minute"} ago`;
 	}
 	diff = Math.floor(diff / 60);

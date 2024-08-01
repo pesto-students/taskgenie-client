@@ -68,10 +68,10 @@ const TaskDetails = () => {
 	}, [taskData?.genieId, userId]);
 	/* const [postQuestion, { postQuestionLoading }] =
 		isAuthenticated && usePostQuestionMutation(); */
-	// Check if user can ask a question
+	// A user can ask question, if they are authenticated and is not task owner
 	const canAskQuestion = React.useMemo(() => {
-		return isAuthenticated && !isOwner;
-	}, [isAuthenticated, isOwner]);
+		return !isOwner && isAuthenticated;
+	}, [isOwner]);
 	// Functions
 	const handleSubmitQuestion = async (e) => {
 		e.preventDefault();
