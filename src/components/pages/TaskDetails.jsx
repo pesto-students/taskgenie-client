@@ -53,6 +53,7 @@ const TaskDetails = () => {
 			return quotes.some((quote) => {
 				return quote.userId === userId;
 			});
+			Task;
 		}
 	}, [userId, quotes]);
 	// Calculate canMakeOffer

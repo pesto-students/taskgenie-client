@@ -15,6 +15,7 @@ import { useSnackbar } from "notistack";
 import { useAddQuoteMutation } from "/src/store/apiSlice";
 import ConfirmationModal from "components/molecules/ConfirmationModal";
 import TaskStatusChip from "src/components/molecules/TaskStatusChip";
+import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 const StyledCardContent = styled(CardContent)(({ theme }) => ({
 	display: "flex",
 	flexDirection: "column",
@@ -69,7 +70,6 @@ const TaskAttributesCard = ({
 	const [quoteDialogOpen, setQuoteDialogOpen] = useState(false);
 	const [cancelModalOpen, setCancelModalOpen] = React.useState(false);
 	const [cancelTask, { loading: cancelTaskLoading }] = useCancelTaskMutation();
-	const navigate = useNavigate();
 	const { data: posterName } = useGetUserNameByIdQuery(postedBy);
 	const [addQuote, { addQuoteLoading }] = useAddQuoteMutation();
 	const { enqueueSnackbar } = useSnackbar();
@@ -137,7 +137,13 @@ const TaskAttributesCard = ({
 					},
 				}}
 			>
-				<TaskStatusChip status={taskData.status} />
+				<Stack
+					direction='row'
+					justifyContent='space-between'
+				>
+					<TaskStatusChip status={status} />
+					<MoreVertOutlinedIcon />
+				</Stack>
 				<StyledCardContent>
 					<Box className='attributes'>
 						{/* Title */}
@@ -218,17 +224,20 @@ const TaskAttributesCard = ({
 						{isOwner &&
 							(taskData?.status === "open" ||
 								taskData?.status === "assigned") && (
-								<Button
-									variant='outlined'
-									color='error'
-									loading={cancelTaskLoading}
-									onClick={() => {
-										setCancelModalOpen(true);
-									}}
-									size='small'
-								>
-									Cancel Task
-								</Button>
+								<Box>
+									<Button
+										variant='text'
+										color='error'
+										loading={cancelTaskLoading}
+										onClick={() => {
+											setCancelModalOpen(true);
+										}}
+										size='small'
+									>
+										Cancel
+									</Button>
+									<Button variant='text'>Edit</Button>
+								</Box>
 							)}
 						{isOwner && assignedQuote && (
 							<Box>
