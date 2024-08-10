@@ -1,0 +1,7 @@
+node_modules
+.vscode
+.env
+.github
+.vscode/launch.json
+package-lock.json
+dist/
