@@ -84,7 +84,6 @@ const Step1 = ({ formData, setFormData, onSubmit, edit = false, onCancel }) => {
 			location,
 			dateType,
 		};
-		console.log("formData", formData);
 		// Include date in validation only if it is not null
 		if (date !== null) {
 			validationObject.date = date.toDate();
