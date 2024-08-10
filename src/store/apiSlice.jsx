@@ -61,6 +61,13 @@ export const apiSlice = createApi({
 				};
 			},
 		}),
+		editTask: builder.mutation({
+			query: (data) => ({
+				url: `/my-tasks/${data._id}/edit`,
+				method: "PATCH",
+				body: data,
+			}),
+		}),
 		cancelTask: builder.mutation({
 			query: (taskId) => ({
 				url: `my-tasks/${taskId}`,
@@ -180,6 +187,7 @@ export const {
 	useSignUpMutation,
 	useSignInMutation,
 	usePostTaskMutation,
+	useEditTaskMutation,
 	useGetMyTasksQuery,
 	useGetMyTaskDetailsQuery,
 	useCancelTaskMutation,

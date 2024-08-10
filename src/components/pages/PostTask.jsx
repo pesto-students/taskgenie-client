@@ -1,5 +1,5 @@
 import { Container, Stack } from "components/atoms";
-import PostTaskForm from "components/organisms/PostTaskForm/PostTaskForm";
+import EditTaskForm from "../organisms/PostTaskForm/EditTaskForm";
 const PostTask = () => {
 	document.title = "Create Task";
 	return (
@@ -8,7 +8,7 @@ const PostTask = () => {
 			maxWidth={"sm"}
 		>
 			<Stack>
-				<PostTaskForm />
+				<EditTaskForm />
 			</Stack>
 		</Container>
 	);

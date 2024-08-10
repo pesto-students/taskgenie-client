@@ -16,10 +16,18 @@ import TaskImageList from "components/organisms/TaskImageList";
 import { usePostTaskMutation } from "store/apiSlice";
 import { useNavigate } from "react-router-dom";
 import { uploadImages } from "src/utils/uploadImagesUtils";
-const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
+import { useEditTaskMutation } from "src/store/apiSlice";
+const Step2 = ({
+	onSubmit,
+	onPrevious,
+	formData,
+	setFormData,
+	edit = false,
+}) => {
 	const navigate = useNavigate();
 	const { enqueueSnackbar } = useSnackbar();
-	const [postTask, { loading, error }] = usePostTaskMutation();
+	const [postTask, { loading: postTaskLoading }] = usePostTaskMutation();
+	const [editTask, { loading: editTaskLoading }] = useEditTaskMutation();
 	const [errors, setErrors] = useState({});
 	const handleDescriptionChange = (event) => {
 		const inputValue = event.target.value;
@@ -43,44 +51,15 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
 		}
 	};
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		try {
-			const { description, budget } = formData;
-
-			const { isValid, errors } = await validateTask(TaskStep2Schema, {
-				description,
-				budget,
-				imageUrls: [],
-			});
-			if (isValid) {
-				const images = formData.images.map((image) => image.file);
-				const imageUrls = await uploadImages(images);
-				const taskData = {
-					...formData,
-					images: imageUrls,
-				};
-				// upload images to s3
-				const response = await postTask(taskData);
-
-				if (response.error) {
-					enqueueSnackbar("Unable to post task", {
-						variant: "error",
-						anchorOrigin: { vertical: "top", horizontal: "center" },
-					});
-				} else {
-					// Navigate to task
-					const taskId = response.data._id;
-					navigate(`/myTasks/${taskId}`);
-				}
-			} else {
-				setErrors(errors);
-			}
-		} catch (error) {
-			enqueueSnackbar("Unable to post Task", {
-				variant: "error",
-				anchorOrigin: { vertical: "top", horizontal: "center" },
-			});
+	const handleTaskPost = async (taskData) => {
+		const postTaskResponse = await postTask(taskData);
+		console.log(postTaskResponse);
+		if (!postTaskResponse.error) {
+			// Navigate to task
+			const taskId = postTaskResponse.data._id;
+			navigate(`/myTasks/${taskId}`);
+		} else {
+			throw new Error("unable to post task");
 		}
 	};
 
@@ -100,6 +79,46 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
 			images: prevFormData.images.filter((image) => image !== imageToRemove),
 		}));
 	};
+	const handleEditTask = async (taskData) => {
+		const editTaskResponse = await editTask(taskData);
+		if (!editTaskResponse.error) {
+			const taskId = editTaskResponse.data._id;
+			// navigate to task details page
+			navigate(`/myTasks/${taskId}`);
+		} else {
+			throw new Error("unable to edit task");
+		}
+	};
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		try {
+			const { description, budget } = formData;
+			const { isValid, errors } = await validateTask(TaskStep2Schema, {
+				description,
+				budget,
+				imageUrls: [],
+			});
+			if (isValid) {
+				const images = formData.images.map((image) => image.file);
+				const imageUrls = await uploadImages(images);
+				const taskData = {
+					...formData,
+					images: imageUrls,
+				};
+
+				edit ? await handleEditTask(taskData) : await handleTaskPost(taskData);
+			} else {
+				setErrors(errors);
+			}
+		} catch (error) {
+			console.error(error);
+			enqueueSnackbar("Unable to submit Task", {
+				variant: "error",
+				anchorOrigin: { vertical: "top", horizontal: "center" },
+			});
+		}
+	};
+
 	return (
 		<Box>
 			<form onSubmit={handleSubmit}>
@@ -147,7 +166,6 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
 					<TaskImageList
 						onAddImage={handleAddImage}
 						images={formData.images}
-						onAddImage={handleAddImage}
 						onRemoveImage={handleRemoveImage}
 					/>
 				</FormControl>
@@ -164,14 +182,24 @@ const Step2 = ({ onSubmit, onPrevious, formData, setFormData }) => {
 						>
 							Back
 						</Button>
-						<Button
-							variant='contained'
-							sx={{ flex: 1 }}
-							type='submit'
-							loading={loading}
-						>
-							Get Quotes
-						</Button>
+						{edit ? (
+							<Button
+								variant='contained'
+								sx={{ flex: 1 }}
+								type='submit'
+							>
+								Update
+							</Button>
+						) : (
+							<Button
+								variant='contained'
+								sx={{ flex: 1 }}
+								type='submit'
+								loading={postTaskLoading}
+							>
+								Get Quotes
+							</Button>
+						)}
 					</Stack>
 				</FormControl>
 			</form>

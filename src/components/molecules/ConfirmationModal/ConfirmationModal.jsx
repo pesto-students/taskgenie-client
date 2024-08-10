@@ -41,7 +41,6 @@ const ConfirmationModal = ({
 					<Button
 						autoFocus
 						color='success'
-						variant='outlined'
 						onClick={handleConfirm}
 						loading={isLoading}
 					>

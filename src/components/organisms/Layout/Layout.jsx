@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Container, Box } from "@mui/material";
 import Header from "components/organisms/Header/Header.jsx";
 import { Outlet } from "react-router";
@@ -21,12 +21,30 @@ const Layout = () => {
 			navigate("/setup-profile");
 		}
 	}, [navigate]);
+	const [containerHeight, setContainerHeight] = useState(0);
+
+	useEffect(() => {
+		const handleResize = () => {
+			const headerHeight = document.querySelector(".header")?.clientHeight || 0;
+			const footerHeight = document.querySelector(".footer")?.clientHeight || 0;
+			const containerHeight = window.innerHeight - headerHeight - footerHeight;
+			setContainerHeight(containerHeight);
+		};
+		// Add event listener to handle window resize
+		window.addEventListener("resize", handleResize);
+		handleResize();
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
 
 	return (
 		<Box>
 			<Header />
 			<Container
-				sx={{ padding: 0, height: "100%" }}
+				sx={{
+					padding: 0,
+					height: "100%",
+					minHeight: containerHeight,
+				}}
 				component='section'
 				className='page-wrapper'
 				maxWidth={"lg"}

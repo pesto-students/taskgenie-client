@@ -9,6 +9,7 @@ import SetupProfile from "components/pages/SetupProfile";
 import TaskDetails from "components/pages/TaskDetails.jsx";
 import PostTask from "components/pages/PostTask.jsx";
 import ProtectedRoutes from "components/templates/ProtectedRoutes.jsx";
+import EditTask from "./components/pages/EditTask";
 const routes = [
 	{
 		path: "/",
@@ -34,6 +35,14 @@ const routes = [
 			{
 				path: "/myTasks/:taskId",
 				element: <ProtectedRoutes element={<TaskDetails />} />,
+			},
+			{
+				path: "/postTask",
+				element: <ProtectedRoutes element={<PostTask />} />,
+			},
+			{
+				path: "/myTasks/:taskId/edit",
+				element: <ProtectedRoutes element={<EditTask />} />,
 			},
 		],
 	},

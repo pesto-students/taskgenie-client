@@ -1,10 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Card } from "../atoms";
-import {
-	useGetTaskDetailsQuery,
-	usePostQuestionMutation,
-} from "/src/store/apiSlice";
+import { useGetTaskDetailsQuery } from "/src/store/apiSlice";
 import { Stack } from "components/atoms";
 import TaskDescriptionCard from "components/organisms/TaskDescriptionCard";
 import TaskAttributesCard from "components/organisms/TaskAttributesCard";
@@ -44,7 +41,7 @@ const TaskDetails = () => {
 	// Get Quotes if authenticated
 	const { data: quotes = [], isLoading: getQuotesLoading } =
 		isAuthenticated && useGetQuotesQuery(taskId);
-
+	console.log(`taskData:${taskData}, quotes:${quotes}`);
 	// Calculate offeredAlready
 	const offeredAlready = React.useMemo(() => {
 		if (!quotes || !isAuthenticated || quotes.length == 0) {

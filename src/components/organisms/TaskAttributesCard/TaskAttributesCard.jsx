@@ -5,16 +5,29 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import MakeQuoteModal from "components/molecules/MakeQuoteModal/MakeQuoteModal";
-import { useTheme, Divider } from "@mui/material";
+import {
+	useTheme,
+	Divider,
+	IconButton,
+	useMediaQuery,
+	Tooltip,
+	Menu,
+	MenuItem,
+	ListItemIcon,
+	ListItemText,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { formatDate, formatAmount } from "src/utils/formatUtils";
 import PropTypes from "prop-types";
 import { useCancelTaskMutation, useGetUserNameByIdQuery } from "store/apiSlice";
-import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { useAddQuoteMutation } from "/src/store/apiSlice";
 import ConfirmationModal from "components/molecules/ConfirmationModal";
 import TaskStatusChip from "src/components/molecules/TaskStatusChip";
+import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+import { useNavigate } from "react-router-dom";
 const StyledCardContent = styled(CardContent)(({ theme }) => ({
 	display: "flex",
 	flexDirection: "column",
@@ -65,11 +78,13 @@ const TaskAttributesCard = ({
 	/**
 	 * Hooks
 	 */
+	const navigate = useNavigate();
+	const [menuAnchorEl, setMenuAnchorEl] = React.useState(null);
 	const { palette, breakpoints } = useTheme();
+	const greatherThanMd = useMediaQuery(breakpoints.up("sm"));
 	const [quoteDialogOpen, setQuoteDialogOpen] = useState(false);
 	const [cancelModalOpen, setCancelModalOpen] = React.useState(false);
 	const [cancelTask, { loading: cancelTaskLoading }] = useCancelTaskMutation();
-	const navigate = useNavigate();
 	const { data: posterName } = useGetUserNameByIdQuery(postedBy);
 	const [addQuote, { addQuoteLoading }] = useAddQuoteMutation();
 	const { enqueueSnackbar } = useSnackbar();
@@ -107,21 +122,33 @@ const TaskAttributesCard = ({
 		if (shouldCancel) {
 			const taskId = taskData._id;
 			await cancelTask(taskId);
+			window.location.reload();
 		}
 		setCancelModalOpen(false);
-		// Force reload page
-		window.location.reload();
+		setMenuAnchorEl(null);
 	}, []);
 
 	const currentQuote = quotes.filter(
 		(quote) => quote.userId === currentUser
 	)[0];
+	const handleMenuOpen = (event) => {
+		setMenuAnchorEl(event.currentTarget);
+	};
+	const handleMenuClose = () => {
+		setMenuAnchorEl(null);
+	};
+	const handleEditTask = () => {
+		navigate(`/myTasks/${_id}/edit`);
+	};
+	const handleCloseTask = () => {
+		setCancelModalOpen(true);
+	};
 	return (
 		<>
 			<ConfirmationModal
 				open={cancelModalOpen}
 				title={"Cancel Task?"}
-				message={"Are you sure you want to delete this task? "}
+				message={"Are you sure you want to Cancel this task? "}
 				handleClose={handleTaskModalClose}
 			/>
 			<MakeQuoteModal
@@ -137,7 +164,59 @@ const TaskAttributesCard = ({
 					},
 				}}
 			>
-				<TaskStatusChip status={taskData.status} />
+				<Stack
+					direction='row'
+					justifyContent='space-between'
+				>
+					<TaskStatusChip status={status} />
+					{isOwner && status !== "cancelled" && (
+						<Box>
+							{/* Show show just the text not the icon button on screens smaller than md */}
+							{greatherThanMd ? (
+								<Box>
+									{status === "open" && (
+										<Tooltip title='Edit Task'>
+											<IconButton onClick={handleEditTask}>
+												<EditOutlinedIcon />
+											</IconButton>
+										</Tooltip>
+									)}
+									<Tooltip title='Delete Task'>
+										<IconButton color='error'>
+											<DeleteForeverOutlinedIcon />
+										</IconButton>
+									</Tooltip>
+								</Box>
+							) : (
+								<IconButton onClick={handleMenuOpen}>
+									<MoreVertOutlinedIcon />
+									{/*  Task Owner Options*/}
+									<Menu
+										anchorEl={menuAnchorEl}
+										open={menuAnchorEl !== null}
+										onClose={handleMenuClose}
+									>
+										{status == "open" && (
+											<MenuItem onClick={handleEditTask}>
+												<ListItemIcon>
+													<EditOutlinedIcon />
+												</ListItemIcon>
+												<ListItemText>Edit Task</ListItemText>
+											</MenuItem>
+										)}
+
+										<MenuItem onClick={handleCloseTask}>
+											<ListItemIcon>
+												<DeleteForeverOutlinedIcon />
+											</ListItemIcon>
+											<ListItemText>Cancel Task</ListItemText>
+										</MenuItem>
+									</Menu>
+								</IconButton>
+							)}
+						</Box>
+					)}
+				</Stack>
 				<StyledCardContent>
 					<Box className='attributes'>
 						{/* Title */}
@@ -215,21 +294,6 @@ const TaskAttributesCard = ({
 								</Typography>
 							</Box>
 						</Stack>
-						{isOwner &&
-							(taskData?.status === "open" ||
-								taskData?.status === "assigned") && (
-								<Button
-									variant='outlined'
-									color='error'
-									loading={cancelTaskLoading}
-									onClick={() => {
-										setCancelModalOpen(true);
-									}}
-									size='small'
-								>
-									Cancel Task
-								</Button>
-							)}
 						{isOwner && assignedQuote && (
 							<Box>
 								<Stack>
