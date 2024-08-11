@@ -15,18 +15,18 @@ const steps = [
 		label: "Describe the task",
 		description:
 			"Set the deadline as you want, describe how you want it to be done",
-		icon: ArticleOutlinedIcon,
+		icon: <ArticleOutlinedIcon />,
 	},
 	{
 		label: "Set the budget for the task",
 		description: "Find the right service for right price. Your money is ",
-		icon: CurrencyRupeeOutlinedIcon,
+		icon: <CurrencyRupeeOutlinedIcon />,
 	},
 	{
 		label: "Get offers and choose the best Task Genie",
 		description:
 			" Pick the right person for the task based on real ratings and reviews from other users",
-		icon: NotificationsActiveOutlinedIcon,
+		icon: <NotificationsActiveOutlinedIcon />,
 	},
 ];
 const TaskGenieStepper = () => {
@@ -47,7 +47,7 @@ const TaskGenieStepper = () => {
 						>
 							<StepLabel
 								sx={{ color: theme.palette.primary.main }}
-								StepIconComponent={step.icon}
+								icon={step.icon}
 							>
 								<Typography variant='subtitle1'>{step.label}</Typography>
 							</StepLabel>
